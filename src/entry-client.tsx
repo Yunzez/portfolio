@@ -1,11 +1,11 @@
 import { mount, StartClient } from "solid-start/entry-client";
-import GlobalProvider from "./Global/GlobalProvider";
-import Layout from "./Global/Layout";
+import GlobalProvider from "./components/GlobalProvider";
+import Layout from "./components/Layout";
 
 mount(() => (
-    <GlobalProvider>
-        <Layout>
+    // <GlobalProvider>
+    //     <Layout>
             <StartClient />
-        </Layout>
-    </GlobalProvider>
+    //     </Layout>
+    // </GlobalProvider>
 ), document);
