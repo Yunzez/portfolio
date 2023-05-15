@@ -3,9 +3,9 @@ import GlobalProvider from "./components/GlobalProvider";
 import Layout from "./components/Layout";
 
 mount(() => (
-    // <GlobalProvider>
-    //     <Layout>
+    <GlobalProvider>
+        <Layout>
             <StartClient />
-    //     </Layout>
-    // </GlobalProvider>
+        </Layout>
+    </GlobalProvider>
 ), document);
