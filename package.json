@@ -2,7 +2,7 @@
   "name": "portfolio",
   "scripts": {
     "dev": "solid-start dev",
-    "build": "solid-start build",
+    "build": "solid-start build --output-dir=.build",
     "start": "solid-start start"
   },
   "type": "module",
