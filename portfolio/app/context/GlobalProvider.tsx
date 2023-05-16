@@ -1,17 +1,25 @@
-'use client';
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
-import { createContext, useContext, useState } from "react";
+interface GlobalContextProps {
+  color: string;
+  setColor: (color: string) => void;
+}
 
-const GlobalContext = createContext({})
+const GlobalContext = createContext<GlobalContextProps>({
+  color: "",
+  setColor: () => {},
+});
 
-export const GlobalContextProvider = ({ children }) => {
-    const [color, setColor] = useState('red');
+interface GlobalContextProviderProps {
+  children: ReactNode;
+}
 
-    return (
-        <GlobalContext.Provider value={{ color, setColor }}>
-            {children}
-        </GlobalContext.Provider>
-    )
+export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children }) => {
+  const [color, setColor] = useState("red");
+
+  return (
+    <GlobalContext.Provider value={{ color, setColor }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };
-
-export const useGlobalContext = () => useContext(GlobalContext);
