@@ -1,3 +1,5 @@
+"use client"
+
 import './globals.css'
 import { Inter } from 'next/font/google'
 import {GlobalContextProvider} from "./context/GlobalProvider";
