@@ -16,6 +16,15 @@ const AboutWrapper = styled.div`
   padding: 35px;
 `;
 
+const ValueCard = styled.div`
+  margin-bottom: 10px;
+  border: 1px solid ${theme.themePurple};
+  border-radius: ${theme.radiusSm};
+  padding: ${theme.gapXl};
+  width: 450px;
+  flex-shrink: 0;
+`;
+
 const AboutPage: React.FC = () => {
   return (
     <AboutWrapper>
@@ -42,7 +51,7 @@ const AboutPage: React.FC = () => {
             mobile application for iOS and Android platforms.
           </p>
 
-          <b>What I’m doing right now:</b>
+          <b>What {`I'm`} doing right now:</b>
           <p>
             I am a software developer who loves to code and create new programs.
             When I am not working on my latest project, you can find me planning
@@ -64,6 +73,60 @@ const AboutPage: React.FC = () => {
       </div>
       <div>
         <OutlinedText>My Values</OutlinedText>
+        <section className="flex justify-around flex-wrap">
+          <ValueCard>
+            <div>Persistence</div>
+            <div>
+              Being a software and hardware engineer can be challenging at
+              times, and Persistence help me deal with difficult problems that
+              require perseverance to solve.
+            </div>
+          </ValueCard>
+
+          <ValueCard>
+            <div>Integrity</div>
+            <div>
+              I always act with integrity and be honest in your work, taking
+              responsibility for my actions and decisions.
+            </div>
+          </ValueCard>
+
+          <ValueCard>
+            <div>Adaptability</div>
+            <div>
+              Technology is constantly evolving, so it's important to be
+              flexible and adaptable to change. I try always to quickly learn
+              new technologies and adjust my work as needed.
+            </div>
+          </ValueCard>
+
+          <ValueCard>
+            <div>Respect</div>
+            <div>
+              {`It's`} essential to respect others, colleagues, clients, and
+              users of my software or hardware. This includes respecting their
+              time, opinions, and expertise.
+            </div>
+          </ValueCard>
+          <ValueCard>
+            <div>Humility</div>
+            <div>
+              {`It's`} important to approach your work with humility. Recognize
+              that I {`don't`} know everything and that there is always room for
+              improvement. Be open to feedback and willing to learn from others.
+            </div>
+          </ValueCard>
+
+          <ValueCard>
+            <div>Ethical responsibility</div>
+            <div>
+              Software and hardware developers should value the ethical
+              implications of their work, such as privacy concerns, security
+              issues, and the potential impact of their products on society as a
+              whole.
+            </div>
+          </ValueCard>
+        </section>
       </div>
     </AboutWrapper>
   );
