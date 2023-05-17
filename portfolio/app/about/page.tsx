@@ -94,7 +94,7 @@ const AboutPage: React.FC = () => {
           <ValueCard>
             <div>Adaptability</div>
             <div>
-              Technology is constantly evolving, so it's important to be
+              Technology is constantly evolving, so {`it's`} important to be
               flexible and adaptable to change. I try always to quickly learn
               new technologies and adjust my work as needed.
             </div>
