@@ -21,9 +21,9 @@ export default function StyledComponentsRegistry({
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      <Navbar />
+      {/* <Navbar /> */}
       {children as React.ReactChild}
-      <Footer />
+      {/* <Footer /> */}
     </StyleSheetManager>
   );
 }

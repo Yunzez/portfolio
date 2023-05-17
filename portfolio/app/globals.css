@@ -18,8 +18,10 @@
 
 body {
  margin: 0px !important;
+ font-family: 'Open Sans';
 }
 
 .childrenWrapper { 
   margin-top: 90px;
+  margin-bottom:100px;
 }

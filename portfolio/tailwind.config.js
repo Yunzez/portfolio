@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // variants: {
+  //   extend: {
+  //     width: ["responsive", "hover", "focus", "fractional"], // Add "fractional" variant
+  //   },
+  // },
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
