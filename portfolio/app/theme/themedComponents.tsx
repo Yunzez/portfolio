@@ -12,6 +12,7 @@ export const FooterWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+  }
 `;
 
 interface PurpleTextProps {
@@ -22,9 +23,15 @@ interface PurpleTextProps {
   }
   
 export const PurpleText = styled.small<PurpleTextProps>`
-  color: ${theme.themePurple};
+    color: ${theme.themePurple};
     font-style: ${({ fontStyle }) => fontStyle || "normal"};
     font-weight: ${({ fontWeight }) => fontWeight || 500};
     font-size: ${({ fontSize }) => fontSize || "16px"};
     line-height: ${({ lineHeight }) => lineHeight || "20px"};
+
+    @media (max-width: 768px) { /* Adjust the breakpoint as needed */
+    font-size: ${({ fontSize }) =>  "14px"};
+    font-weight: ${({ fontWeight }) =>  500};
+    line-height: ${({ lineHeight }) =>  "15px"};
+  }
   `;

@@ -8,23 +8,23 @@ import { PurpleText, FooterWrapper } from "../theme/themedComponents";
 const Footer = () => {
   return (
     <FooterWrapper>
-      <div className="flex justify-between flex-1 px-5">
+      <div className="md:flex justify-between flex-1 px-5">
         <section className="flex flex-col">
-          <div>
+          <div className="self-center md:self-start" >
             <PurpleText fontWeight={700} fontSize="32px" lineHeight="44px">
               Impressed with my work?
             </PurpleText>
           </div>
-          <div className="flex">
+          <div className="flex self-center md:self-start items-center">
             <small className="text-sm">Contact me - </small>{" "}
-            <PurpleText className="text-base" fontWeight={300} fontSize="15px">
+            <PurpleText  fontWeight={300} fontSize="15px">
               zhao.yunzeabh@gmail.com
             </PurpleText>
           </div>
         </section>
         <section className="flex flex-col mt-2">
-          <div className="md:self-end">Made with passion using Next.js</div>
-          <div className="md:self-end text-sm">© 2023 Fred Zhao</div>
+          <div className=" self-center md:self-end md:text-base text-xs">Made with passion using Next.js</div>
+          <div className="self-center md:self-end md:text-sm text-xs">© 2023 Fred Zhao</div>
         </section>
       </div>
     </FooterWrapper>
