@@ -123,8 +123,8 @@ const NavBtn = styled.button<NavBtnTextProps>`
 
 const Navbar = () => {
   const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
-  const sideNavRef = useRef<HTMLDivElement>(null)
-  const [shouldAnimate, setShouldAnimate] = useState(false)
+  const sideNavRef = useRef<HTMLDivElement>(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
     display: inline-block;
     transition: transform 0.3s ease-in-out;
@@ -143,26 +143,30 @@ const Navbar = () => {
       `}
   `;
   const SideNav = styled.div<{ isOpen: boolean; shouldAnimate: boolean }>`
-  position: fixed;
-  top: 80px;
-  right: 0;
-  width: 100vw;
-  height: calc(100vh - 80px);
-  background-color: white;
-  transform: translateX(100%);
-  animation: ${({ isOpen, shouldAnimate }) =>
-      shouldAnimate 
-        ? css`${isOpen ? slideInAnimation : slideOutAnimation} 0.3s ease-in-out forwards`
+    position: fixed;
+    top: 80px;
+    right: 0;
+    width: 100vw;
+    height: calc(100vh - 80px);
+    background-color: white;
+    transform: translateX(100%);
+    animation: ${({ isOpen, shouldAnimate }) =>
+      shouldAnimate
+        ? css`
+            ${isOpen
+              ? slideInAnimation
+              : slideOutAnimation} 0.3s ease-in-out forwards
+          `
         : "none"};
-`;
+  `;
 
   const handleOpenNav = () => {
-    console.log('open nav')
+    console.log("open nav");
+    if(shouldAnimate === false) setShouldAnimate(true);
     if (isOpen === undefined) setIsOpen(false);
-    setShouldAnimate(true)
     setIsOpen(!isOpen);
   };
-  
+
   const router = useRouter();
   const [currTab, setCurrTab] = useState("Work");
   return (
@@ -236,40 +240,42 @@ const Navbar = () => {
       >
         <div>
           <NavBtn
-          name="Work"
-          currTab={currTab}
-          onClick={() => {
-            setCurrTab("Work");
-            router.push("/");
-          }}
-        >
-          Work
-        </NavBtn>
-        <NavBtn
-          name="About"
-          currTab={currTab}
-          onClick={() => {
-            setCurrTab("About");
-            router.push("/about");
-          }}
-        >
-          About
-        </NavBtn>
-        <NavBtn
-          name="Resume"
-          currTab={currTab}
-          onClick={() => {
-            setCurrTab("Resume");
-            router.push("/resume");
-          }}
-        >
-          Resume
-        </NavBtn>
-        <SocialIcon src="/asset/Github.png" alt="Logo" />
-        <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-        <SocialIcon src="/asset/mail.png" alt="Logo" />
+            name="Work"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("Work");
+              router.push("/");
+              handleOpenNav();
+            }}
+          >
+            Work
+          </NavBtn>
+          <NavBtn
+            name="About"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("About");
+              router.push("/about");
+              handleOpenNav();
+            }}
+          >
+            About
+          </NavBtn>
+          <NavBtn
+            name="Resume"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("Resume");
+              router.push("/resume");
+              handleOpenNav();
+            }}
+          >
+            Resume
+          </NavBtn>
+          <SocialIcon src="/asset/Github.png" alt="Logo" />
+          <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+          <SocialIcon src="/asset/mail.png" alt="Logo" />
         </div>
-        
       </SideNav>
     </>
   );
