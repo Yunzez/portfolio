@@ -56,55 +56,58 @@ const AboutPage: React.FC = () => {
           >
             About me
           </OutlinedText>
-          <div className="mt-5">
-            <b>Who am I?</b>
+          <div className="md:ms-12">
+            <div className="mt-5">
+              <b>Who am I?</b>
+            </div>
+
+            <p>
+              I am a software and hardware developer who is passionate about
+              building innovative solutions that solve complex problems. With a
+              keen attention to detail and a dedication to continuous learning,
+              I am committed to delivering high-quality code and designing
+              robust hardware that exceeds expectations.
+            </p>
+
+            <div className="mt-5">
+              <b>My experiences so far:</b>
+            </div>
+
+            <p>
+              Developed and maintained complex software applications using Java,
+              Python, and C++. Designed and tested hardware prototypes for a new
+              wearable technology product, using CAD software and 3D printing
+              technology. Worked on a team to build and deploy a scalable
+              cloud-based infrastructure for a popular e-commerce website.
+              Implemented new features and optimized performance of an existing
+              mobile application for iOS and Android platforms.
+            </p>
+
+            <div className="mt-5">
+              <b>What {`I'm`} doing right now:</b>
+            </div>
+
+            <p>
+              I am a software developer who loves to code and create new
+              programs. When I am not working on my latest project, you can find
+              me planning my next road trip or hanging out with my friends. I
+              enjoy the balance of my technical work and my leisure activities,
+              as they both bring different forms of satisfaction and challenge.
+            </p>
+
+            <div className="mt-5">
+              <b>Why I do what I do:</b>
+            </div>
+
+            <p>
+              I became a software and hardware developer because I love solving
+              complex problems and building innovative solutions that make
+              {`people's`} lives better. I find the process of taking an idea
+              from concept to reality incredibly rewarding, and I am constantly
+              seeking out new challenges to push myself and my skills to the
+              limit.
+            </p>
           </div>
-
-          <p>
-            I am a software and hardware developer who is passionate about
-            building innovative solutions that solve complex problems. With a
-            keen attention to detail and a dedication to continuous learning, I
-            am committed to delivering high-quality code and designing robust
-            hardware that exceeds expectations.
-          </p>
-
-          <div className="mt-5">
-            <b >My experiences so far:</b>
-          </div>
-
-          <p>
-            Developed and maintained complex software applications using Java,
-            Python, and C++. Designed and tested hardware prototypes for a new
-            wearable technology product, using CAD software and 3D printing
-            technology. Worked on a team to build and deploy a scalable
-            cloud-based infrastructure for a popular e-commerce website.
-            Implemented new features and optimized performance of an existing
-            mobile application for iOS and Android platforms.
-          </p>
-
-          <div className="mt-5">
-            <b>What {`I'm`} doing right now:</b>
-          </div>
-
-          <p>
-            I am a software developer who loves to code and create new programs.
-            When I am not working on my latest project, you can find me planning
-            my next road trip or hanging out with my friends. I enjoy the
-            balance of my technical work and my leisure activities, as they both
-            bring different forms of satisfaction and challenge.
-          </p>
-
-          <div className="mt-5">
-            <b >Why I do what I do:</b>
-          </div>
-
-          <p>
-            I became a software and hardware developer because I love solving
-            complex problems and building innovative solutions that make
-            {`people's`} lives better. I find the process of taking an idea from
-            concept to reality incredibly rewarding, and I am constantly seeking
-            out new challenges to push myself and my skills to the limit.
-          </p>
         </section>
         <section className="md:w-2/5">profile pic</section>
       </div>

@@ -1,15 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import styled, {css, keyframes } from "styled-components";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import styled, { css, keyframes } from "styled-components";
 import { useRouter } from "next/navigation";
 import theme from "../theme/theme";
 import Image from "next/image";
 import { PurpleText } from "../theme/themedComponents";
-
+import { GlobalContext } from "../context/GlobalProvider";
 
 const NavContainer = styled.div`
   position: fixed;
+  background-color: white;
+  z-index: 9999;
   width: 100vw;
   height: 80px;
   background-color: white;
@@ -52,18 +61,6 @@ const slideOutAnimation = keyframes`
   }
 `;
 
-const SideNav = styled.div<{ isOpen: boolean }>`
-  position: fixed;
-  top: 80px;
-  right: 0;
-  width: 100vw;
-  height: calc(100vh - 80px);
-  background-color: white;
-  transform: translateX(100%);
-  animation: ${({ isOpen }) => (isOpen ? slideInAnimation : slideOutAnimation)}
-    0.3s ease-in-out forwards;
-`;
-
 const NavImg = styled.img`
   width: 25px;
   height: 25px;
@@ -71,7 +68,6 @@ const NavImg = styled.img`
   filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
     hue-rotate(263deg) brightness(84%) contrast(130%);
 `;
-
 
 const scaleAnimationOpen = keyframes`
   0% {
@@ -101,23 +97,6 @@ const scaleAnimationClose = keyframes`
   }
 `;
 
-
-
-const MenuButton = styled.div<{ isOpen: boolean }>`
-  display: inline-block;
-  transition: transform 0.3s ease-in-out;
-
-  ${({ isOpen }) => isOpen && css`
-    animation: ${scaleAnimationOpen} 1s forwards;
-  `}
-
-  ${({ isOpen }) => !isOpen && css`
-    animation: ${scaleAnimationClose} 1s forwards;
-  `}
-`;
-
-
-
 interface NavBtnTextProps {
   currTab?: string;
   name: string;
@@ -143,11 +122,47 @@ const NavBtn = styled.button<NavBtnTextProps>`
 `;
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
+  const sideNavRef = useRef<HTMLDivElement>(null)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
+  const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+    ${({ isOpen, initialRender }) =>
+      !initialRender &&
+      isOpen &&
+      css`
+        animation: ${scaleAnimationOpen} 1s forwards;
+      `}
+
+    ${({ isOpen, initialRender }) =>
+      !initialRender &&
+      !isOpen &&
+      css`
+        animation: ${scaleAnimationClose} 1s forwards;
+      `}
+  `;
+  const SideNav = styled.div<{ isOpen: boolean; shouldAnimate: boolean }>`
+  position: fixed;
+  top: 80px;
+  right: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-color: white;
+  transform: translateX(100%);
+  animation: ${({ isOpen, shouldAnimate }) =>
+      shouldAnimate 
+        ? css`${isOpen ? slideInAnimation : slideOutAnimation} 0.3s ease-in-out forwards`
+        : "none"};
+`;
 
   const handleOpenNav = () => {
+    console.log('open nav')
+    if (isOpen === undefined) setIsOpen(false);
+    setShouldAnimate(true)
     setIsOpen(!isOpen);
   };
+  
   const router = useRouter();
   const [currTab, setCurrTab] = useState("Work");
   return (
@@ -196,60 +211,66 @@ const Navbar = () => {
             <SocialIcon src="/asset/mail.png" alt="Logo" />
           </div>
         </section>
-        <MenuButton isOpen={isOpen}>
+        <MenuButton isOpen={isOpen} initialRender={initialRender}>
           {isOpen ? (
             <NavImg
               src="navbar/menu-open.svg"
               className="md:hidden"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={handleOpenNav}
             />
           ) : (
             <NavImg
               src="navbar/menu-close.svg"
               className="md:hidden"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={handleOpenNav}
             />
           )}
         </MenuButton>
       </NavContainer>
 
-      <div className="md:hidden">
-        <SideNav isOpen={isOpen}>
+      <SideNav
+        ref={sideNavRef}
+        className="md:hidden"
+        isOpen={isOpen}
+        shouldAnimate={shouldAnimate}
+      >
+        <div>
           <NavBtn
-            name="Work"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("Work");
-              router.push("/");
-            }}
-          >
-            Work
-          </NavBtn>
-          <NavBtn
-            name="About"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("About");
-              router.push("/about");
-            }}
-          >
-            About
-          </NavBtn>
-          <NavBtn
-            name="Resume"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("Resume");
-              router.push("/resume");
-            }}
-          >
-            Resume
-          </NavBtn>
-          <SocialIcon src="/asset/Github.png" alt="Logo" />
-          <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-          <SocialIcon src="/asset/mail.png" alt="Logo" />
-        </SideNav>
-      </div>
+          name="Work"
+          currTab={currTab}
+          onClick={() => {
+            setCurrTab("Work");
+            router.push("/");
+          }}
+        >
+          Work
+        </NavBtn>
+        <NavBtn
+          name="About"
+          currTab={currTab}
+          onClick={() => {
+            setCurrTab("About");
+            router.push("/about");
+          }}
+        >
+          About
+        </NavBtn>
+        <NavBtn
+          name="Resume"
+          currTab={currTab}
+          onClick={() => {
+            setCurrTab("Resume");
+            router.push("/resume");
+          }}
+        >
+          Resume
+        </NavBtn>
+        <SocialIcon src="/asset/Github.png" alt="Logo" />
+        <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+        <SocialIcon src="/asset/mail.png" alt="Logo" />
+        </div>
+        
+      </SideNav>
     </>
   );
 };
