@@ -10,7 +10,13 @@ export const theme = {
   themeBlack: '#212121',
   themeWhite: '#FFFFFF',
   themeLightPurple: '#FBF9FF',
-  themeLightGrey: '#E9E9E9'
+  themeLightGrey: '#E9E9E9',
+  breakpoints: {
+    sm: "640px",
+    md: "768px",
+    lg: "1024px",
+    xl: "1280px",
+  }
 };
 
 export default theme;

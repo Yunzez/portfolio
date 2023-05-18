@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import styled from "styled-components";
-import { useRouter } from 'next/navigation';
+import styled, {css, keyframes } from "styled-components";
+import { useRouter } from "next/navigation";
 import theme from "../theme/theme";
 import Image from "next/image";
 import { PurpleText } from "../theme/themedComponents";
+
+
 const NavContainer = styled.div`
   position: fixed;
   width: 100vw;
@@ -26,11 +28,95 @@ const Logo = styled.img`
 `;
 
 const SocialIcon = styled.img`
-margin: 4px;
-width: 20px;
-height: 20px;
-margin-right: 16px;
-`
+  margin: 4px;
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+`;
+
+const slideInAnimation = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideOutAnimation = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+`;
+
+const SideNav = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 80px;
+  right: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-color: white;
+  transform: translateX(100%);
+  animation: ${({ isOpen }) => (isOpen ? slideInAnimation : slideOutAnimation)}
+    0.3s ease-in-out forwards;
+`;
+
+const NavImg = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 16px;
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
+`;
+
+
+const scaleAnimationOpen = keyframes`
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const scaleAnimationClose = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+
+
+const MenuButton = styled.div<{ isOpen: boolean }>`
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+
+  ${({ isOpen }) => isOpen && css`
+    animation: ${scaleAnimationOpen} 1s forwards;
+  `}
+
+  ${({ isOpen }) => !isOpen && css`
+    animation: ${scaleAnimationClose} 1s forwards;
+  `}
+`;
+
+
 
 interface NavBtnTextProps {
   currTab?: string;
@@ -49,10 +135,20 @@ const NavBtn = styled.button<NavBtnTextProps>`
       : `color : black; 
   font-weight: 200;
   `}
+  @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 48px;
+    width: 100%;
+    text-align: left;
+  }
 `;
 
 const Navbar = () => {
-  const router = useRouter()
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenNav = () => {
+    setIsOpen(!isOpen);
+  };
+  const router = useRouter();
   const [currTab, setCurrTab] = useState("Work");
   return (
     <>
@@ -64,14 +160,35 @@ const Navbar = () => {
               Fred Zhao
             </PurpleText>
           </div>
-          <div className="flex">
-            <NavBtn name="Work" currTab={currTab} onClick={() => {setCurrTab('Work'); router.push('/')}}>
+          <div className="hidden md:flex">
+            <NavBtn
+              name="Work"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("Work");
+                router.push("/");
+              }}
+            >
               Work
             </NavBtn>
-            <NavBtn name="About" currTab={currTab} onClick={() => {setCurrTab('About'); router.push('/about')}}>
+            <NavBtn
+              name="About"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("About");
+                router.push("/about");
+              }}
+            >
               About
             </NavBtn>
-            <NavBtn name="Resume" currTab={currTab} onClick={() => {setCurrTab('Resume'); router.push('/resume')}}>
+            <NavBtn
+              name="Resume"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("Resume");
+                router.push("/resume");
+              }}
+            >
               Resume
             </NavBtn>
             <SocialIcon src="/asset/Github.png" alt="Logo" />
@@ -79,7 +196,60 @@ const Navbar = () => {
             <SocialIcon src="/asset/mail.png" alt="Logo" />
           </div>
         </section>
+        <MenuButton isOpen={isOpen}>
+          {isOpen ? (
+            <NavImg
+              src="navbar/menu-open.svg"
+              className="md:hidden"
+              onClick={() => setIsOpen(!isOpen)}
+            />
+          ) : (
+            <NavImg
+              src="navbar/menu-close.svg"
+              className="md:hidden"
+              onClick={() => setIsOpen(!isOpen)}
+            />
+          )}
+        </MenuButton>
       </NavContainer>
+
+      <div className="md:hidden">
+        <SideNav isOpen={isOpen}>
+          <NavBtn
+            name="Work"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("Work");
+              router.push("/");
+            }}
+          >
+            Work
+          </NavBtn>
+          <NavBtn
+            name="About"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("About");
+              router.push("/about");
+            }}
+          >
+            About
+          </NavBtn>
+          <NavBtn
+            name="Resume"
+            currTab={currTab}
+            onClick={() => {
+              setCurrTab("Resume");
+              router.push("/resume");
+            }}
+          >
+            Resume
+          </NavBtn>
+          <SocialIcon src="/asset/Github.png" alt="Logo" />
+          <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+          <SocialIcon src="/asset/mail.png" alt="Logo" />
+        </SideNav>
+      </div>
     </>
   );
 };

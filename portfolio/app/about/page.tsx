@@ -17,21 +17,49 @@ const AboutWrapper = styled.div`
 `;
 
 const ValueCard = styled.div`
-  margin-bottom: 10px;
-  border: 1px solid ${theme.themePurple};
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 80px;
   border-radius: ${theme.radiusSm};
-  padding: ${theme.gapXl};
-  width: 450px;
+  width: 430px;
   flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    margin: 10px;
+    width: 100%;
+  }
+`;
+
+const AboutImg = styled.img`
+  width: 80px;
+  height: 80px;
+  margin-right: 16px;
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
+`;
+
+const AboutCardHeader = styled.small`
+  font-size: 28px;
+  font-weight: 500;
 `;
 
 const AboutPage: React.FC = () => {
   return (
     <AboutWrapper>
-      <div className="flex">
-        <section className="w-3/5">
-          <OutlinedText>About me</OutlinedText>
-          <b>Who am I?</b>
+      <div className="md:flex">
+        <section className="md:w-3/5">
+          <OutlinedText
+            style={{
+              marginBottom: "40px",
+              marginLeft: "60px",
+            }}
+          >
+            About me
+          </OutlinedText>
+          <div className="mt-5">
+            <b>Who am I?</b>
+          </div>
+
           <p>
             I am a software and hardware developer who is passionate about
             building innovative solutions that solve complex problems. With a
@@ -40,7 +68,10 @@ const AboutPage: React.FC = () => {
             hardware that exceeds expectations.
           </p>
 
-          <b>My experiences so far:</b>
+          <div className="mt-5">
+            <b >My experiences so far:</b>
+          </div>
+
           <p>
             Developed and maintained complex software applications using Java,
             Python, and C++. Designed and tested hardware prototypes for a new
@@ -51,7 +82,10 @@ const AboutPage: React.FC = () => {
             mobile application for iOS and Android platforms.
           </p>
 
-          <b>What {`I'm`} doing right now:</b>
+          <div className="mt-5">
+            <b>What {`I'm`} doing right now:</b>
+          </div>
+
           <p>
             I am a software developer who loves to code and create new programs.
             When I am not working on my latest project, you can find me planning
@@ -60,7 +94,10 @@ const AboutPage: React.FC = () => {
             bring different forms of satisfaction and challenge.
           </p>
 
-          <b>Why I do what I do:</b>
+          <div className="mt-5">
+            <b >Why I do what I do:</b>
+          </div>
+
           <p>
             I became a software and hardware developer because I love solving
             complex problems and building innovative solutions that make
@@ -69,13 +106,22 @@ const AboutPage: React.FC = () => {
             out new challenges to push myself and my skills to the limit.
           </p>
         </section>
-        <section className="w-2/5">profile pic</section>
+        <section className="md:w-2/5">profile pic</section>
       </div>
       <div>
-        <OutlinedText>My Values</OutlinedText>
+        <OutlinedText
+          style={{
+            marginTop: "120px",
+            marginBottom: "40px",
+            marginLeft: "60px",
+          }}
+        >
+          My Values
+        </OutlinedText>
         <section className="flex justify-around flex-wrap">
           <ValueCard>
-            <div>Persistence</div>
+            <AboutImg src="/about/timer-start.svg" alt="Logo" />
+            <AboutCardHeader>Persistence</AboutCardHeader>
             <div>
               Being a software and hardware engineer can be challenging at
               times, and Persistence help me deal with difficult problems that
@@ -84,7 +130,8 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <div>Integrity</div>
+            <AboutImg src="/about/user-octagon.svg" alt="Logo" />
+            <AboutCardHeader>Integrity</AboutCardHeader>
             <div>
               I always act with integrity and be honest in your work, taking
               responsibility for my actions and decisions.
@@ -92,7 +139,8 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <div>Adaptability</div>
+            <AboutImg src="/about/electricity.svg" alt="Logo" />
+            <AboutCardHeader>Adaptability</AboutCardHeader>
             <div>
               Technology is constantly evolving, so {`it's`} important to be
               flexible and adaptable to change. I try always to quickly learn
@@ -101,7 +149,8 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <div>Respect</div>
+            <AboutImg src="/about/star.svg" alt="Logo" />
+            <AboutCardHeader>Respect</AboutCardHeader>
             <div>
               {`It's`} essential to respect others, colleagues, clients, and
               users of my software or hardware. This includes respecting their
@@ -109,7 +158,8 @@ const AboutPage: React.FC = () => {
             </div>
           </ValueCard>
           <ValueCard>
-            <div>Humility</div>
+            <AboutImg src="/about/emoji-happy.svg" alt="Logo" />
+            <AboutCardHeader>Humility</AboutCardHeader>
             <div>
               {`It's`} important to approach your work with humility. Recognize
               that I {`don't`} know everything and that there is always room for
@@ -118,7 +168,8 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <div>Ethical responsibility</div>
+            <AboutImg src="/about/tree.svg" alt="Logo" />
+            <AboutCardHeader>Ethical responsibility</AboutCardHeader>
             <div>
               Software and hardware developers should value the ethical
               implications of their work, such as privacy concerns, security
