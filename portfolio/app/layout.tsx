@@ -5,6 +5,7 @@ import Navbar from "./component/navbar";
 import Footer from "./component/footer";
 import StyledComponentsRegistry from "./registry";
 import styled from "styled-components";
+import { Analytics } from '@vercel/analytics/react';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -33,6 +34,7 @@ export default function RootLayout({
           </StyledComponentsRegistry>
         </body>
       </GlobalContextProvider>
+      <Analytics />
     </html>
   );
 }
