@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PurpleText } from "./theme/themedComponents";
 import styled from "styled-components";
+import theme from "./theme/theme";
 export default function Test() {
   const WelcomeContainer = styled.div`
     height: calc(100vh - 80px);
@@ -18,11 +19,13 @@ export default function Test() {
           <small>Hello! {"I’m "}Yunze (Fred)!</small>
           <div style={{ fontSize: "42px" }}>
             A{" "}
-            <PurpleText fontSize="42px" fontWeight={500}>
+            <small style={{ fontSize: "42px", color: theme.themePurple, fontWeight: '500' }}>
               Software & Hardware Engineer
-            </PurpleText>{" "}
+            </small>{" "}
             extraordinaire casting magic to solve problems.
           </div>
+          <div>📍 Front-end Engineer @ OpenTug</div>
+          <div>🎓 Masters Student @ NYU Tandon School of Engineering</div>
         </WelcomeContainer>
         <div className="md:w-3/8">image place holder</div>
       </section>

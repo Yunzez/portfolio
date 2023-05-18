@@ -30,8 +30,8 @@ export const PurpleText = styled.small<PurpleTextProps>`
     line-height: ${({ lineHeight }) => lineHeight || "20px"};
 
     @media (max-width: 768px) { /* Adjust the breakpoint as needed */
-    font-size: ${({ fontSize }) =>  "14px"};
-    font-weight: ${({ fontWeight }) =>  500};
-    line-height: ${({ lineHeight }) =>  "15px"};
+        font-size: ${({ fontSize }) =>  "14px"};
+        font-weight: ${({ fontWeight }) =>  500};
+        line-height: ${({ lineHeight }) =>  "15px"};
   }
   `;
