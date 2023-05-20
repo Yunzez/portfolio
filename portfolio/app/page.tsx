@@ -5,7 +5,7 @@ import Link from "next/link";
 import { PurpleText } from "./theme/themedComponents";
 import styled from "styled-components";
 import theme from "./theme/theme";
-
+import workData from "./data/data.json";
 type WorkCardProps = {
   name: string;
   date: string;
@@ -16,25 +16,99 @@ type WorkCardProps = {
   thumbNailImg: string;
 };
 const WorkCardWrapper = styled.div`
-height: 750px;
-width: 700px;
-border: 1px solid lightgrey;
-border-radius: ${theme.radiusSm}
-`
+  margin: 1em;
+  height: 780px !important;
+  width: 700px; // Default to full width on small screens
+  border: 1px solid lightgrey;
+  border-radius: ${theme.radiusSm};
+  display: flex;
+  flex-direction: column;
 
-const WorkCardThumb = styled.img<{background: string}>`
-width: 100%;
-height: 500px;
-border-bottom: 1px solid lightgrey;
-background-color: ${({ background }) => background || ""};
-`
+  @media (max-width: 768px) {
+    width: 500px; // On screens wider than 768px, set width to 700px
+  }
+`;
+
+
+const SkillBadge = styled.div`
+  border: 1px solid ${theme.themeBlack};
+  margin: 0.5em;
+  padding: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: ${theme.radiusSm};
+  font-size: 16px;
+`;
+
+const WorkCardThumb = styled.img<{ background: string }>`
+  width: 100%;
+  height: 500px;
+  border-top-left-radius: ${theme.radiusSm};
+  border-top-right-radius: ${theme.radiusSm};
+  border-bottom: 1px solid lightgrey;
+  background-color: ${({ background }) => background || ""};
+
+  @media (max-width: 768px) {
+    width: 500px;
+    height: 380px; 
+  }
+`;
+
+const WorkCardText = styled.div`
+  padding-top: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+`;
+
+const WorkCardButtons = styled.div`
+  border-top: 1px solid lightgrey;
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  font-size: 20px;
+  margin-top: auto;
+  cursor: pointer;
+`;
+
+const WorkCardBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  color: ${theme.themePurple};
+  height: 100%;
+  align-items: center;
+  &:not(:last-child) {
+    border-right: 1px solid ${theme.themeLightGrey};
+    padding-right: 20px; // Add some space between the text and the border
+    margin-right: 20px; // Add some space between the border and the next button
+  }
+`;
+
 function WorkCard(props: WorkCardProps) {
-  return <WorkCardWrapper>
-    <WorkCardThumb background='#EEF5FF' src={props.thumbNailImg} />
-  </WorkCardWrapper>;
+  return (
+    <WorkCardWrapper>
+      <WorkCardThumb background="#EEF5FF" src={props.thumbNailImg} />
+      <WorkCardText>
+        <div className="flex ">
+          <small style={{ fontSize: "32px", marginTop: "0.2em" }}>
+            {props.name}
+          </small>
+          <div className="ms-auto flex ">
+            {props.skills.map((item, index) => {
+              return <SkillBadge key={index}>{item}</SkillBadge>;
+            })}
+          </div>
+        </div>
+        <div style={{ fontSize: "16px", fontWeight: "300" }}>{props.date}</div>
+        <div className="mt-2 mb-3">{props.des}</div>
+      </WorkCardText>
+      <WorkCardButtons>
+        {props.siteLink && <WorkCardBtn>Live Site</WorkCardBtn>}
+        {props.githubLink && <WorkCardBtn>Github</WorkCardBtn>}
+      </WorkCardButtons>
+    </WorkCardWrapper>
+  );
 }
-
-
 
 export default function Home() {
   const WelcomeContainer = styled.div`
@@ -99,16 +173,21 @@ export default function Home() {
         <ArrowDown src="work/downarrow.svg" />
       </div>
 
-      <section>
-        <WorkCard
-          name="OpenTug"
-          date="Jun 2022 - Present"
-          des="Frontend structure design and optimization, develop search algorithm, maps, and routing system. UI and UX improvements with switch from static rendering to frontend rendering."
-          thumbNailImg="work/opentug.png"
-          siteLink=""
-          githubLink=""
-          skills={['Typescript', 'Solid.js', 'Django']}
-        />
+      <section className="flex justify-around mb-5 pb-5 mt-5 flex-wrap">
+        {workData.map((item, index) => {
+          return (
+            <WorkCard
+              key={index}
+              name={item.name}
+              date={item.date}
+              des={item.description}
+              thumbNailImg={item.thumbnailImg}
+              siteLink={item.siteLink}
+              githubLink={item.githubLink}
+              skills={item.skills}
+            />
+          );
+        })}
       </section>
     </main>
   );

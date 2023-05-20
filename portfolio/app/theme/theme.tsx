@@ -17,6 +17,7 @@ export const theme = {
     lg: "1024px",
     xl: "1280px",
   }
+  
 };
 
 export default theme;

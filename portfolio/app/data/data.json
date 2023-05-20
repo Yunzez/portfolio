@@ -1,0 +1,21 @@
+[
+    {
+      "name": "OpenTug",
+      "date": "Jun 2022 - Present",
+      "description": "Frontend structure design and optimization, develop search algorithm, maps, and routing system. UI and UX improvements with switch from static rendering to frontend rendering.",
+      "thumbnailImg": "work/opentug.png",
+      "siteLink": "www.opentug.com",
+      "githubLink": "test",
+      "skills": ["Typescript", "Solid.js", "Django"]
+    }, 
+    {
+        "name": "Tunnel_vzn",
+        "date":"Jun 2022 - Present",
+        "description" : "Collaborated with the founder to create an interactive storytelling platform catering to the struggles that University of Washington students face.",
+        "thumbnailImg": "work/opentug.png",
+        "siteLink": "https://www.tunnelvzn.org/",
+        "githubLink": "test",
+        "skills": ["Next.js", "SCSS", "Firebase"]
+    }
+  ]
+  
