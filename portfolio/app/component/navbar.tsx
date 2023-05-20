@@ -106,6 +106,7 @@ const NavBtn = styled.button<NavBtnTextProps>`
   margin-left: 1em;
   margin-right: 1em;
   font-size: 20px;
+  transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
   ${({ currTab, name }) =>
     currTab === name
       ? `color : ${theme.themePurple};
@@ -118,6 +119,10 @@ const NavBtn = styled.button<NavBtnTextProps>`
     font-size: 48px;
     width: 100%;
     text-align: left;
+  }
+
+  &:hover {
+    font-weight: 500;
   }
 `;
 
@@ -162,7 +167,7 @@ const Navbar = () => {
 
   const handleOpenNav = () => {
     console.log("open nav");
-    if(shouldAnimate === false) setShouldAnimate(true);
+    if (shouldAnimate === false) setShouldAnimate(true);
     if (isOpen === undefined) setIsOpen(false);
     setIsOpen(!isOpen);
   };
@@ -238,7 +243,9 @@ const Navbar = () => {
         isOpen={isOpen}
         shouldAnimate={shouldAnimate}
       >
-        <div>
+        <div className="flex flex-col justify-between" style={{height: 'calc(90vh - 120px)'}}>
+
+          <div >
           <NavBtn
             name="Work"
             currTab={currTab}
@@ -272,9 +279,12 @@ const Navbar = () => {
           >
             Resume
           </NavBtn>
-          <SocialIcon src="/asset/Github.png" alt="Logo" />
-          <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-          <SocialIcon src="/asset/mail.png" alt="Logo" />
+          </div>
+          <div className="flex justify-end mt-auto ms-auto">
+            <SocialIcon src="/asset/Github.png" alt="Logo" />
+            <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+            <SocialIcon src="/asset/mail.png" alt="Logo" />
+          </div>
         </div>
       </SideNav>
     </>
