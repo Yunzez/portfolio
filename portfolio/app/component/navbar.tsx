@@ -23,10 +23,11 @@ const Dot = styled.div`
   height: 12px;
   background-color: ${theme.themePurple};
   border-radius: 100px;
+  z-index: 999;
 `;
 
 const NavContainer = styled.div`
-  position: fixed;
+  position: relative;
   background-color: white;
   z-index: 9999;
   width: 100vw;
@@ -192,6 +193,12 @@ const Navbar = () => {
     Resume: useRef(null),
   };
 
+  const sideNavBtnRefs: Record<string, React.RefObject<HTMLButtonElement>>  = {
+    Work: useRef(null),
+    About: useRef(null),
+    Resume: useRef(null),
+  };
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -209,11 +216,13 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const selectedItemRef = navBtnRefs[currTab];
+  const selectedItemRef = isMobile? sideNavBtnRefs[currTab] : navBtnRefs[currTab];
   return (
     <>
       <NavContainer>
-        <section className="flex justify-between flex-1 px-5 items-center">
+        <section className="flex justify-between flex-1 px-5 items-center relative">
+          {" "}
+          {/* Add position relative here */}
           <div className="flex items-center">
             <Logo src="/asset/logo.svg" alt="Logo" />
             <PurpleText fontWeight={500} fontSize="20px">
@@ -260,18 +269,20 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
-            {selectedItemRef.current && (
-              <Dot
-                style={{
-                  left: selectedItemRef.current.offsetLeft,
-                  width: selectedItemRef.current.offsetWidth,
-                }}
-              />
-            )}
             <SocialIcon src="/asset/Github.png" alt="Logo" />
             <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
             <SocialIcon src="/asset/mail.png" alt="Logo" />
           </div>
+          {!isMobile && selectedItemRef.current && (
+            <Dot
+            style={{
+              left: selectedItemRef.current.offsetLeft +
+                  selectedItemRef.current.offsetWidth / 2 -
+                  5,
+              top: "58px"
+            }}
+            />
+          )}
         </section>
         <MenuButton isOpen={isOpen} initialRender={initialRender}>
           {isOpen ? (
@@ -304,6 +315,7 @@ const Navbar = () => {
             <NavBtn
               name="Work"
               currTab={currTab}
+              ref={sideNavBtnRefs.Work}
               onClick={() => {
                 setCurrTab("Work");
                 router.push("/");
@@ -315,6 +327,7 @@ const Navbar = () => {
             <NavBtn
               name="About"
               currTab={currTab}
+              ref={sideNavBtnRefs.About}
               onClick={() => {
                 setCurrTab("About");
                 router.push("/about");
@@ -326,6 +339,7 @@ const Navbar = () => {
             <NavBtn
               name="Resume"
               currTab={currTab}
+              ref={sideNavBtnRefs.Resume}
               onClick={() => {
                 setCurrTab("Resume");
                 router.push("/resume");
@@ -336,18 +350,11 @@ const Navbar = () => {
             </NavBtn>
             {selectedItemRef.current && (
               <Dot
-                style={{
-                  left: isMobile
-                    ? "auto"
-                    : selectedItemRef.current.offsetLeft +
-                      selectedItemRef.current.offsetWidth / 2 -
-                      5,
-                  top: isMobile
-                    ? selectedItemRef.current.offsetTop +
-                      selectedItemRef.current.offsetHeight / 2 -
-                      5
-                    : "auto",
-                }}
+              style={{
+                top: selectedItemRef.current.offsetTop +
+                    selectedItemRef.current.offsetHeight / 2 -
+                    5
+              }}
               />
             )}
           </div>
