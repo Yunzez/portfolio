@@ -18,7 +18,7 @@ import { GlobalContext } from "../context/GlobalProvider";
 const Dot = styled.div`
   position: absolute;
   top: 73px;
-  transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
+  transition: left 0.5s ease-in-out, top 0.5s ease-in-out, width 0.5s ease-in-out;
   width: 12px !important;
   height: 12px;
   background-color: ${theme.themePurple};
@@ -49,9 +49,15 @@ const Logo = styled.img`
 
 const SocialIcon = styled.img`
   margin: 4px;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   margin-right: 16px;
+  cursor: pointer;
+  transition: 0.3s all ease-in;
+
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%) hue-rotate(263deg) brightness(84%) contrast(130%);
+  }
 `;
 
 const slideInAnimation = keyframes`
@@ -137,6 +143,12 @@ const NavBtn = styled.button<NavBtnTextProps>`
     font-weight: 500;
   }
 `;
+
+const openInNewTab = (url:string) => {
+  const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+  if (newWindow) newWindow.opener = null;
+}
+
 
 const Navbar = () => {
   const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
@@ -269,9 +281,9 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
-            <SocialIcon src="/asset/Github.png" alt="Logo" />
-            <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-            <SocialIcon src="/asset/mail.png" alt="Logo" />
+            <SocialIcon src="/asset/Github.png" alt="Logo" onClick={() => openInNewTab('https://github.com/Yunzez')}/>
+            <SocialIcon src="/asset/Linkedin.png" alt="Logo" onClick={() => openInNewTab('https://www.linkedin.com/in/yunze-zhao-351687224/')}/>
+            <SocialIcon src="/asset/mail.png" alt="Logo" onClick={() => openInNewTab('mailto:zhao.yunzeabh@gmail.com')}/>
           </div>
           {!isMobile && selectedItemRef.current && (
             <Dot
