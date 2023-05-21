@@ -152,8 +152,9 @@ export default function Home() {
     margin-top: 30vh;
 
     @media (max-width: 768px) {
-      height: calc(100vh - 80px);
+      height: calc(80vh - 80px);
       margin-top: 15vh;
+      margin-left: 20px;
     }
   `;
   const ArrowDown = styled.img`
@@ -174,6 +175,10 @@ export default function Home() {
     transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
     position: ${({ top }) => top && "relative"};
     top: ${({ top }) => top || "0"};
+
+    @media (max-width: 768px) {
+      height: 150px;
+    }
   `;
 
   return (
@@ -181,11 +186,11 @@ export default function Home() {
       <WelcomeContainer className="md:flex">
         <div className="md:w-3/5">
           <small>Hello! {"I’m "}Yunze (Fred)!</small>
-          <div style={{ fontSize: "42px" }}>
+          <div style={{ fontSize: "32px" }}>
             A{" "}
             <small
               style={{
-                fontSize: "42px",
+                fontSize: "32px",
                 color: theme.themePurple,
                 fontWeight: "500",
               }}
@@ -198,7 +203,7 @@ export default function Home() {
           <div>🎓 Masters Student @ NYU Tandon School of Engineering</div>
         </div>
 
-        <div className="md:w-2/5 ms-5 flex justify-center mt-28 md:mt-2">
+        <div className="md:w-2/5 md:ms-5 flex justify-center mt-28 md:mt-12 ms-32">
           <WorkHeaderImg
             rotate="30deg"
             top="-10vh"
@@ -209,7 +214,7 @@ export default function Home() {
           <WorkHeaderImg height={"350px"} width="330px" src="work/topHat.svg" />
         </div>
       </WelcomeContainer>
-      <div className="flex justify-center mb-3 mt-32 md:mt-2">
+      <div className="flex justify-center mb-3 -mt-5 md:mt-2">
         <ArrowDown src="work/downarrow.svg" />
       </div>
 
