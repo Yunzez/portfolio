@@ -15,6 +15,16 @@ import Image from "next/image";
 import { PurpleText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
 
+const Dot = styled.div`
+  position: absolute;
+  top: 73px;
+  transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
+  width: 12px !important;
+  height: 12px;
+  background-color: ${theme.themePurple};
+  border-radius: 100px;
+`;
+
 const NavContainer = styled.div`
   position: fixed;
   background-color: white;
@@ -103,6 +113,7 @@ interface NavBtnTextProps {
 }
 
 const NavBtn = styled.button<NavBtnTextProps>`
+  position: relative;
   margin-left: 1em;
   margin-right: 1em;
   font-size: 20px;
@@ -174,6 +185,31 @@ const Navbar = () => {
 
   const router = useRouter();
   const [currTab, setCurrTab] = useState("Work");
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const navBtnRefs: Record<string, React.RefObject<HTMLButtonElement>> = {
+    Work: useRef(null),
+    About: useRef(null),
+    Resume: useRef(null),
+  };
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    }
+
+    // Run the function once when component mounts
+    handleResize();
+
+    // Run it again every time the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const selectedItemRef = navBtnRefs[currTab];
   return (
     <>
       <NavContainer>
@@ -187,7 +223,10 @@ const Navbar = () => {
           <div className="hidden md:flex">
             <NavBtn
               name="Work"
+              ref={navBtnRefs.Work}
               currTab={currTab}
+              onMouseEnter={() => setHoveredItem("Work")}
+              onMouseLeave={() => setHoveredItem(null)}
               onClick={() => {
                 setCurrTab("Work");
                 router.push("/");
@@ -197,7 +236,10 @@ const Navbar = () => {
             </NavBtn>
             <NavBtn
               name="About"
+              ref={navBtnRefs.About}
               currTab={currTab}
+              onMouseEnter={() => setHoveredItem("About")}
+              onMouseLeave={() => setHoveredItem(null)}
               onClick={() => {
                 setCurrTab("About");
                 router.push("/about");
@@ -207,7 +249,10 @@ const Navbar = () => {
             </NavBtn>
             <NavBtn
               name="Resume"
+              ref={navBtnRefs.Resume}
               currTab={currTab}
+              onMouseEnter={() => setHoveredItem("Resume")}
+              onMouseLeave={() => setHoveredItem(null)}
               onClick={() => {
                 setCurrTab("Resume");
                 router.push("/resume");
@@ -215,6 +260,14 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
+            {selectedItemRef.current && (
+              <Dot
+                style={{
+                  left: selectedItemRef.current.offsetLeft,
+                  width: selectedItemRef.current.offsetWidth,
+                }}
+              />
+            )}
             <SocialIcon src="/asset/Github.png" alt="Logo" />
             <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
             <SocialIcon src="/asset/mail.png" alt="Logo" />
@@ -243,42 +296,60 @@ const Navbar = () => {
         isOpen={isOpen}
         shouldAnimate={shouldAnimate}
       >
-        <div className="flex flex-col justify-between" style={{height: 'calc(90vh - 120px)'}}>
-
-          <div >
-          <NavBtn
-            name="Work"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("Work");
-              router.push("/");
-              handleOpenNav();
-            }}
-          >
-            Work
-          </NavBtn>
-          <NavBtn
-            name="About"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("About");
-              router.push("/about");
-              handleOpenNav();
-            }}
-          >
-            About
-          </NavBtn>
-          <NavBtn
-            name="Resume"
-            currTab={currTab}
-            onClick={() => {
-              setCurrTab("Resume");
-              router.push("/resume");
-              handleOpenNav();
-            }}
-          >
-            Resume
-          </NavBtn>
+        <div
+          className="flex flex-col justify-between"
+          style={{ height: "calc(90vh - 120px)" }}
+        >
+          <div>
+            <NavBtn
+              name="Work"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("Work");
+                router.push("/");
+                handleOpenNav();
+              }}
+            >
+              Work
+            </NavBtn>
+            <NavBtn
+              name="About"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("About");
+                router.push("/about");
+                handleOpenNav();
+              }}
+            >
+              About
+            </NavBtn>
+            <NavBtn
+              name="Resume"
+              currTab={currTab}
+              onClick={() => {
+                setCurrTab("Resume");
+                router.push("/resume");
+                handleOpenNav();
+              }}
+            >
+              Resume
+            </NavBtn>
+            {selectedItemRef.current && (
+              <Dot
+                style={{
+                  left: isMobile
+                    ? "auto"
+                    : selectedItemRef.current.offsetLeft +
+                      selectedItemRef.current.offsetWidth / 2 -
+                      5,
+                  top: isMobile
+                    ? selectedItemRef.current.offsetTop +
+                      selectedItemRef.current.offsetHeight / 2 -
+                      5
+                    : "auto",
+                }}
+              />
+            )}
           </div>
           <div className="flex justify-end mt-auto ms-auto">
             <SocialIcon src="/asset/Github.png" alt="Logo" />
