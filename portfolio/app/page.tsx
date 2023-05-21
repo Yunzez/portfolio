@@ -29,7 +29,6 @@ const WorkCardWrapper = styled.div`
   }
 `;
 
-
 const SkillBadge = styled.div`
   border: 1px solid ${theme.themeBlack};
   margin: 0.5em;
@@ -50,7 +49,7 @@ const WorkCardThumb = styled.img<{ background: string }>`
 
   @media (max-width: 768px) {
     width: 500px;
-    height: 380px; 
+    height: 380px;
   }
 `;
 
@@ -82,6 +81,17 @@ const WorkCardBtn = styled.button`
     padding-right: 20px; // Add some space between the text and the border
     margin-right: 20px; // Add some space between the border and the next button
   }
+`;
+
+const AllWorkBtn = styled.button`
+  border: 1px solid ${theme.themeBlack};
+  width: 50%;
+  padding-top: 20px;
+  padding-bottom:20px;
+  color: ${theme.themeBlack};
+  font-weight: 300;
+  border-radius: ${theme.radiusLg};
+  font-size: 1.5em;
 `;
 
 function WorkCard(props: WorkCardProps) {
@@ -169,11 +179,11 @@ export default function Home() {
           <WorkHeaderImg height={"350px"} width="330px" src="work/topHat.svg" />
         </div>
       </WelcomeContainer>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-3">
         <ArrowDown src="work/downarrow.svg" />
       </div>
 
-      <section className="flex justify-around mb-5 pb-5 mt-5 flex-wrap">
+      <section className="flex justify-around pb-5 mt-10 flex-wrap">
         {workData.map((item, index) => {
           return (
             <WorkCard
@@ -188,7 +198,9 @@ export default function Home() {
             />
           );
         })}
+          <AllWorkBtn className="mb-5 pb-5 mt-5">View All Work</AllWorkBtn>
       </section>
+    
     </main>
   );
 }
