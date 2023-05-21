@@ -27,7 +27,7 @@ const Dot = styled.div`
 `;
 
 const NavContainer = styled.div`
-  position: relative;
+  position: fixed;
   background-color: white;
   z-index: 9999;
   width: 100vw;

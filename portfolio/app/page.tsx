@@ -17,7 +17,7 @@ type WorkCardProps = {
 };
 const WorkCardWrapper = styled.div`
   margin: 1em;
-  height: 780px !important;
+  height: 780px;
   width: 700px; // Default to full width on small screens
   border: 1px solid lightgrey;
   border-radius: ${theme.radiusSm};
@@ -25,7 +25,12 @@ const WorkCardWrapper = styled.div`
   flex-direction: column;
 
   @media (max-width: 768px) {
-    width: 500px; // On screens wider than 768px, set width to 700px
+    width: 500px;
+    height: 650px;
+  }
+  @media (max-width: 568px) {
+    width: 350px;
+    height: 630px;
   }
 `;
 
@@ -37,6 +42,14 @@ const SkillBadge = styled.div`
   padding-right: 1em;
   border-radius: ${theme.radiusSm};
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    padding: 0.3em;
+    margin: 0.2em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    font-size: 12px;
+  }
 `;
 
 const WorkCardThumb = styled.img<{ background: string }>`
@@ -50,6 +63,11 @@ const WorkCardThumb = styled.img<{ background: string }>`
   @media (max-width: 768px) {
     width: 500px;
     height: 380px;
+  }
+
+  @media (max-width: 568px) {
+    width: 350px;
+    height: 280px;
   }
 `;
 
@@ -87,11 +105,17 @@ const AllWorkBtn = styled.button`
   border: 1px solid ${theme.themeBlack};
   width: 50%;
   padding-top: 20px;
-  padding-bottom:20px;
+  padding-bottom: 20px;
   color: ${theme.themeBlack};
   font-weight: 300;
   border-radius: ${theme.radiusLg};
   font-size: 1.5em;
+
+  @media (max-width: 768px) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 1.1em;
+  }
 `;
 
 function WorkCard(props: WorkCardProps) {
@@ -99,18 +123,19 @@ function WorkCard(props: WorkCardProps) {
     <WorkCardWrapper>
       <WorkCardThumb background="#EEF5FF" src={props.thumbNailImg} />
       <WorkCardText>
-        <div className="flex ">
-          <small style={{ fontSize: "32px", marginTop: "0.2em" }}>
+        <div className="md:flex">
+          <small className="text-xl md:text-3xl">
             {props.name}
+            <div className="text-sm md:text-base font-light">{props.date}</div>
           </small>
-          <div className="ms-auto flex ">
+          <div className="ms-auto flex items-start">
             {props.skills.map((item, index) => {
               return <SkillBadge key={index}>{item}</SkillBadge>;
             })}
           </div>
         </div>
-        <div style={{ fontSize: "16px", fontWeight: "300" }}>{props.date}</div>
-        <div className="mt-2 mb-3">{props.des}</div>
+
+        <div className="mt-2 mb-3 text-sm md:text-base">{props.des}</div>
       </WorkCardText>
       <WorkCardButtons>
         {props.siteLink && <WorkCardBtn>Live Site</WorkCardBtn>}
@@ -125,6 +150,11 @@ export default function Home() {
     height: calc(60vh - 80px);
     margin-left: 70px;
     margin-top: 30vh;
+
+    @media (max-width: 768px) {
+      height: calc(100vh - 80px);
+      margin-top: 15vh;
+    }
   `;
   const ArrowDown = styled.img`
     width: 40px;
@@ -168,7 +198,7 @@ export default function Home() {
           <div>🎓 Masters Student @ NYU Tandon School of Engineering</div>
         </div>
 
-        <div className="md:w-2/5 ms-5 flex justify-center">
+        <div className="md:w-2/5 ms-5 flex justify-center mt-28 md:mt-2">
           <WorkHeaderImg
             rotate="30deg"
             top="-10vh"
@@ -179,7 +209,7 @@ export default function Home() {
           <WorkHeaderImg height={"350px"} width="330px" src="work/topHat.svg" />
         </div>
       </WelcomeContainer>
-      <div className="flex justify-center mb-3">
+      <div className="flex justify-center mb-3 mt-32 md:mt-2">
         <ArrowDown src="work/downarrow.svg" />
       </div>
 
@@ -198,9 +228,8 @@ export default function Home() {
             />
           );
         })}
-          <AllWorkBtn className="mb-5 pb-5 mt-5">View All Work</AllWorkBtn>
+        <AllWorkBtn className="mb-5 pb-5 mt-5 ">View All Work</AllWorkBtn>
       </section>
-    
     </main>
   );
 }
