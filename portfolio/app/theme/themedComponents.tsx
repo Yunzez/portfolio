@@ -1,6 +1,14 @@
 import styled from "styled-components"
 import theme from "./theme"
 
+export const OutlinedText = styled.h2`
+  color: white;
+  font-size: 40px;
+  margin-bottom: 20px;
+  text-shadow: -1px 1px 1px ${theme.themePurple},
+    1px 1px 1px ${theme.themePurple}, 1px -1px 0 ${theme.themePurple},
+    -1px -1px 0 ${theme.themePurple};
+`;
 
 export const FooterWrapper = styled.div`
   position: fixed;

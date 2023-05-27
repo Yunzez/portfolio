@@ -1,4 +1,11 @@
-[
+export enum SkillTag {
+    All = 'All',
+    FrontEnd = 'Front-end',
+    BackEnd = 'Back-end',
+    Hardware = 'Hardware'
+  }
+  
+export const data =[
     {
       "name": "OpenTug",
       "date": "Jun 2022 - Present",
@@ -6,7 +13,7 @@
       "thumbnailImg": "work/opentug.png",
       "siteLink": "https://www.opentug.com",
       "skills": ["Typescript", "Solid.js", "Django"],
-      "tag": []
+      "tag": [SkillTag.FrontEnd, SkillTag.BackEnd]
     }, 
     {
         "name": "Tunnel_vzn",
@@ -15,7 +22,8 @@
         "thumbnailImg": "work/tunnel.png",
         "siteLink": "https://www.tunnelvzn.org/",
         "githubLink": "test",
-        "skills": ["Next.js", "SCSS", "Firebase"]
+        "skills": ["Next.js", "SCSS", "Firebase"],
+        "tag": [SkillTag.FrontEnd, SkillTag.BackEnd]
     },
     {
         "name": "Seal",
@@ -24,7 +32,8 @@
         "thumbnailImg": "work/seal.png",
         "siteLink": "https://www.tunnelvzn.org/",
         "githubLink": "test",
-        "skills": ["React.js", "AWS", "Google app script"]
+        "skills": ["React.js", "AWS", "Google app script"],
+        "tag": [SkillTag.FrontEnd]
     }, 
     {
         "name": "RV321 Processor",
@@ -33,7 +42,8 @@
         "thumbnailImg": "work/processor.png",
         "siteLink": "https://www.tunnelvzn.org/",
         "githubLink": "test",
-        "skills": ["Verilog", "Assembly", "RISC-V"]   
+        "skills": ["Verilog", "Assembly", "RISC-V"],   
+        "tag": [SkillTag.Hardware]
     }
   ]
   
