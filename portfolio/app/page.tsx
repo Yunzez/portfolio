@@ -62,6 +62,7 @@ const SkillBadge = styled.div<SkillBadgeProps>`
   padding-right: 1em;
   border-radius: ${theme.radiusSm};
   font-size: 16px;
+  align-self: flex-start;
   cursor: ${(props) => (props.button ? "pointer" : "default")};
   transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
     color 0.3s ease-in-out;
@@ -106,6 +107,18 @@ const WorkCardText = styled.div`
   padding-top: 0.5em;
   padding-left: 1em;
   padding-right: 1em;
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 100%;
+  }
+`;
+const WorkCardColText = styled.div`
+width: 60%;
+  padding-top: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 100%;
+  }
 `;
 
 const WorkCardButtons = styled.div`
@@ -125,6 +138,10 @@ const WorkCardBtn = styled.button`
   color: ${theme.themePurple};
   height: 100%;
   align-items: center;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: ${theme.themePurple};
+  }
   &:not(:last-child) {
     border-right: 1px solid ${theme.themeLightGrey};
     padding-right: 20px; // Add some space between the text and the border
@@ -148,6 +165,39 @@ const AllWorkBtn = styled.button`
     font-size: 1.1em;
   }
 `;
+
+const linkSvg = (
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 78 78"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M42.5801 35.7167L68.9011 9.39569"
+      stroke="#4A00F2"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M71.4699 22.2339V6.82654H56.0625"
+      stroke="#4A00F2"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M36.1565 6.82654H29.7367C13.6873 6.82654 7.26758 13.2463 7.26758 29.2957V48.5549C7.26758 64.6043 13.6873 71.0241 29.7367 71.0241H48.996C65.0454 71.0241 71.4651 64.6043 71.4651 48.5549V42.1352"
+      stroke="#4A00F2"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 const openInNewTab = (url: string) => {
   const newWindow = window.open(url, "_blank", "noopener,noreferrer");
   if (newWindow) newWindow.opener = null;
@@ -180,11 +230,13 @@ function WorkCard(props: WorkCardProps) {
         {props.siteLink && (
           <WorkCardBtn onClick={() => openInNewTab(props.siteLink as string)}>
             Live Site
+            {<div className="ms-2">{linkSvg}</div>}
           </WorkCardBtn>
         )}
         {props.githubLink && (
           <WorkCardBtn onClick={() => openInNewTab(props.githubLink as string)}>
             Github
+            {<div className="ms-2">{linkSvg}</div>}
           </WorkCardBtn>
         )}
       </WorkCardButtons>
@@ -193,30 +245,39 @@ function WorkCard(props: WorkCardProps) {
 }
 
 const WorkCardColWrapper = styled.div`
-animation: ${enterAnimation} 0.5s ease;
+  animation: ${enterAnimation} 0.5s ease;
   width: 100%;
   padding-left: 5vw;
-  padding-right: 5vw;
   display: flex;
   justify-content: space-between;
   border-top: 1px solid lightgrey;
   border-bottom: 1px solid lightgrey;
-  padding-top: 10px; 
+  padding-top: 10px;
   padding-bottom: 10px;
   &:not(:last-child) {
     border-top: 1px solid ${theme.themeLightGrey};
   }
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: block;
+  }
 `;
 
 const WorkCardColBtn = styled.button`
-  display: flex;
-  justify-content: center;
   width: 100%;
   color: ${theme.themePurple};
   height: 100%;
   align-items: center;
   &:not(:last-child) {
     border-right: 1px solid ${theme.themeLightGrey};
+  }
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color:  ${theme.themePurple};
+  }
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: block;
+    width: 100%;
+    height: 25px;
   }
 `;
 
@@ -230,13 +291,22 @@ const WorkCardColButtons = styled.div`
   font-size: 20px;
   margin-top: 0;
   cursor: pointer;
-`;
 
+  @media (max-width: ${theme.breakpoints.md}) {
+    border-right: 0px solid lightgrey;
+    width: auto;
+    height: auto;
+    min-height: 22px;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 15px;
+  }
+`;
 
 function WorkCardColumn(props: WorkCardProps) {
   return (
     <WorkCardColWrapper>
-      <WorkCardText style={{width: '60%'}}>
+      <WorkCardColText>
         <div>
           <small className="text-xl md:text-3xl">
             {props.name}
@@ -254,7 +324,7 @@ function WorkCardColumn(props: WorkCardProps) {
             );
           })}
         </div>
-      </WorkCardText>
+      </WorkCardColText>
       <WorkCardColButtons>
         {props.siteLink && (
           <WorkCardColBtn
@@ -313,11 +383,11 @@ export default function Home() {
     active: boolean;
   }
   const DisplayOptionIcon = styled.img<displayOptionsProps>`
-    width: 45px;
-    height: 45px;
-    border: 2px solid ${(props) => (props.active ? "purple" : theme.themeBlack)};
-    color: ${(props) =>
-      props.active ? "purple !important" : "black !important"};
+    width: 50px;
+    height: 50px;
+    border: 1px solid
+      ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
+    color: ${(props) => (props.active ? theme.themePurple : "black")};
     margin: 0.5em;
     padding: 6px;
     border-radius: ${theme.radiusSm};
@@ -325,6 +395,12 @@ export default function Home() {
     cursor: pointer;
     transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
       color 0.3s ease-in-out;
+
+    @media (max-width: ${theme.breakpoints.md}) {
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+    }
   `;
 
   const [showAllWork, setShowAllWork] = useState(false);
@@ -360,8 +436,20 @@ export default function Home() {
           >
             All Work
           </OutlinedText>
-          <div className="flex px-2 justify-around">
-            <div className="flex px-2 justify-center">
+          <div className="md:flex px-2 justify-around md:flex-row-reverse">
+            <div className="flex px-2 md:justify-center justify-end">
+              <DisplayOptionIcon
+                active={selectedView === "block"}
+                onClick={() => setSelectedView("block")}
+                src="work/blockView.svg"
+              />
+              <DisplayOptionIcon
+                active={selectedView === "column"}
+                onClick={() => setSelectedView("column")}
+                src="work/columnView.svg"
+              />
+            </div>
+            <div className="flex px-2 md:justify-center justify-start me-auto">
               <SkillBadge
                 button={true}
                 active={selectedTag.includes(SkillTag.All)}
@@ -390,18 +478,6 @@ export default function Home() {
               >
                 {SkillTag.Hardware}
               </SkillBadge>
-            </div>
-            <div className="flex px-2 justify-center">
-              <DisplayOptionIcon
-                active={selectedView === "block"}
-                onClick={() => setSelectedView("block")}
-                src="work/blockView.svg"
-              />
-              <DisplayOptionIcon
-                active={selectedView === "column"}
-                onClick={() => setSelectedView("column")}
-                src="work/columnView.svg"
-              />
             </div>
           </div>
           {selectedView === "block" && (
@@ -445,7 +521,10 @@ export default function Home() {
           <section className="flex justify-center pb-5 mt-10 flex-wrap">
             <AllWorkBtn
               className="mb-5 pb-5 mt-5"
-              onClick={() => setShowAllWork(false)}
+              onClick={() => {
+                setShowAllWork(false);
+                window.scrollTo(0, 0);
+              }}
             >
               Back to Intro
             </AllWorkBtn>
@@ -509,7 +588,10 @@ export default function Home() {
             })}
             <AllWorkBtn
               className="mb-5 pb-5 mt-5"
-              onClick={() => setShowAllWork(true)}
+              onClick={() => {
+                setShowAllWork(true);
+                window.scrollTo(0, 0);
+              }}
             >
               View All Work
             </AllWorkBtn>

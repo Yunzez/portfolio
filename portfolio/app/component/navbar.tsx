@@ -179,6 +179,7 @@ const Navbar = () => {
     height: calc(100vh - 80px);
     background-color: white;
     transform: translateX(100%);
+    z-index: 999;
     animation: ${({ isOpen, shouldAnimate }) =>
       shouldAnimate
         ? css`

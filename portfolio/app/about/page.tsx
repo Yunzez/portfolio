@@ -1,16 +1,10 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import theme from "../theme/theme";
-import { PurpleText } from "../theme/themedComponents";
-const OutlinedText = styled.h2`
-  color: white;
-  font-size: 40px;
-  margin-bottom: 20px;
-  text-shadow: -1px 1px 1px ${theme.themePurple},
-    1px 1px 1px ${theme.themePurple}, 1px -1px 0 ${theme.themePurple},
-    -1px -1px 0 ${theme.themePurple};
-`;
+import { PurpleText, OutlinedText } from "../theme/themedComponents";
+import { GlobalContext } from "../context/GlobalProvider";
+
 
 const AboutWrapper = styled.div`
   padding: 35px;
@@ -30,12 +24,13 @@ const ValueCard = styled.div`
   }
 `;
 
-const AboutImg = styled.img`
+const AboutImg = styled.img<{ isNavOpen: boolean }>`
   width: 80px;
   height: 80px;
   margin-right: 16px;
   filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
     hue-rotate(263deg) brightness(84%) contrast(130%);
+  display: ${props => (props.isNavOpen ? 'none' : 'block')};
 `;
 
 const AboutCardHeader = styled.small`
@@ -44,6 +39,7 @@ const AboutCardHeader = styled.small`
 `;
 
 const AboutPage: React.FC = () => {
+  const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
   return (
     <AboutWrapper>
       <div className="md:flex">
@@ -123,7 +119,7 @@ const AboutPage: React.FC = () => {
         </OutlinedText>
         <section className="flex justify-around flex-wrap">
           <ValueCard>
-            <AboutImg src="/about/timer-start.svg" alt="Logo" />
+            <AboutImg src="/about/timer-start.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Persistence</AboutCardHeader>
             <div>
               Being a software and hardware engineer can be challenging at
@@ -133,7 +129,7 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <AboutImg src="/about/user-octagon.svg" alt="Logo" />
+            <AboutImg src="/about/user-octagon.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Integrity</AboutCardHeader>
             <div>
               I always act with integrity and be honest in your work, taking
@@ -142,7 +138,7 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <AboutImg src="/about/electricity.svg" alt="Logo" />
+            <AboutImg src="/about/electricity.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Adaptability</AboutCardHeader>
             <div>
               Technology is constantly evolving, so {`it's`} important to be
@@ -152,7 +148,7 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <AboutImg src="/about/star.svg" alt="Logo" />
+            <AboutImg src="/about/star.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Respect</AboutCardHeader>
             <div>
               {`It's`} essential to respect others, colleagues, clients, and
@@ -161,7 +157,7 @@ const AboutPage: React.FC = () => {
             </div>
           </ValueCard>
           <ValueCard>
-            <AboutImg src="/about/emoji-happy.svg" alt="Logo" />
+            <AboutImg src="/about/emoji-happy.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Humility</AboutCardHeader>
             <div>
               {`It's`} important to approach your work with humility. Recognize
@@ -171,7 +167,7 @@ const AboutPage: React.FC = () => {
           </ValueCard>
 
           <ValueCard>
-            <AboutImg src="/about/tree.svg" alt="Logo" />
+            <AboutImg src="/about/tree.svg" alt="Logo" isNavOpen={isOpen}/>
             <AboutCardHeader>Ethical responsibility</AboutCardHeader>
             <div>
               Software and hardware developers should value the ethical
