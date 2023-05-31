@@ -33,6 +33,13 @@ const AboutImg = styled.img<{ isNavOpen: boolean }>`
   display: ${props => (props.isNavOpen ? 'none' : 'block')};
 `;
 
+const ProfileImg = styled.img`
+  margin-left: 16px;
+  object-fit: contain;
+  border-radius: ${theme.radiusSm}
+`;
+
+
 const AboutCardHeader = styled.small`
   font-size: 28px;
   font-weight: 500;
@@ -105,7 +112,10 @@ const AboutPage: React.FC = () => {
             </p>
           </div>
         </section>
-        <section className="md:w-2/5">profile pic</section>
+        <section className="md:w-2/5 md:p-10 p-5 mt-5 item-center flex items-center justify-center ">
+
+        <ProfileImg src="./about/profile.JPG"/>
+        </section>
       </div>
       <div>
         <OutlinedText

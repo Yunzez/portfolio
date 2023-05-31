@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import theme from "./theme/theme";
 import { data as workData } from "./utils";
 import { useEffect, useState } from "react";
@@ -51,11 +51,73 @@ const WorkCardWrapper = styled.div`
 interface SkillBadgeProps {
   active: boolean;
   button: boolean;
+  isHovered?: boolean;
 }
 
+interface SkillBadgeBtnProps {
+  active: boolean;
+}
+
+const borderDisappear = keyframes`
+  from, 50% {
+    border: 1px solid ${theme.themeBlack};
+  }
+  to {
+    border: 0;
+  }
+`;
+
+const borderRadiusChange = keyframes`
+  from, 50% {
+    border-radius: ${theme.radiusSm};
+  }
+  to {
+    border-radius: 0;
+  }
+`;
+
+const borderBottomAppear = keyframes`
+  from, 50% {
+    border-bottom: 0;
+  }
+  to {
+    border-bottom: 2px solid ${theme.themePurple};
+  }
+`;
+
+// And the reverse animations for the unhover state
+
+const borderBottomDisappear = keyframes`
+  from, 50% {
+    border-bottom: 2px solid ${theme.themePurple};
+  }
+  to {
+    border-bottom: 0;
+  }
+`;
+
+const borderRadiusReset = keyframes`
+  from, 50% {
+    border-radius: 0;
+  }
+  to {
+    border-radius: ${theme.radiusSm};
+  }
+`;
+
+const borderAppear = keyframes`
+  from, 50% {
+    border: 0;
+  }
+  to {
+    border: 1px solid ${theme.themeBlack};
+  }
+`;
+
 const SkillBadge = styled.div<SkillBadgeProps>`
-  border: 1px solid ${(props) => (props.active ? "purple" : theme.themeBlack)};
-  color: ${(props) => (props.active ? "purple" : "black")};
+  border: 1px solid
+    ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
+  color: ${(props) => (props.active ? theme.themePurple : "black")};
   margin: 0.5em;
   padding: 0.5em;
   padding-left: 1em;
@@ -64,16 +126,29 @@ const SkillBadge = styled.div<SkillBadgeProps>`
   font-size: 16px;
   align-self: flex-start;
   cursor: ${(props) => (props.button ? "pointer" : "default")};
-  transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
-    color 0.3s ease-in-out;
-
+  transform: scale(1);
   ${(props) =>
     props.button &&
-    `
-    &:hover {
-      box-shadow: 0px 2px 4px rgba(0,0,0,0.5);
-    }
-  `}
+    css`
+      &:hover {
+        animation: ${css`
+            ${borderDisappear} 0.15s ease-in-out forwards`}, ${css`
+            ${borderRadiusChange} 0.15s ease-in-out 0.15s forwards`}, ${css`
+            ${borderBottomAppear} 0.15s ease-in-out 0.3s forwards`};
+        animation-fill-mode: forwards;
+        transform: scale(1.05);
+      transition: transform 0.3s ease-in-out;
+      }
+      ${props.isHovered &&
+        css`
+        animation: ${css`${borderBottomDisappear} 0.15s ease-in-out forwards`}, 
+                    ${css`${borderRadiusReset} 0.15s ease-in-out 0.15s forwards`},
+                    ${css`${borderAppear} 0.15s ease-in-out 0.3s forwards`};
+        animation-fill-mode: forwards;
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+        `}
+    `}
 
   @media (max-width: 768px) {
     padding: 0.3em;
@@ -112,7 +187,7 @@ const WorkCardText = styled.div`
   }
 `;
 const WorkCardColText = styled.div`
-width: 60%;
+  width: 60%;
   padding-top: 0.5em;
   padding-left: 1em;
   padding-right: 1em;
@@ -272,7 +347,7 @@ const WorkCardColBtn = styled.button`
   }
   &:hover {
     text-decoration: underline;
-    text-decoration-color:  ${theme.themePurple};
+    text-decoration-color: ${theme.themePurple};
   }
   @media (max-width: ${theme.breakpoints.md}) {
     display: block;
@@ -318,7 +393,7 @@ function WorkCardColumn(props: WorkCardProps) {
         <div className="ms-auto flex items-start">
           {props.skills.map((item, index) => {
             return (
-              <SkillBadge button={false} active={false} key={index}>
+              <SkillBadge button={false} active={false} key={index} >
                 {item}
               </SkillBadge>
             );
@@ -406,7 +481,7 @@ export default function Home() {
   const [showAllWork, setShowAllWork] = useState(false);
   const [selectedTag, setSelectedTag] = useState<SkillTag[]>([SkillTag.All]);
   const [allWorkData, setAllWorkData] = useState(workData);
-
+  const [isHovered, setHovered] = useState<SkillTag|undefined>(SkillTag.All);
   const [selectedView, setSelectedView] = useState("block");
   useEffect(() => {
     console.log("tage changed");
@@ -454,13 +529,19 @@ export default function Home() {
                 button={true}
                 active={selectedTag.includes(SkillTag.All)}
                 onClick={() => handleTageChange(SkillTag.All)}
+                isHovered={isHovered === SkillTag.All} 
+                onMouseEnter={() => setHovered(SkillTag.All)}
+                onMouseLeave={() => setHovered(undefined)}
               >
-                {SkillTag.All}
+                <span>{SkillTag.All}</span>
               </SkillBadge>
               <SkillBadge
                 button={true}
                 active={selectedTag.includes(SkillTag.FrontEnd)}
                 onClick={() => handleTageChange(SkillTag.FrontEnd)}
+                isHovered={isHovered === SkillTag.FrontEnd} 
+                onMouseEnter={() => setHovered(SkillTag.FrontEnd)}
+                onMouseLeave={() => setHovered(undefined)}
               >
                 {SkillTag.FrontEnd}
               </SkillBadge>
@@ -468,6 +549,9 @@ export default function Home() {
                 button={true}
                 active={selectedTag.includes(SkillTag.BackEnd)}
                 onClick={() => handleTageChange(SkillTag.BackEnd)}
+                isHovered={isHovered === SkillTag.BackEnd} 
+                onMouseEnter={() => setHovered(SkillTag.BackEnd)}
+                onMouseLeave={() => setHovered(undefined)}
               >
                 {SkillTag.BackEnd}
               </SkillBadge>
@@ -475,6 +559,9 @@ export default function Home() {
                 button={true}
                 active={selectedTag.includes(SkillTag.Hardware)}
                 onClick={() => handleTageChange(SkillTag.Hardware)}
+                isHovered={isHovered === SkillTag.Hardware} 
+                onMouseEnter={() => setHovered(SkillTag.Hardware)}
+                onMouseLeave={() => setHovered(undefined)}
               >
                 {SkillTag.Hardware}
               </SkillBadge>
