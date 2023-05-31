@@ -14,7 +14,7 @@ import theme from "../theme/theme";
 import Image from "next/image";
 import { PurpleText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
-
+import { openInNewTab } from "../utils";
 const Dot = styled.div`
   position: absolute;
   top: 73px;
@@ -143,12 +143,6 @@ const NavBtn = styled.button<NavBtnTextProps>`
     font-weight: 500;
   }
 `;
-
-const openInNewTab = (url:string) => {
-  const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-  if (newWindow) newWindow.opener = null;
-}
-
 
 const Navbar = () => {
   const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
