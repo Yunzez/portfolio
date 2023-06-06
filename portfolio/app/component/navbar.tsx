@@ -18,22 +18,28 @@ import { openInNewTab } from "../utils";
 const Dot = styled.div`
   position: absolute;
   top: 73px;
-  transition: left 0.5s ease-in-out, top 0.5s ease-in-out, width 0.5s ease-in-out;
-  width: 12px !important;
-  height: 12px;
+  transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
+    width 0.5s ease-in-out;
+  height: 10px;
   background-color: ${theme.themePurple};
-  border-radius: 100px;
+  border-radius: 20px;
   z-index: 999;
 `;
 
 const NavContainer = styled.div`
+  border: 2px solid ${theme.themeBlack};
+  margin-top: 2vh;
+  margin-left: 2%;
+  margin-right: 1%;
+  border-bottom-left-radius: ${theme.radiusXs};
+  border-top-left-radius: ${theme.radiusXs};
+  border-top-right-radius: ${theme.radiusXs};
   position: fixed;
   background-color: white;
   z-index: 9999;
-  width: 100vw;
+  width: 97%;
   height: 80px;
   background-color: white;
-  border-bottom: 1px solid lightgrey;
   left: 0px;
   top: 0px;
   display: flex;
@@ -47,7 +53,7 @@ const Logo = styled.img`
   margin-right: 16px;
 `;
 
-const SocialIcon = styled.img`
+export const SocialIcon = styled.img`
   margin: 4px;
   width: 22px;
   height: 22px;
@@ -56,7 +62,8 @@ const SocialIcon = styled.img`
   transition: 0.3s all ease-in;
 
   &:hover {
-    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%) hue-rotate(263deg) brightness(84%) contrast(130%);
+    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+      hue-rotate(263deg) brightness(84%) contrast(130%);
   }
 `;
 
@@ -144,6 +151,11 @@ const NavBtn = styled.button<NavBtnTextProps>`
   }
 `;
 
+const ThemeBtn = styled.div`
+padding-left: 20px;
+width: 100px;
+`
+
 const Navbar = () => {
   const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
   const sideNavRef = useRef<HTMLDivElement>(null);
@@ -200,7 +212,7 @@ const Navbar = () => {
     Resume: useRef(null),
   };
 
-  const sideNavBtnRefs: Record<string, React.RefObject<HTMLButtonElement>>  = {
+  const sideNavBtnRefs: Record<string, React.RefObject<HTMLButtonElement>> = {
     Work: useRef(null),
     About: useRef(null),
     Resume: useRef(null),
@@ -223,7 +235,9 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const selectedItemRef = isMobile? sideNavBtnRefs[currTab] : navBtnRefs[currTab];
+  const selectedItemRef = isMobile
+    ? sideNavBtnRefs[currTab]
+    : navBtnRefs[currTab];
   return (
     <>
       <NavContainer>
@@ -276,18 +290,18 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
-            <SocialIcon src="/asset/Github.png" alt="Logo" onClick={() => openInNewTab('https://github.com/Yunzez')}/>
-            <SocialIcon src="/asset/Linkedin.png" alt="Logo" onClick={() => openInNewTab('https://www.linkedin.com/in/yunze-zhao-351687224/')}/>
-            <SocialIcon src="/asset/mail.png" alt="Logo" onClick={() => openInNewTab('mailto:zhao.yunzeabh@gmail.com')}/>
+            <ThemeBtn>
+              change theme
+            </ThemeBtn>
           </div>
           {!isMobile && selectedItemRef.current && (
             <Dot
-            style={{
-              left: selectedItemRef.current.offsetLeft +
-                  selectedItemRef.current.offsetWidth / 2 -
-                  5,
-              top: "58px"
-            }}
+              style={{
+                left:
+                  selectedItemRef.current.offsetLeft,
+                width:  selectedItemRef.current.offsetWidth,
+                top: "58px",
+              }}
             />
           )}
         </section>
@@ -357,11 +371,12 @@ const Navbar = () => {
             </NavBtn>
             {selectedItemRef.current && (
               <Dot
-              style={{
-                top: selectedItemRef.current.offsetTop +
+                style={{
+                  top:
+                    selectedItemRef.current.offsetTop +
                     selectedItemRef.current.offsetHeight / 2 -
-                    5
-              }}
+                    5,
+                }}
               />
             )}
           </div>

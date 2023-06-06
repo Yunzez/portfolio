@@ -13,11 +13,20 @@ export const OutlinedText = styled.h2`
 export const FooterWrapper = styled.div`
   position: fixed;
   bottom: 0;
-  width: 100%;
-  height: 100px;
-  border-top: 1px solid lightgrey;
+  right: 0;
+  top: 80px;
+  margin-right: 1%;
+  border-left: 2px solid ${theme.themeBlack};
+  border-right: 2px solid ${theme.themeBlack};
+  border-bottom: 2px solid ${theme.themeBlack};
+  margin-top: 2vh;
+  width: 60px;
+  border-bottom-left-radius: ${theme.radiusXs};
+  border-bottom-right-radius: ${theme.radiusXs};
+  height: 80%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   }

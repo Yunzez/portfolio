@@ -21,6 +21,33 @@ body {
  font-family: 'Open Sans';
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 20px;
+  width: 3vw;
+  border: 2px solid black;
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+  left: 2vw;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: black;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .childrenWrapper { 
   margin-top: 90px;
   margin-bottom:100px;

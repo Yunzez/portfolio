@@ -500,7 +500,7 @@ export default function Home() {
     setSelectedTag([tag]);
   };
   return (
-    <main>
+    <main style={{marginRight: '60px', direction: 'ltr'}}>
       {showAllWork ? (
         <>
           <OutlinedText
@@ -620,7 +620,7 @@ export default function Home() {
       ) : (
         <>
           <WelcomeContainer className="md:flex">
-            <div className="md:w-3/5">
+            <div className="md:w-4/5">
               <small>Hello! {"I’m "}Yunze (Fred)!</small>
               <div style={{ fontSize: "32px" }}>
                 A{" "}
@@ -639,20 +639,6 @@ export default function Home() {
               <div>🎓 Masters Student @ NYU Tandon School of Engineering</div>
             </div>
 
-            <div className="md:w-2/5 md:ms-5 flex justify-center mt-28 md:mt-12 ms-32">
-              <WorkHeaderImg
-                rotate="30deg"
-                top="-10vh"
-                height={"250px"}
-                width="30px"
-                src="work/wand.svg"
-              />
-              <WorkHeaderImg
-                height={"350px"}
-                width="330px"
-                src="work/topHat.svg"
-              />
-            </div>
           </WelcomeContainer>
           <div className="flex justify-center mb-3 -mt-5 md:mt-2">
             <ArrowDown src="work/downarrow.svg" />
