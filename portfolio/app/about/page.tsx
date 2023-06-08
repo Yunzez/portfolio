@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import theme from "../theme/theme";
-import { PurpleText, OutlinedText } from "../theme/themedComponents";
+import { PurpleText, OutlinedText, AdjustedDivForFooter } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
 
 
@@ -49,6 +49,7 @@ const AboutPage: React.FC = () => {
   const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
   return (
     <AboutWrapper>
+      <AdjustedDivForFooter>
       <div className="md:flex">
         <section className="md:w-3/5">
           <OutlinedText
@@ -188,6 +189,7 @@ const AboutPage: React.FC = () => {
           </ValueCard>
         </section>
       </div>
+      </AdjustedDivForFooter>
     </AboutWrapper>
   );
 };

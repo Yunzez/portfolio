@@ -4,6 +4,7 @@ export const theme = {
   gapLg: '12px',
   gapXl: '16px',
   gapXxl: '20px',
+  radiusXxs: '4px',
   radiusXs: '8px',
   radiusSm: '20px',
   radiusLg:'100px',
