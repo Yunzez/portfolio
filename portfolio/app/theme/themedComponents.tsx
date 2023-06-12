@@ -20,7 +20,7 @@ export const FooterWrapper = styled.div`
   border-right: 2px solid ${theme.themeBlack};
   border-bottom: 2px solid ${theme.themeBlack};
   margin-top: 2vh;
-  width: 60px;
+  width: 80px;
   border-bottom-left-radius: ${theme.radiusXs};
   border-bottom-right-radius: ${theme.radiusXs};
   height: 80%;
@@ -53,16 +53,18 @@ export const FooterWrapper = styled.div`
 `;
 
 export const AdjustedDivForFooter = styled.div`
-  margin-right: calc(1% + 60px) !important;
+  margin-right: calc(1% + 80px) !important;
   @media (max-width: 568px) {
     margin-right: 0 !important;
   }
 `;
 
 export const VerticalText = styled.div`
-  writingmode: vertical-rl;
-  textorientation: mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
 `;
+
 
 interface PurpleTextProps {
   fontStyle?: string;

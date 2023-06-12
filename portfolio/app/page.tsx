@@ -68,7 +68,7 @@ const borderDisappear = keyframes`
 
 const borderRadiusChange = keyframes`
   from, 50% {
-    border-radius: ${theme.radiusSm};
+    border-radius: ${theme.radiusXxs};
   }
   to {
     border-radius: 0;
@@ -100,7 +100,7 @@ const borderRadiusReset = keyframes`
     border-radius: 0;
   }
   to {
-    border-radius: ${theme.radiusSm};
+    border-radius: ${theme.radiusXxs};
   }
 `;
 
@@ -109,7 +109,7 @@ const borderAppear = keyframes`
     border: 0;
   }
   to {
-    border: 1px solid ${theme.themeBlack};
+    border: 2px solid ${theme.themePurple};
   }
 `;
 
@@ -223,15 +223,13 @@ const WorkCardBtn = styled.button`
 `;
 
 const AllWorkBtn = styled.button`
-  border: 1px solid ${theme.themeBlack};
   width: 50%;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: ${theme.themeBlack};
-  font-weight: 300;
-  border-radius: ${theme.radiusLg};
-  font-size: 1.5em;
-
+  color: ${theme.themePurple};
+  font-weight: 500;
+  font-size: 2em;
+  text-decoration: underline;
   @media (max-width: 768px) {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -498,7 +496,7 @@ export default function Home() {
     setSelectedTag([tag]);
   };
   return (
-    <main style={{ direction: "ltr" }}>
+    <main style={{ direction: "ltr"}}>
       <AdjustedDivForFooter>
         {showAllWork ? (
           <>
@@ -671,7 +669,7 @@ export default function Home() {
                   window.scrollTo(0, 0);
                 }}
               >
-                View All Work
+                See All Work
               </AllWorkBtn>
             </section>
           </>
