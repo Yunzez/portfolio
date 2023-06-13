@@ -31,24 +31,7 @@ export const FooterWrapper = styled.div`
   background-color: white;
   }
 
-   @media (max-width: 568px) {
-  position: fixed;
-  top: 85vh;
-  bottom: 10px;
-  margin-right: 1%;
-  margin-left: 1%;
-  border-left: 2px solid ${theme.themeBlack};
-  border-top: 2px solid ${theme.themeBlack};
-  border-right: 2px solid ${theme.themeBlack};
-  border-bottom: 2px solid ${theme.themeBlack};
-  margin-bottom: 1%;
-  width: 98%;
-  border-radius: ${theme.radiusXs};
-  max-height: 12vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  }
+   @media (max-width: 568px) {display: none;}
  
 `;
 

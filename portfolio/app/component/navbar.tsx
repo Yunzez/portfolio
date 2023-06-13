@@ -12,7 +12,7 @@ import styled, { css, keyframes } from "styled-components";
 import { useRouter } from "next/navigation";
 import theme from "../theme/theme";
 import Image from "next/image";
-import { PurpleText } from "../theme/themedComponents";
+import { PurpleText, VerticalText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
 import { openInNewTab } from "../utils";
 
@@ -75,9 +75,8 @@ const ThemeBtn = styled.button<{ darkmode: boolean }>`
 
 export const SocialIcon = styled.img`
   margin: 4px;
-  width: 22px;
-  height: 22px;
-  margin-right: 16px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   transition: 0.3s all ease-in;
 
@@ -88,48 +87,49 @@ export const SocialIcon = styled.img`
 `;
 
 const Navbar = () => {
-  const { isOpen, setIsOpen, initialRender, darkMode, setDarkMode, theme } = useContext(GlobalContext);
+  const { isOpen, setIsOpen, initialRender, darkMode, setDarkMode, theme } =
+    useContext(GlobalContext);
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const Dot = styled.div`
-  position: absolute;
-  top: 73px;
-  transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
-    width 0.5s ease-in-out;
-  height: 10px;
-  background-color: ${theme.themePurple};
-  border-radius: 20px;
-  z-index: 999;
-`;
+    position: absolute;
+    top: 73px;
+    transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
+      width 0.5s ease-in-out;
+    height: 10px;
+    background-color: ${theme.themePurple};
+    border-radius: 20px;
+    z-index: 999;
+  `;
 
-const NavContainer = styled.div`
-  border: 2px solid ${theme.themeBlack};
-  margin-top: 2vh;
-  margin-left: 2%;
-  margin-right: 1%;
-  border-bottom-left-radius: ${theme.radiusXs};
-  border-top-left-radius: ${theme.radiusXs};
-  border-top-right-radius: ${theme.radiusXs};
-  position: fixed;
-  color: ${theme.themeBlack};
-  background-color: ${theme.themeWhite};
-  z-index: 9999;
-  width: 97%;
-  height: 80px;
-  left: 0px;
-  top: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+  const NavContainer = styled.div`
+    border: 2px solid ${theme.themeBlack};
+    margin-top: 2vh;
+    margin-left: 2%;
+    margin-right: 1%;
+    border-bottom-left-radius: ${theme.radiusXs};
+    border-top-left-radius: ${theme.radiusXs};
+    border-top-right-radius: ${theme.radiusXs};
+    position: fixed;
+    color: ${theme.themeBlack};
+    background-color: ${theme.themeWhite};
+    z-index: 9999;
+    width: 97%;
+    height: 80px;
+    left: 0px;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `;
 
-const Logo = styled.img`
-  width: 48px;
-  height: 48px;
-  margin-right: 16px;
-`;
+  const Logo = styled.img`
+    width: 48px;
+    height: 48px;
+    margin-right: 16px;
+  `;
 
-const slideInAnimation = keyframes`
+  const slideInAnimation = keyframes`
   from {
     transform: translateX(100%);
   }
@@ -138,7 +138,7 @@ const slideInAnimation = keyframes`
   }
 `;
 
-const slideOutAnimation = keyframes`
+  const slideOutAnimation = keyframes`
   from {
     transform: translateX(0);
   }
@@ -147,15 +147,15 @@ const slideOutAnimation = keyframes`
   }
 `;
 
-const NavImg = styled.img`
-  width: 25px;
-  height: 25px;
-  margin-right: 16px;
-  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-    hue-rotate(263deg) brightness(84%) contrast(130%);
-`;
+  const NavImg = styled.img`
+    width: 25px;
+    height: 25px;
+    margin-right: 16px;
+    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+      hue-rotate(263deg) brightness(84%) contrast(130%);
+  `;
 
-const scaleAnimationOpen = keyframes`
+  const scaleAnimationOpen = keyframes`
   0% {
     transform: scale(0.8);
     opacity: 0;
@@ -169,7 +169,7 @@ const scaleAnimationOpen = keyframes`
   }
 `;
 
-const scaleAnimationClose = keyframes`
+  const scaleAnimationClose = keyframes`
   0% {
     transform: scale(1);
     opacity: 0;
@@ -200,6 +200,34 @@ const scaleAnimationClose = keyframes`
         animation: ${scaleAnimationClose} 1s forwards;
       `}
   `;
+
+  const SideNavTabWrapper = styled.div`
+    margin-left: 2vw;
+    margin-right: 1vw;
+    border: 2px solid ${theme.themeBlack};
+    border-top-left-radius: ${theme.radiusXs};
+  `;
+
+  const SideNavIconWrapper = styled.div`
+    height: 20vh;
+    align-self: flex-start;
+    margin-left: 2vw;
+    margin-right: 1vw;
+    width: 100%;
+    div {
+      border-bottom: 2px solid ${theme.themeBlack};
+      border-left: 2px solid ${theme.themeBlack};
+      width: 100%;
+      padding: 10px;
+    }
+  `;
+
+  const SingleIconWrapper = styled.div`
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  `;
+
   const SideNav = styled.div<{ isOpen: boolean; shouldAnimate: boolean }>`
     position: fixed;
     top: 80px;
@@ -264,16 +292,17 @@ const scaleAnimationClose = keyframes`
   return (
     <>
       <NavContainer>
-        <section className="flex justify-between flex-1 relative" style={{height: '100%'}}>
-          {" "}
-          {/* Add position relative here */}
+        <section
+          className="flex justify-between flex-1 relative"
+          style={{ height: "100%" }}
+        >
           <div className="flex items-center">
             <Logo src="/asset/logo.svg" alt="Logo" />
             <PurpleText fontWeight={500} fontSize="20px">
               Fred Zhao
             </PurpleText>
           </div>
-          <div className="hidden md:flex" >
+          <div className="hidden md:flex">
             <NavBtn
               name="Work"
               ref={navBtnRefs.Work}
@@ -314,10 +343,22 @@ const scaleAnimationClose = keyframes`
               Resume
             </NavBtn>
             <ThemeBtnWrapper darkmode={darkMode} className="flex p-2">
-              <ThemeBtn onClick={()=> {setDarkMode(!darkMode)}} darkmode={!darkMode} style={{height: '100%', width:'100%', marginRight: '5px'}}>
+              <ThemeBtn
+                onClick={() => {
+                  setDarkMode(!darkMode);
+                }}
+                darkmode={!darkMode}
+                style={{ height: "100%", width: "100%", marginRight: "5px" }}
+              >
                 A
               </ThemeBtn>
-              <ThemeBtn onClick={()=> {setDarkMode(!darkMode)}} darkmode={darkMode} style={{height: '100%', width:'100%'}} >
+              <ThemeBtn
+                onClick={() => {
+                  setDarkMode(!darkMode);
+                }}
+                darkmode={darkMode}
+                style={{ height: "100%", width: "100%" }}
+              >
                 B
               </ThemeBtn>
             </ThemeBtnWrapper>
@@ -325,9 +366,8 @@ const scaleAnimationClose = keyframes`
           {!isMobile && selectedItemRef.current && (
             <Dot
               style={{
-                left:
-                  selectedItemRef.current.offsetLeft,
-                width:  selectedItemRef.current.offsetWidth,
+                left: selectedItemRef.current.offsetLeft,
+                width: selectedItemRef.current.offsetWidth,
                 top: "58px",
               }}
             />
@@ -357,10 +397,10 @@ const scaleAnimationClose = keyframes`
         shouldAnimate={shouldAnimate}
       >
         <div
-          className="flex flex-col justify-between"
-          style={{ height: "calc(90vh - 120px)" }}
+          className="flex flex-col justify-start"
+          style={{ height: "calc(90vh - 100px)", marginTop: "20px" }}
         >
-          <div>
+          <SideNavTabWrapper>
             <NavBtn
               name="Work"
               currTab={currTab}
@@ -407,11 +447,41 @@ const scaleAnimationClose = keyframes`
                 }}
               />
             )}
-          </div>
-          <div className="flex justify-end mt-auto ms-auto">
-            <SocialIcon src="/asset/Github.png" alt="Logo" />
-            <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-            <SocialIcon src="/asset/mail.png" alt="Logo" />
+          </SideNavTabWrapper>
+          <div className="flex ">
+            <SideNavIconWrapper className="flex justify-start">
+              <SingleIconWrapper>
+                <SocialIcon src="/asset/Github.png" alt="Logo" />
+              </SingleIconWrapper>
+
+              <SingleIconWrapper>
+                <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+              </SingleIconWrapper>
+              <SingleIconWrapper>
+                <SocialIcon src="/asset/mail.png" alt="Logo" />
+              </SingleIconWrapper>
+            </SideNavIconWrapper>
+            <div
+              style={{
+                borderRight: `2px solid ${theme.themeBlack}`,
+                borderLeft: `2px solid ${theme.themeBlack}`,
+                borderBottom: `2px solid ${theme.themeBlack}`,
+                width: "100%",
+                marginRight: "1vw",
+                height: "40vh",
+                padding: '20px'
+              }}
+            >
+              <div className="flex" style={{width: '80%', marginLeft: '30%'}}>
+              <VerticalText style={{ fontSize:'15px'}}>
+              Contact me - <small style={{color: `${theme.themePurple}`, fontSize:'20px'}}>fredzhao@gmail.com</small>
+              </VerticalText>
+              <VerticalText>
+              Made with passion using Next.js
+              </VerticalText>
+              </div>
+              
+            </div>
           </div>
         </div>
       </SideNav>
