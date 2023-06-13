@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
 import styled, { css, keyframes } from "styled-components";
-import theme from "./theme/theme";
+import {theme} from "./theme/theme";
 import { data as workData } from "./utils";
 import { useEffect, useState } from "react";
 import { SkillTag } from "./utils";

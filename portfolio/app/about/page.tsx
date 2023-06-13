@@ -6,7 +6,9 @@ import { PurpleText, OutlinedText, AdjustedDivForFooter } from "../theme/themedC
 import { GlobalContext } from "../context/GlobalProvider";
 
 
-const AboutWrapper = styled.div`
+const AboutPage: React.FC = () => {
+  const { isOpen, setIsOpen, initialRender, theme } = useContext(GlobalContext);
+  const AboutWrapper = styled.div`
   padding: 35px;
 `;
 
@@ -45,8 +47,6 @@ const AboutCardHeader = styled.small`
   font-weight: 500;
 `;
 
-const AboutPage: React.FC = () => {
-  const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
   return (
     <AboutWrapper>
       <AdjustedDivForFooter>

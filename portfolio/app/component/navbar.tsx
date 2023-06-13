@@ -15,7 +15,83 @@ import Image from "next/image";
 import { PurpleText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
 import { openInNewTab } from "../utils";
-const Dot = styled.div`
+
+interface NavBtnTextProps {
+  currTab?: string;
+  name: string;
+}
+
+const NavBtn = styled.button<NavBtnTextProps>`
+  position: relative;
+  margin-left: 1em;
+  margin-right: 1em;
+  font-size: 20px;
+  transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
+  ${({ currTab, name }) =>
+    currTab === name
+      ? `color : ${theme.themePurple};
+   font-weight: 500;
+    `
+      : `color : black; 
+  font-weight: 200;
+  `}
+  @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 48px;
+    width: 100%;
+    text-align: left;
+  }
+
+  &:hover {
+    font-weight: 500;
+  }
+`;
+
+const fadeInOut = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`;
+
+const ThemeBtnWrapper = styled.div<{ darkmode: boolean }>`
+  border-left: 2px solid ${theme.themeBlack};
+  border-top-right-radius: ${theme.radiusXxs};
+  height: 100%;
+  width: 78px;
+  transition: background-color 0.3s ease-in-out;
+  background-color: ${(props) =>
+    props.darkmode ? theme.themeBlack : theme.themeWhite};
+`;
+
+const ThemeBtn = styled.button<{ darkmode: boolean }>`
+  flex-grow: 1;
+  border: 1px solid ${theme.themeBlack};
+  border-radius: ${theme.radiusXxs};
+  transition: background-color 0.3s ease-in-out;
+  background-color: ${(props) =>
+    props.darkmode ? theme.themePurple : theme.themeWhite};
+  color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
+  animation: ${fadeInOut} 0.3s ease-in-out;
+  pointer: cursor;
+`;
+
+export const SocialIcon = styled.img`
+  margin: 4px;
+  width: 22px;
+  height: 22px;
+  margin-right: 16px;
+  cursor: pointer;
+  transition: 0.3s all ease-in;
+
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+      hue-rotate(263deg) brightness(84%) contrast(130%);
+  }
+`;
+
+const Navbar = () => {
+  const { isOpen, setIsOpen, initialRender, darkMode, setDarkMode, theme } = useContext(GlobalContext);
+  const sideNavRef = useRef<HTMLDivElement>(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const Dot = styled.div`
   position: absolute;
   top: 73px;
   transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
@@ -35,11 +111,11 @@ const NavContainer = styled.div`
   border-top-left-radius: ${theme.radiusXs};
   border-top-right-radius: ${theme.radiusXs};
   position: fixed;
-  background-color: white;
+  color: ${theme.themeBlack};
+  background-color: ${theme.themeWhite};
   z-index: 9999;
   width: 97%;
   height: 80px;
-  background-color: white;
   left: 0px;
   top: 0px;
   display: flex;
@@ -51,20 +127,6 @@ const Logo = styled.img`
   width: 48px;
   height: 48px;
   margin-right: 16px;
-`;
-
-export const SocialIcon = styled.img`
-  margin: 4px;
-  width: 22px;
-  height: 22px;
-  margin-right: 16px;
-  cursor: pointer;
-  transition: 0.3s all ease-in;
-
-  &:hover {
-    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-      hue-rotate(263deg) brightness(84%) contrast(130%);
-  }
 `;
 
 const slideInAnimation = keyframes`
@@ -121,45 +183,6 @@ const scaleAnimationClose = keyframes`
   }
 `;
 
-interface NavBtnTextProps {
-  currTab?: string;
-  name: string;
-}
-
-const NavBtn = styled.button<NavBtnTextProps>`
-  position: relative;
-  margin-left: 1em;
-  margin-right: 1em;
-  font-size: 20px;
-  transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
-  ${({ currTab, name }) =>
-    currTab === name
-      ? `color : ${theme.themePurple};
-   font-weight: 500;
-    `
-      : `color : black; 
-  font-weight: 200;
-  `}
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 48px;
-    width: 100%;
-    text-align: left;
-  }
-
-  &:hover {
-    font-weight: 500;
-  }
-`;
-
-const ThemeBtn = styled.div`
-padding-left: 20px;
-width: 100px;
-`
-
-const Navbar = () => {
-  const { isOpen, setIsOpen, initialRender } = useContext(GlobalContext);
-  const sideNavRef = useRef<HTMLDivElement>(null);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
   const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
     display: inline-block;
     transition: transform 0.3s ease-in-out;
@@ -241,7 +264,7 @@ const Navbar = () => {
   return (
     <>
       <NavContainer>
-        <section className="flex justify-between flex-1 px-5 items-center relative">
+        <section className="flex justify-between flex-1 relative" style={{height: '100%'}}>
           {" "}
           {/* Add position relative here */}
           <div className="flex items-center">
@@ -250,7 +273,7 @@ const Navbar = () => {
               Fred Zhao
             </PurpleText>
           </div>
-          <div className="hidden md:flex">
+          <div className="hidden md:flex" >
             <NavBtn
               name="Work"
               ref={navBtnRefs.Work}
@@ -290,9 +313,14 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
-            <ThemeBtn>
-              change theme
-            </ThemeBtn>
+            <ThemeBtnWrapper darkmode={darkMode} className="flex p-2">
+              <ThemeBtn onClick={()=> {setDarkMode(!darkMode)}} darkmode={!darkMode} style={{height: '100%', width:'100%', marginRight: '5px'}}>
+                A
+              </ThemeBtn>
+              <ThemeBtn onClick={()=> {setDarkMode(!darkMode)}} darkmode={darkMode} style={{height: '100%', width:'100%'}} >
+                B
+              </ThemeBtn>
+            </ThemeBtnWrapper>
           </div>
           {!isMobile && selectedItemRef.current && (
             <Dot
