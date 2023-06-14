@@ -21,6 +21,21 @@ body {
  font-family: 'Open Sans';
 }
 
+@media (data-theme: dark) {
+  body {
+    background-color: black;
+    color: white;
+  }
+}
+
+
+@media (data-theme: light), (prefers-color-scheme: no-preference) {
+  body {
+    background-color: initial;
+    color: initial;
+  }
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

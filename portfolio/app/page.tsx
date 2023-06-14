@@ -5,10 +5,11 @@ import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
 import styled, { css, keyframes } from "styled-components";
 import {theme} from "./theme/theme";
-import { data as workData } from "./utils";
-import { useEffect, useState } from "react";
+import { BasicComponentProps, data as workData } from "./utils";
+import { useContext, useEffect, useState } from "react";
 import { SkillTag } from "./utils";
 import { AdjustedDivForFooter } from "./theme/themedComponents";
+import { GlobalContext } from "./context/GlobalProvider";
 type WorkCardProps = {
   name: string;
   date: string;
@@ -47,7 +48,7 @@ const WorkCardWrapper = styled.div`
   }
 `;
 
-interface SkillBadgeProps {
+interface SkillBadgeProps extends BasicComponentProps {
   active: boolean;
   button: boolean;
   isHovered?: boolean;
@@ -115,13 +116,13 @@ const borderAppear = keyframes`
 
 const SkillBadge = styled.div<SkillBadgeProps>`
   border: 2px solid
-    ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
-  color: ${(props) => (props.active ? theme.themePurple : "black")};
+    ${(props) => (props.active ? props.theme.themePurple : props.theme.themeBlack)};
+  color: ${(props) => (props.active ? props.theme.themePurple : props.theme.themeBlack)};
   margin: 0.5em;
   padding: 0.4em;
   padding-left: 0.7em;
   padding-right: 0.7em;
-  border-radius: ${theme.radiusXxs};
+  border-radius: ${(props) => props.theme.radiusXxs};
   font-size: 16px;
   align-self: flex-start;
   cursor: ${(props) => (props.button ? "pointer" : "default")};
@@ -275,6 +276,7 @@ const openInNewTab = (url: string) => {
 };
 
 function WorkCard(props: WorkCardProps) {
+  const {theme} = useContext(GlobalContext)
   return (
     <WorkCardWrapper>
       <WorkCardThumb background="#EEF5FF" src={props.thumbNailImg} />
@@ -287,7 +289,7 @@ function WorkCard(props: WorkCardProps) {
           <div className="ms-auto flex items-start">
             {props.skills.map((item, index) => {
               return (
-                <SkillBadge button={false} active={false} key={index}>
+                <SkillBadge theme={theme} button={false} active={false} key={index}>
                   {item}
                 </SkillBadge>
               );
@@ -375,6 +377,7 @@ const WorkCardColButtons = styled.div`
 `;
 
 function WorkCardColumn(props: WorkCardProps) {
+  const {theme} = useContext(GlobalContext)
   return (
     <WorkCardColWrapper>
       <WorkCardColText>
@@ -389,7 +392,7 @@ function WorkCardColumn(props: WorkCardProps) {
         <div className="ms-auto flex items-start">
           {props.skills.map((item, index) => {
             return (
-              <SkillBadge button={false} active={false} key={index}>
+              <SkillBadge theme={theme} button={false} active={false} key={index}>
                 {item}
               </SkillBadge>
             );
@@ -413,67 +416,67 @@ function WorkCardColumn(props: WorkCardProps) {
     </WorkCardColWrapper>
   );
 }
+const WelcomeContainer = styled.div`
+height: calc(60vh - 80px);
+margin-left: 70px;
+margin-top: 30vh;
+
+@media (max-width: 768px) {
+  height: calc(80vh - 80px);
+  margin-top: 15vh;
+  margin-left: 20px;
+}
+`;
+const ArrowDown = styled.img`
+width: 40px;
+height: 40px;
+filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+  hue-rotate(263deg) brightness(84%) contrast(130%);
+`;
+
+const WorkHeaderImg = styled.img<{
+height: string;
+width: string;
+rotate?: string;
+top?: string;
+}>`
+width: ${({ width }) => width || "140px"};
+height: ${({ height }) => height || "140px"};
+transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
+position: ${({ top }) => top && "relative"};
+top: ${({ top }) => top || "0"};
+
+@media (max-width: 768px) {
+  height: 150px;
+}
+`;
+
+interface displayOptionsProps {
+  active: boolean;
+}
+const DisplayOptionIcon = styled.img<displayOptionsProps>`
+  width: 50px;
+  height: 50px;
+  border: 1px solid
+    ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
+  color: ${(props) => (props.active ? theme.themePurple : "black")};
+  margin: 0.5em;
+  padding: 6px;
+  border-radius: ${theme.radiusSm};
+  font-size: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+  }
+`;
 
 export default function Home() {
-  const WelcomeContainer = styled.div`
-    height: calc(60vh - 80px);
-    margin-left: 70px;
-    margin-top: 30vh;
-
-    @media (max-width: 768px) {
-      height: calc(80vh - 80px);
-      margin-top: 15vh;
-      margin-left: 20px;
-    }
-  `;
-  const ArrowDown = styled.img`
-    width: 40px;
-    height: 40px;
-    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-      hue-rotate(263deg) brightness(84%) contrast(130%);
-  `;
-
-  const WorkHeaderImg = styled.img<{
-    height: string;
-    width: string;
-    rotate?: string;
-    top?: string;
-  }>`
-    width: ${({ width }) => width || "140px"};
-    height: ${({ height }) => height || "140px"};
-    transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
-    position: ${({ top }) => top && "relative"};
-    top: ${({ top }) => top || "0"};
-
-    @media (max-width: 768px) {
-      height: 150px;
-    }
-  `;
-
-  interface displayOptionsProps {
-    active: boolean;
-  }
-  const DisplayOptionIcon = styled.img<displayOptionsProps>`
-    width: 50px;
-    height: 50px;
-    border: 1px solid
-      ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
-    color: ${(props) => (props.active ? theme.themePurple : "black")};
-    margin: 0.5em;
-    padding: 6px;
-    border-radius: ${theme.radiusSm};
-    font-size: 16px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
-      color 0.3s ease-in-out;
-
-    @media (max-width: ${theme.breakpoints.md}) {
-      width: 30px;
-      height: 30px;
-      padding: 5px;
-    }
-  `;
-
+  const {theme} = useContext(GlobalContext)
   const [showAllWork, setShowAllWork] = useState(false);
   const [selectedTag, setSelectedTag] = useState<SkillTag[]>([SkillTag.All]);
   const [allWorkData, setAllWorkData] = useState(workData);
@@ -524,6 +527,7 @@ export default function Home() {
               </div>
               <div className="flex px-2 md:justify-center justify-start me-auto">
                 <SkillBadge
+                theme={theme}
                   button={true}
                   active={selectedTag.includes(SkillTag.All)}
                   onClick={() => handleTageChange(SkillTag.All)}
@@ -535,6 +539,7 @@ export default function Home() {
                 </SkillBadge>
                 <SkillBadge
                   button={true}
+                  theme={theme}
                   active={selectedTag.includes(SkillTag.FrontEnd)}
                   onClick={() => handleTageChange(SkillTag.FrontEnd)}
                   isHovered={isHovered === SkillTag.FrontEnd}
@@ -544,6 +549,7 @@ export default function Home() {
                   {SkillTag.FrontEnd}
                 </SkillBadge>
                 <SkillBadge
+                theme={theme}
                   button={true}
                   active={selectedTag.includes(SkillTag.BackEnd)}
                   onClick={() => handleTageChange(SkillTag.BackEnd)}
@@ -554,6 +560,7 @@ export default function Home() {
                   {SkillTag.BackEnd}
                 </SkillBadge>
                 <SkillBadge
+                theme={theme}
                   button={true}
                   active={selectedTag.includes(SkillTag.Hardware)}
                   onClick={() => handleTageChange(SkillTag.Hardware)}

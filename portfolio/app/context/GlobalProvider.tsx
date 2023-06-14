@@ -9,7 +9,7 @@ import React, {
   Dispatch,
   useEffect,
 } from "react";
-import {theme as lightTheme , darkTheme} from "../theme/theme";
+import { theme as lightTheme, darkTheme } from "../theme/theme";
 
 interface GlobalContextProps {
   color: string;
@@ -19,7 +19,7 @@ interface GlobalContextProps {
   initialRender: boolean;
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  theme: any
+  theme: any;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
@@ -30,7 +30,7 @@ export const GlobalContext = createContext<GlobalContextProps>({
   initialRender: true,
   darkMode: false,
   setDarkMode: () => {},
-  theme: lightTheme
+  theme: lightTheme,
 });
 
 interface GlobalContextProviderProps {
@@ -43,12 +43,20 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   const [color, setColor] = useState("red");
   const [initialRender, setInitialRender] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [theme, setTheme] = useState(lightTheme)
+  const [theme, setTheme] = useState(lightTheme);
   // const theme = getTheme(darkMode)
   useEffect(() => {
-    setTheme(darkMode ? darkTheme: lightTheme)
-  }, [darkMode])
+    setTheme(darkMode ? darkTheme : lightTheme);
+    console.log("run");
+    const metaTag = document.querySelector('meta[name="color-scheme"]');
+    if (metaTag) {
+      metaTag.setAttribute("content", darkMode ? "dark" : "light");
+    }
+  }, [darkMode]);
   useEffect(() => {
+    document.documentElement.setAttribute("data-theme", "light");
+    const metaTag = document.querySelector('meta[name="color-scheme"]');
+    console.log(metaTag)
     // After the initial render, set the initialRender flag to false
     setInitialRender(false);
   }, []);
@@ -65,7 +73,7 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
         initialRender,
         darkMode,
         setDarkMode,
-        theme
+        theme,
       }}
     >
       {children}

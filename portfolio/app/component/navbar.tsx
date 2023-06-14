@@ -14,9 +14,9 @@ import theme from "../theme/theme";
 import Image from "next/image";
 import { PurpleText, VerticalText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
-import { openInNewTab } from "../utils";
+import { BasicComponentProps, openInNewTab } from "../utils";
 
-interface NavBtnTextProps {
+interface NavBtnTextProps extends BasicComponentProps {
   currTab?: string;
   name: string;
 }
@@ -27,12 +27,12 @@ const NavBtn = styled.button<NavBtnTextProps>`
   margin-right: 1em;
   font-size: 20px;
   transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out;
-  ${({ currTab, name }) =>
+  ${({ currTab, name, theme }) =>
     currTab === name
       ? `color : ${theme.themePurple};
    font-weight: 500;
     `
-      : `color : black; 
+      : `color :  ${theme.themeBlack};; 
   font-weight: 200;
   `}
   @media (max-width: ${theme.breakpoints.md}) {
@@ -51,14 +51,34 @@ const fadeInOut = keyframes`
   100% { opacity: 1; }
 `;
 
-const ThemeBtnWrapper = styled.div<{ darkmode: boolean }>`
-  border-left: 2px solid ${theme.themeBlack};
+const NavContainer = styled.div<BasicComponentProps>`
+  border: 2px solid ${({ theme }) => theme.themeBlack};
+  margin-top: 2vh;
+  margin-left: 2%;
+  margin-right: 1%;
+  border-bottom-left-radius: ${({ theme }) => theme.radiusXs};
+  border-top-left-radius: ${({ theme }) => theme.radiusXs};
+  border-top-right-radius: ${({ theme }) => theme.radiusXs};
+  position: fixed;
+  color: ${({ theme }) => theme.themeBlack};
+  background-color: ${({ theme }) => theme.themeWhite};
+  z-index: 9999;
+  width: 97%;
+  height: 80px;
+  left: 0px;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ThemeBtnWrapper = styled.div<BasicComponentProps>`
+  border-left: 2px solid ${(props) => props.theme.themeBlack};
   border-top-right-radius: ${theme.radiusXxs};
   height: 100%;
   width: 78px;
   transition: background-color 0.3s ease-in-out;
-  background-color: ${(props) =>
-    props.darkmode ? theme.themeBlack : theme.themeWhite};
+  background-color: ${(props) => props.theme.themeBlack};
 `;
 
 const ThemeBtn = styled.button<{ darkmode: boolean }>`
@@ -71,6 +91,67 @@ const ThemeBtn = styled.button<{ darkmode: boolean }>`
   color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
   animation: ${fadeInOut} 0.3s ease-in-out;
   pointer: cursor;
+`;
+
+const Logo = styled.img`
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+`;
+
+const slideInAnimation = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideOutAnimation = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+`;
+
+const SingleIconWrapper = styled.div<BasicComponentProps>`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  img{
+    color: ${({theme}) => theme.themeWhite}
+  }
+`;
+
+const scaleAnimationOpen = keyframes`
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const scaleAnimationClose = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 `;
 
 export const SocialIcon = styled.img`
@@ -86,166 +167,94 @@ export const SocialIcon = styled.img`
   }
 `;
 
+const NavImg = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 16px;
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
+`;
+
+const Dot = styled.div`
+  position: absolute;
+  top: 80px;
+  transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
+    width 0.5s ease-in-out;
+  height: 10px;
+  background-color: ${theme.themePurple};
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 999;
+`;
+
+const SideNavTabWrapper = styled.div<BasicComponentProps>`
+  margin-left: 2vw;
+  margin-right: 1vw;
+  border: 2px solid ${({theme}) => theme.themeBlack};
+  border-top-left-radius: ${({theme}) =>theme.radiusXs};
+`;
+
+const SideNavIconWrapper = styled.div<BasicComponentProps>`
+  height: 20vh;
+  align-self: flex-start;
+  margin-left: 2vw;
+  margin-right: 1vw;
+  width: 100%;
+  div {
+    border-bottom: 2px solid ${({theme}) => theme.themeBlack};
+    border-left: 2px solid ${({theme}) => theme.themeBlack};
+    width: 100%;
+    padding: 10px;
+  }
+`;
+
+interface SideNavProps extends BasicComponentProps {
+  isOpen: boolean;
+  shouldAnimate: boolean;
+}
+const SideNav = styled.div<SideNavProps>`
+  position: fixed;
+  top: 80px;
+  right: 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-color: ${({theme}) => theme.themeWhite};
+  transform: translateX(100%);
+  z-index: 999;
+  animation: ${({ isOpen, shouldAnimate }) =>
+    shouldAnimate
+      ? css`
+          ${isOpen
+            ? slideInAnimation
+            : slideOutAnimation} 0.3s ease-in-out forwards
+        `
+      : "none"};
+`;
+
+const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+  ${({ isOpen, initialRender }) =>
+    !initialRender &&
+    isOpen &&
+    css`
+      animation: ${scaleAnimationOpen} 1s forwards;
+    `}
+
+  ${({ isOpen, initialRender }) =>
+    !initialRender &&
+    !isOpen &&
+    css`
+      animation: ${scaleAnimationClose} 1s forwards;
+    `}
+`;
+
 const Navbar = () => {
   const { isOpen, setIsOpen, initialRender, darkMode, setDarkMode, theme } =
     useContext(GlobalContext);
+
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const Dot = styled.div`
-    position: absolute;
-    top: 73px;
-    transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
-      width 0.5s ease-in-out;
-    height: 10px;
-    background-color: ${theme.themePurple};
-    border-radius: 20px;
-    z-index: 999;
-  `;
-
-  const NavContainer = styled.div`
-    border: 2px solid ${theme.themeBlack};
-    margin-top: 2vh;
-    margin-left: 2%;
-    margin-right: 1%;
-    border-bottom-left-radius: ${theme.radiusXs};
-    border-top-left-radius: ${theme.radiusXs};
-    border-top-right-radius: ${theme.radiusXs};
-    position: fixed;
-    color: ${theme.themeBlack};
-    background-color: ${theme.themeWhite};
-    z-index: 9999;
-    width: 97%;
-    height: 80px;
-    left: 0px;
-    top: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `;
-
-  const Logo = styled.img`
-    width: 48px;
-    height: 48px;
-    margin-right: 16px;
-  `;
-
-  const slideInAnimation = keyframes`
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-`;
-
-  const slideOutAnimation = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
-`;
-
-  const NavImg = styled.img`
-    width: 25px;
-    height: 25px;
-    margin-right: 16px;
-    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-      hue-rotate(263deg) brightness(84%) contrast(130%);
-  `;
-
-  const scaleAnimationOpen = keyframes`
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
-  const scaleAnimationClose = keyframes`
-  0% {
-    transform: scale(1);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
-  const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
-    display: inline-block;
-    transition: transform 0.3s ease-in-out;
-    ${({ isOpen, initialRender }) =>
-      !initialRender &&
-      isOpen &&
-      css`
-        animation: ${scaleAnimationOpen} 1s forwards;
-      `}
-
-    ${({ isOpen, initialRender }) =>
-      !initialRender &&
-      !isOpen &&
-      css`
-        animation: ${scaleAnimationClose} 1s forwards;
-      `}
-  `;
-
-  const SideNavTabWrapper = styled.div`
-    margin-left: 2vw;
-    margin-right: 1vw;
-    border: 2px solid ${theme.themeBlack};
-    border-top-left-radius: ${theme.radiusXs};
-  `;
-
-  const SideNavIconWrapper = styled.div`
-    height: 20vh;
-    align-self: flex-start;
-    margin-left: 2vw;
-    margin-right: 1vw;
-    width: 100%;
-    div {
-      border-bottom: 2px solid ${theme.themeBlack};
-      border-left: 2px solid ${theme.themeBlack};
-      width: 100%;
-      padding: 10px;
-    }
-  `;
-
-  const SingleIconWrapper = styled.div`
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  `;
-
-  const SideNav = styled.div<{ isOpen: boolean; shouldAnimate: boolean }>`
-    position: fixed;
-    top: 80px;
-    right: 0;
-    width: 100vw;
-    height: calc(100vh - 80px);
-    background-color: white;
-    transform: translateX(100%);
-    z-index: 999;
-    animation: ${({ isOpen, shouldAnimate }) =>
-      shouldAnimate
-        ? css`
-            ${isOpen
-              ? slideInAnimation
-              : slideOutAnimation} 0.3s ease-in-out forwards
-          `
-        : "none"};
-  `;
 
   const handleOpenNav = () => {
     console.log("open nav");
@@ -291,7 +300,7 @@ const Navbar = () => {
     : navBtnRefs[currTab];
   return (
     <>
-      <NavContainer>
+      <NavContainer theme={theme}>
         <section
           className="flex justify-between flex-1 relative"
           style={{ height: "100%" }}
@@ -304,6 +313,7 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex">
             <NavBtn
+              theme={theme}
               name="Work"
               ref={navBtnRefs.Work}
               currTab={currTab}
@@ -317,6 +327,7 @@ const Navbar = () => {
               Work
             </NavBtn>
             <NavBtn
+              theme={theme}
               name="About"
               ref={navBtnRefs.About}
               currTab={currTab}
@@ -330,6 +341,7 @@ const Navbar = () => {
               About
             </NavBtn>
             <NavBtn
+              theme={theme}
               name="Resume"
               ref={navBtnRefs.Resume}
               currTab={currTab}
@@ -342,7 +354,7 @@ const Navbar = () => {
             >
               Resume
             </NavBtn>
-            <ThemeBtnWrapper darkmode={darkMode} className="flex p-2">
+            <ThemeBtnWrapper className="flex p-2">
               <ThemeBtn
                 onClick={() => {
                   setDarkMode(!darkMode);
@@ -368,7 +380,7 @@ const Navbar = () => {
               style={{
                 left: selectedItemRef.current.offsetLeft,
                 width: selectedItemRef.current.offsetWidth,
-                top: "58px",
+                top: "68px",
               }}
             />
           )}
@@ -391,6 +403,7 @@ const Navbar = () => {
       </NavContainer>
 
       <SideNav
+      theme={theme}
         ref={sideNavRef}
         className="md:hidden"
         isOpen={isOpen}
@@ -400,7 +413,7 @@ const Navbar = () => {
           className="flex flex-col justify-start"
           style={{ height: "calc(90vh - 100px)", marginTop: "20px" }}
         >
-          <SideNavTabWrapper>
+          <SideNavTabWrapper theme={theme}>
             <NavBtn
               name="Work"
               currTab={currTab}
@@ -447,18 +460,18 @@ const Navbar = () => {
                 }}
               />
             )}
-          </SideNavTabWrapper>
+          </SideNavTabWrapper > 
           <div className="flex ">
-            <SideNavIconWrapper className="flex justify-start">
+            <SideNavIconWrapper theme={theme} className="flex justify-start">
               <SingleIconWrapper>
                 <SocialIcon src="/asset/Github.png" alt="Logo" />
               </SingleIconWrapper>
 
-              <SingleIconWrapper>
+              <SingleIconWrapper  theme={theme}>
                 <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
               </SingleIconWrapper>
-              <SingleIconWrapper>
-                <SocialIcon src="/asset/mail.png" alt="Logo" />
+              <SingleIconWrapper  theme={theme}>
+                <SocialIcon src="/asset/mail.png" alt="Logo"  />
               </SingleIconWrapper>
             </SideNavIconWrapper>
             <div
@@ -469,18 +482,20 @@ const Navbar = () => {
                 width: "100%",
                 marginRight: "1vw",
                 height: "40vh",
-                padding: '20px'
+                padding: "20px",
               }}
             >
-              <div className="flex" style={{width: '80%', marginLeft: '30%'}}>
-              <VerticalText style={{ fontSize:'15px'}}>
-              Contact me - <small style={{color: `${theme.themePurple}`, fontSize:'20px'}}>fredzhao@gmail.com</small>
-              </VerticalText>
-              <VerticalText>
-              Made with passion using Next.js
-              </VerticalText>
+              <div className="flex" style={{ width: "80%", marginLeft: "30%" }}>
+                <VerticalText style={{ fontSize: "15px" }}>
+                  Contact me -{" "}
+                  <small
+                    style={{ color: `${theme.themePurple}`, fontSize: "20px" }}
+                  >
+                    fredzhao@gmail.com
+                  </small>
+                </VerticalText>
+                <VerticalText>Made with passion using Next.js</VerticalText>
               </div>
-              
             </div>
           </div>
         </div>

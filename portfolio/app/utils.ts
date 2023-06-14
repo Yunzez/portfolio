@@ -1,3 +1,5 @@
+import { Theme } from "./theme/theme";
+
 export enum SkillTag {
     All = 'All',
     FrontEnd = 'Front-end',
@@ -5,6 +7,9 @@ export enum SkillTag {
     Hardware = 'Hardware'
   }
 
+ export interface BasicComponentProps {
+    theme: Theme;
+  }
  export const openInNewTab = (url:string) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
     if (newWindow) newWindow.opener = null;

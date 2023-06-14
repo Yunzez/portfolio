@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import theme from "./theme";
+import { BasicComponentProps } from "../utils";
 
 export const OutlinedText = styled.h2`
   color: white;
@@ -10,25 +11,25 @@ export const OutlinedText = styled.h2`
     -1px -1px 0 ${theme.themePurple};
 `;
 
-export const FooterWrapper = styled.div`
+export const FooterWrapper = styled.div<BasicComponentProps>`
   position: fixed;
   bottom: 0;
   right: 0;
   top: 80px;
   margin-right: 1%;
-  border-left: 2px solid ${theme.themeBlack};
-  border-right: 2px solid ${theme.themeBlack};
-  border-bottom: 2px solid ${theme.themeBlack};
+  border-left: 2px solid  ${({ theme }) => theme.themeBlack};
+  border-right: 2px solid  ${({ theme }) => theme.themeBlack};
+  border-bottom: 2px solid  ${({ theme }) => theme.themeBlack};
   margin-top: 2vh;
   width: 80px;
-  border-bottom-left-radius: ${theme.radiusXs};
-  border-bottom-right-radius: ${theme.radiusXs};
+  border-bottom-left-radius: ${({ theme }) => theme.radiusXs};
+  border-bottom-right-radius: ${({ theme }) => theme.radiusXs};
   height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: ${({ theme }) => theme.themeWhite};
   }
 
    @media (max-width: 568px) {display: none;}
@@ -42,10 +43,11 @@ export const AdjustedDivForFooter = styled.div`
   }
 `;
 
-export const VerticalText = styled.div`
+export const VerticalText = styled.div<BasicComponentProps>`
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
+  color: ${({theme}) => theme.themeBlack}
 `;
 
 

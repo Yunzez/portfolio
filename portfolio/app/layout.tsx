@@ -20,6 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+       <meta name="color-scheme" content="light" />
       <GlobalContextProvider>
         <body
           className={`${inter.className}`}

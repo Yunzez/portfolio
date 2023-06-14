@@ -1,5 +1,26 @@
-
-export const theme = {
+export interface Theme {
+  gapSm: string;
+  gapMd: string;
+  gapLg: string;
+  gapXl: string;
+  gapXxl: string;
+  radiusXxs: string;
+  radiusXs: string;
+  radiusSm: string;
+  radiusLg: string;
+  themePurple: string;
+  themeBlack: string;
+  themeWhite: string;
+  themeLightPurple: string;
+  themeLightGrey: string;
+  breakpoints: {
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+  };
+}
+export const theme:Theme = {
   gapSm: '4px',
   gapMd: '8px',
   gapLg: '12px',
@@ -23,7 +44,7 @@ export const theme = {
   
 };
 
-export const darkTheme = {
+export const darkTheme:Theme = {
   gapSm: '4px',
   gapMd: '8px',
   gapLg: '12px',

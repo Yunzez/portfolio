@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import theme from "../theme/theme";
 import styled from "styled-components";
 import {
@@ -7,7 +7,8 @@ import {
   FooterWrapper,
   VerticalText,
 } from "../theme/themedComponents";
-import { openInNewTab } from "../utils";
+import { BasicComponentProps, openInNewTab } from "../utils";
+import { GlobalContext } from "../context/GlobalProvider";
 
 const SocialIcon = styled.img`
   margin: 3px;
@@ -39,19 +40,19 @@ export const SocialIconWrapper = styled.div`
   }
 `;
 
-export const SocialIconDiv = styled.div`
+export const SocialIconDiv = styled.div<BasicComponentProps>`
   width: 100%;
   display: flex;
   height: auto;
   flex-direction: column;
   justify-content: space-between;
-  border-left: 2px solid ${theme.themeBlack};
+  border-left: 2px solid ${({ theme }) => theme.themeBlack};
 
   div:not(:last-child) {
-    border-bottom: 2px solid ${theme.themeBlack};
+    border-bottom: 2px solid ${({ theme }) => theme.themeBlack};
   }
   @media (max-width: 568px) {
-    border-bottom: 0px solid black;
+    border-bottom: 0px solid ${({ theme }) => theme.themeBlack};
   }
 `;
 
@@ -64,6 +65,7 @@ const FooterTextDiv = styled.div`
   width: 100%;
 `;
 const Footer = () => {
+  const {theme } = useContext(GlobalContext);
   return (
     <FooterWrapper>
       <div
