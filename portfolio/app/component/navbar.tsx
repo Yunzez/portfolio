@@ -175,13 +175,13 @@ const NavImg = styled.img`
     hue-rotate(263deg) brightness(84%) contrast(130%);
 `;
 
-const Dot = styled.div`
+const Dot = styled.div<BasicComponentProps>`
   position: absolute;
   top: 80px;
   transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
     width 0.5s ease-in-out;
   height: 10px;
-  background-color: ${theme.themePurple};
+  background-color: ${({theme}) => theme.themePurple};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   z-index: 999;
@@ -305,9 +305,9 @@ const Navbar = () => {
           className="flex justify-between flex-1 relative"
           style={{ height: "100%" }}
         >
-          <div className="flex items-center">
+          <div className="flex items-center ms-5">
             <Logo src="/asset/logo.svg" alt="Logo" />
-            <PurpleText fontWeight={500} fontSize="20px">
+            <PurpleText fontWeight={500} fontSize="20px" className="md:block hidden">
               Fred Zhao
             </PurpleText>
           </div>
@@ -377,6 +377,7 @@ const Navbar = () => {
           </div>
           {!isMobile && selectedItemRef.current && (
             <Dot
+            theme={theme}
               style={{
                 left: selectedItemRef.current.offsetLeft,
                 width: selectedItemRef.current.offsetWidth,
@@ -452,6 +453,7 @@ const Navbar = () => {
             </NavBtn>
             {selectedItemRef.current && (
               <Dot
+              theme={theme}
                 style={{
                   top:
                     selectedItemRef.current.offsetTop +

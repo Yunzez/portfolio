@@ -54,10 +54,10 @@ export const darkTheme:Theme = {
   radiusXs: '8px',
   radiusSm: '20px',
   radiusLg:'100px',
-  themePurple: '#4A00F2',
+  themePurple: '#FBF9FF',
   themeBlack: '#FFFFFF',
-  themeWhite: '#212121',
-  themeLightPurple: '#FBF9FF',
+  themeWhite: '#121212',
+  themeLightPurple: '#4A00F2',
   themeLightGrey: '#E9E9E9',
   breakpoints: {
     sm: "640px",
