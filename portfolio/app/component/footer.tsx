@@ -17,11 +17,8 @@ const SocialIcon = styled.img`
   cursor: pointer;
   transition: 0.3s all ease-in;
 
-  &:hover {
-    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-      hue-rotate(263deg) brightness(84%) contrast(130%);
-  }
-
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
   @media (max-width: 568px) {
     width: 25px;
     height: 25px;
@@ -65,7 +62,7 @@ const FooterTextDiv = styled.div`
   width: 100%;
 `;
 const Footer = () => {
-  const {theme } = useContext(GlobalContext);
+  const { theme } = useContext(GlobalContext);
   return (
     <FooterWrapper>
       <div

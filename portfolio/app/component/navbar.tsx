@@ -121,8 +121,8 @@ const SingleIconWrapper = styled.div<BasicComponentProps>`
   align-items: center;
   display: flex;
   justify-content: center;
-  img{
-    color: ${({theme}) => theme.themeWhite}
+  img {
+    color: ${({ theme }) => theme.themeWhite};
   }
 `;
 
@@ -156,11 +156,12 @@ const scaleAnimationClose = keyframes`
 
 export const SocialIcon = styled.img`
   margin: 4px;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   transition: 0.3s all ease-in;
-
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
   &:hover {
     filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
       hue-rotate(263deg) brightness(84%) contrast(130%);
@@ -181,7 +182,7 @@ const Dot = styled.div<BasicComponentProps>`
   transition: left 0.5s ease-in-out, top 0.5s ease-in-out,
     width 0.5s ease-in-out;
   height: 10px;
-  background-color: ${({theme}) => theme.themePurple};
+  background-color: ${({ theme }) => theme.themePurple};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   z-index: 999;
@@ -190,22 +191,33 @@ const Dot = styled.div<BasicComponentProps>`
 const SideNavTabWrapper = styled.div<BasicComponentProps>`
   margin-left: 2vw;
   margin-right: 1vw;
-  border: 2px solid ${({theme}) => theme.themeBlack};
-  border-top-left-radius: ${({theme}) =>theme.radiusXs};
+  border: 2px solid ${({ theme }) => theme.themeBlack};
+  border-top-left-radius: ${({ theme }) => theme.radiusXs};
 `;
 
 const SideNavIconWrapper = styled.div<BasicComponentProps>`
-  height: 20vh;
+  height: 10vh;
   align-self: flex-start;
-  margin-left: 2vw;
-  margin-right: 1vw;
   width: 100%;
   div {
-    border-bottom: 2px solid ${({theme}) => theme.themeBlack};
-    border-left: 2px solid ${({theme}) => theme.themeBlack};
+    border-bottom: 2px solid ${({ theme }) => theme.themeBlack};
+    border-left: 2px solid ${({ theme }) => theme.themeBlack};
     width: 100%;
     padding: 10px;
   }
+`;
+
+
+const SideNavEmojiWrapper = styled.div<BasicComponentProps>`
+  align-self: flex-start;
+  width: 100%;
+  display:flex;
+  justify-content: center;
+
+  border-bottom: 2px solid ${({ theme }) => theme.themeBlack};
+    border-left: 2px solid ${({ theme }) => theme.themeBlack};
+    width: 100%;
+    padding: 10px;
 `;
 
 interface SideNavProps extends BasicComponentProps {
@@ -218,7 +230,7 @@ const SideNav = styled.div<SideNavProps>`
   right: 0;
   width: 100vw;
   height: calc(100vh - 80px);
-  background-color: ${({theme}) => theme.themeWhite};
+  background-color: ${({ theme }) => theme.themeWhite};
   transform: translateX(100%);
   z-index: 999;
   animation: ${({ isOpen, shouldAnimate }) =>
@@ -307,7 +319,11 @@ const Navbar = () => {
         >
           <div className="flex items-center ms-5">
             <Logo src="/asset/logo.svg" alt="Logo" />
-            <PurpleText fontWeight={500} fontSize="20px" className="md:block hidden">
+            <PurpleText
+              fontWeight={500}
+              fontSize="20px"
+              className="md:block hidden"
+            >
               Fred Zhao
             </PurpleText>
           </div>
@@ -360,24 +376,72 @@ const Navbar = () => {
                   setDarkMode(!darkMode);
                 }}
                 darkmode={!darkMode}
-                style={{ height: "100%", width: "100%", marginRight: "5px" }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  marginRight: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                A
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
+                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
+                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </ThemeBtn>
               <ThemeBtn
                 onClick={() => {
                   setDarkMode(!darkMode);
                 }}
                 darkmode={darkMode}
-                style={{ height: "100%", width: "100%" }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                B
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
+                    stroke={darkMode ? theme.themeBlack : theme.themePurple}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </ThemeBtn>
             </ThemeBtnWrapper>
           </div>
           {!isMobile && selectedItemRef.current && (
             <Dot
-            theme={theme}
+              theme={theme}
               style={{
                 left: selectedItemRef.current.offsetLeft,
                 width: selectedItemRef.current.offsetWidth,
@@ -404,7 +468,7 @@ const Navbar = () => {
       </NavContainer>
 
       <SideNav
-      theme={theme}
+        theme={theme}
         ref={sideNavRef}
         className="md:hidden"
         isOpen={isOpen}
@@ -453,7 +517,7 @@ const Navbar = () => {
             </NavBtn>
             {selectedItemRef.current && (
               <Dot
-              theme={theme}
+                theme={theme}
                 style={{
                   top:
                     selectedItemRef.current.offsetTop +
@@ -462,28 +526,49 @@ const Navbar = () => {
                 }}
               />
             )}
-          </SideNavTabWrapper > 
+          </SideNavTabWrapper>
           <div className="flex ">
-            <SideNavIconWrapper theme={theme} className="flex justify-start">
-              <SingleIconWrapper>
-                <SocialIcon src="/asset/Github.png" alt="Logo" />
-              </SingleIconWrapper>
+            <div
+              style={{
+                alignSelf: "flexStart",
+                marginLeft: "2vw",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <SideNavIconWrapper
+                theme={theme}
+                className="flex justify-start grow-1"
+              >
+                <SingleIconWrapper>
+                  <SocialIcon src="/asset/Github.png" alt="Logo" />
+                </SingleIconWrapper>
 
-              <SingleIconWrapper  theme={theme}>
-                <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
-              </SingleIconWrapper>
-              <SingleIconWrapper  theme={theme}>
-                <SocialIcon src="/asset/mail.png" alt="Logo"  />
-              </SingleIconWrapper>
-            </SideNavIconWrapper>
+                <SingleIconWrapper theme={theme}>
+                  <SocialIcon src="/asset/Linkedin.png" alt="Logo" />
+                </SingleIconWrapper>
+                <SingleIconWrapper theme={theme}>
+                  <SocialIcon src="/asset/mail.png" alt="Logo" />
+                </SingleIconWrapper>
+              </SideNavIconWrapper>
+
+              <SideNavEmojiWrapper
+                theme={theme}
+                className="flex justify-start grow-1"
+                style={{height: "calc(100% - 10vh)", alignItems:'center'}}
+              >
+                🎓
+              </SideNavEmojiWrapper>
+            </div>
+
             <div
               style={{
                 borderRight: `2px solid ${theme.themeBlack}`,
                 borderLeft: `2px solid ${theme.themeBlack}`,
                 borderBottom: `2px solid ${theme.themeBlack}`,
-                width: "100%",
+                width: "40vw",
                 marginRight: "1vw",
-                height: "40vh",
+                height: "100%",
                 padding: "20px",
               }}
             >
@@ -500,6 +585,74 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+          <ThemeBtnWrapper className="flex p-2" style={{borderLeft: 0}}>
+              <ThemeBtn
+                onClick={() => {
+                  setDarkMode(!darkMode);
+                }}
+                darkmode={!darkMode}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  marginRight: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
+                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
+                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </ThemeBtn>
+              <ThemeBtn
+                onClick={() => {
+                  setDarkMode(!darkMode);
+                }}
+                darkmode={darkMode}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
+                    stroke={darkMode ? theme.themeBlack : theme.themePurple}
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </ThemeBtn>
+            </ThemeBtnWrapper>
         </div>
       </SideNav>
     </>

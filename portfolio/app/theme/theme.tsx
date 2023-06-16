@@ -54,7 +54,7 @@ export const darkTheme:Theme = {
   radiusXs: '8px',
   radiusSm: '20px',
   radiusLg:'100px',
-  themePurple: '#FBF9FF',
+  themePurple: '#4A00F2',
   themeBlack: '#FFFFFF',
   themeWhite: '#121212',
   themeLightPurple: '#4A00F2',
