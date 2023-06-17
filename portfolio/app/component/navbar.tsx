@@ -81,10 +81,31 @@ const ThemeBtnWrapper = styled.div<BasicComponentProps>`
   background-color: ${(props) => props.theme.themeBlack};
 `;
 
+const SideThemeBtnWrapper = styled.div<BasicComponentProps>`
+  width: auto;
+  margin-left: 2vw;
+  margin-top: 1vh;
+  height: 100px;
+  margin-right: 1vw;
+  transition: background-color 0.3s ease-in-out;
+  background-color: ${(props) => props.theme.themeBlack};
+  `;
+
 const ThemeBtn = styled.button<{ darkmode: boolean }>`
   flex-grow: 1;
   border: 1px solid ${theme.themeBlack};
   border-radius: ${theme.radiusXxs};
+  transition: background-color 0.3s ease-in-out;
+  background-color: ${(props) =>
+    props.darkmode ? theme.themePurple : theme.themeWhite};
+  color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
+  animation: ${fadeInOut} 0.3s ease-in-out;
+  pointer: cursor;
+`;
+
+const SideThemeBtn = styled.button<{ darkmode: boolean }>`
+  flex-grow: 1;
+  border: 2px solid ${theme.themeBlack};
   transition: background-color 0.3s ease-in-out;
   background-color: ${(props) =>
     props.darkmode ? theme.themePurple : theme.themeWhite};
@@ -207,17 +228,16 @@ const SideNavIconWrapper = styled.div<BasicComponentProps>`
   }
 `;
 
-
 const SideNavEmojiWrapper = styled.div<BasicComponentProps>`
   align-self: flex-start;
   width: 100%;
-  display:flex;
+  display: flex;
   justify-content: center;
 
   border-bottom: 2px solid ${({ theme }) => theme.themeBlack};
-    border-left: 2px solid ${({ theme }) => theme.themeBlack};
-    width: 100%;
-    padding: 10px;
+  border-left: 2px solid ${({ theme }) => theme.themeBlack};
+  width: 100%;
+  padding: 10px;
 `;
 
 interface SideNavProps extends BasicComponentProps {
@@ -262,7 +282,7 @@ const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
 `;
 
 const Navbar = () => {
-  const { isOpen, setIsOpen, initialRender, darkMode, setDarkMode, theme } =
+  const { isOpen, setIsOpen, loaded, darkMode, setDarkMode, theme } =
     useContext(GlobalContext);
 
   const sideNavRef = useRef<HTMLDivElement>(null);
@@ -450,7 +470,7 @@ const Navbar = () => {
             />
           )}
         </section>
-        <MenuButton isOpen={isOpen} initialRender={initialRender}>
+        <MenuButton isOpen={isOpen} initialRender={loaded}>
           {isOpen ? (
             <NavImg
               src="navbar/menu-open.svg"
@@ -555,7 +575,7 @@ const Navbar = () => {
               <SideNavEmojiWrapper
                 theme={theme}
                 className="flex justify-start grow-1"
-                style={{height: "calc(100% - 10vh)", alignItems:'center'}}
+                style={{ height: "calc(100% - 10vh)", alignItems: "center" }}
               >
                 🎓
               </SideNavEmojiWrapper>
@@ -585,74 +605,74 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <ThemeBtnWrapper className="flex p-2" style={{borderLeft: 0}}>
-              <ThemeBtn
-                onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-                darkmode={!darkMode}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  marginRight: "5px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+          <SideThemeBtnWrapper className="flex">
+            <SideThemeBtn
+              onClick={() => {
+                setDarkMode(!darkMode);
+              }}
+              darkmode={!darkMode}
+              style={{
+                height: "100%",
+                width: "100%",
+                marginRight: "5px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
-                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
-                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </ThemeBtn>
-              <ThemeBtn
-                onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-                darkmode={darkMode}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                <path
+                  d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
+                  stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
+                  stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </SideThemeBtn>
+            <SideThemeBtn
+              onClick={() => {
+                setDarkMode(!darkMode);
+              }}
+              darkmode={darkMode}
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
-                    stroke={darkMode ? theme.themeBlack : theme.themePurple}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </ThemeBtn>
-            </ThemeBtnWrapper>
+                <path
+                  d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
+                  stroke={darkMode ? theme.themeBlack : theme.themePurple}
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </SideThemeBtn>
+          </SideThemeBtnWrapper>
         </div>
       </SideNav>
     </>

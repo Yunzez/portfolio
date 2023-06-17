@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
 import styled, { css, keyframes } from "styled-components";
-import {theme} from "./theme/theme";
+import { theme } from "./theme/theme";
 import { BasicComponentProps, data as workData } from "./utils";
 import { useContext, useEffect, useState } from "react";
 import { SkillTag } from "./utils";
@@ -116,8 +116,10 @@ const borderAppear = keyframes`
 
 const SkillBadge = styled.div<SkillBadgeProps>`
   border: 2px solid
-    ${(props) => (props.active ? props.theme.themePurple : props.theme.themeBlack)};
-  color: ${(props) => (props.active ? props.theme.themePurple : props.theme.themeBlack)};
+    ${(props) =>
+      props.active ? props.theme.themePurple : props.theme.themeBlack};
+  color: ${(props) =>
+    props.active ? props.theme.themePurple : props.theme.themeBlack};
   margin: 0.5em;
   padding: 0.4em;
   padding-left: 0.7em;
@@ -276,7 +278,7 @@ const openInNewTab = (url: string) => {
 };
 
 function WorkCard(props: WorkCardProps) {
-  const {theme} = useContext(GlobalContext)
+  const { theme } = useContext(GlobalContext);
   return (
     <WorkCardWrapper>
       <WorkCardThumb background="#EEF5FF" src={props.thumbNailImg} />
@@ -289,7 +291,12 @@ function WorkCard(props: WorkCardProps) {
           <div className="ms-auto flex items-start">
             {props.skills.map((item, index) => {
               return (
-                <SkillBadge theme={theme} button={false} active={false} key={index}>
+                <SkillBadge
+                  theme={theme}
+                  button={false}
+                  active={false}
+                  key={index}
+                >
                   {item}
                 </SkillBadge>
               );
@@ -377,7 +384,7 @@ const WorkCardColButtons = styled.div`
 `;
 
 function WorkCardColumn(props: WorkCardProps) {
-  const {theme} = useContext(GlobalContext)
+  const { theme } = useContext(GlobalContext);
   return (
     <WorkCardColWrapper>
       <WorkCardColText>
@@ -392,7 +399,12 @@ function WorkCardColumn(props: WorkCardProps) {
         <div className="ms-auto flex items-start">
           {props.skills.map((item, index) => {
             return (
-              <SkillBadge theme={theme} button={false} active={false} key={index}>
+              <SkillBadge
+                theme={theme}
+                button={false}
+                active={false}
+                key={index}
+              >
                 {item}
               </SkillBadge>
             );
@@ -417,38 +429,38 @@ function WorkCardColumn(props: WorkCardProps) {
   );
 }
 const WelcomeContainer = styled.div`
-height: calc(60vh - 80px);
-margin-left: 70px;
-margin-top: 30vh;
+  height: calc(60vh - 80px);
+  margin-left: 70px;
+  margin-top: 30vh;
 
-@media (max-width: 768px) {
-  height: calc(80vh - 80px);
-  margin-top: 15vh;
-  margin-left: 20px;
-}
+  @media (max-width: 768px) {
+    height: calc(80vh - 80px);
+    margin-top: 15vh;
+    margin-left: 20px;
+  }
 `;
 const ArrowDown = styled.img`
-width: 40px;
-height: 40px;
-filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-  hue-rotate(263deg) brightness(84%) contrast(130%);
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
+    hue-rotate(263deg) brightness(84%) contrast(130%);
 `;
 
 const WorkHeaderImg = styled.img<{
-height: string;
-width: string;
-rotate?: string;
-top?: string;
+  height: string;
+  width: string;
+  rotate?: string;
+  top?: string;
 }>`
-width: ${({ width }) => width || "140px"};
-height: ${({ height }) => height || "140px"};
-transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
-position: ${({ top }) => top && "relative"};
-top: ${({ top }) => top || "0"};
+  width: ${({ width }) => width || "140px"};
+  height: ${({ height }) => height || "140px"};
+  transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
+  position: ${({ top }) => top && "relative"};
+  top: ${({ top }) => top || "0"};
 
-@media (max-width: 768px) {
-  height: 150px;
-}
+  @media (max-width: 768px) {
+    height: 150px;
+  }
 `;
 
 interface displayOptionsProps {
@@ -476,7 +488,7 @@ const DisplayOptionIcon = styled.img<displayOptionsProps>`
 `;
 
 export default function Home() {
-  const {theme} = useContext(GlobalContext)
+  const { theme, loaded } = useContext(GlobalContext);
   const [showAllWork, setShowAllWork] = useState(false);
   const [selectedTag, setSelectedTag] = useState<SkillTag[]>([SkillTag.All]);
   const [allWorkData, setAllWorkData] = useState(workData);
@@ -499,82 +511,166 @@ export default function Home() {
     setSelectedTag([tag]);
   };
   return (
-    <main style={{ direction: "ltr"}}>
-      <AdjustedDivForFooter>
-        {showAllWork ? (
-          <>
-            <PurpleText
-              fontSize="32px"
-              style={{
-                marginBottom: "40px",
-                marginLeft: "60px",
-              }}
-            >
-              All Works
-            </PurpleText>
-            <div className="md:flex px-2 justify-around md:flex-row-reverse">
-              <div className="flex px-2 md:justify-center justify-end">
-                <DisplayOptionIcon
-                  active={selectedView === "block"}
-                  onClick={() => setSelectedView("block")}
-                  src="work/blockView.svg"
-                />
-                <DisplayOptionIcon
-                  active={selectedView === "column"}
-                  onClick={() => setSelectedView("column")}
-                  src="work/columnView.svg"
-                />
+    <main style={{ direction: "ltr" }}>
+      {loaded ? (
+        <AdjustedDivForFooter>
+          {showAllWork ? (
+            <>
+              <PurpleText
+                fontSize="32px"
+                style={{
+                  marginBottom: "40px",
+                  marginLeft: "60px",
+                }}
+              >
+                All Works
+              </PurpleText>
+              <div className="md:flex px-2 justify-around md:flex-row-reverse">
+                <div className="flex px-2 md:justify-center justify-end">
+                  <DisplayOptionIcon
+                    active={selectedView === "block"}
+                    onClick={() => setSelectedView("block")}
+                    src="work/blockView.svg"
+                  />
+                  <DisplayOptionIcon
+                    active={selectedView === "column"}
+                    onClick={() => setSelectedView("column")}
+                    src="work/columnView.svg"
+                  />
+                </div>
+                <div className="flex px-2 md:justify-center justify-start me-auto">
+                  <SkillBadge
+                    theme={theme}
+                    button={true}
+                    active={selectedTag.includes(SkillTag.All)}
+                    onClick={() => handleTageChange(SkillTag.All)}
+                    isHovered={isHovered === SkillTag.All}
+                    onMouseEnter={() => setHovered(SkillTag.All)}
+                    onMouseLeave={() => setHovered(undefined)}
+                  >
+                    <span>{SkillTag.All}</span>
+                  </SkillBadge>
+                  <SkillBadge
+                    button={true}
+                    theme={theme}
+                    active={selectedTag.includes(SkillTag.FrontEnd)}
+                    onClick={() => handleTageChange(SkillTag.FrontEnd)}
+                    isHovered={isHovered === SkillTag.FrontEnd}
+                    onMouseEnter={() => setHovered(SkillTag.FrontEnd)}
+                    onMouseLeave={() => setHovered(undefined)}
+                  >
+                    {SkillTag.FrontEnd}
+                  </SkillBadge>
+                  <SkillBadge
+                    theme={theme}
+                    button={true}
+                    active={selectedTag.includes(SkillTag.BackEnd)}
+                    onClick={() => handleTageChange(SkillTag.BackEnd)}
+                    isHovered={isHovered === SkillTag.BackEnd}
+                    onMouseEnter={() => setHovered(SkillTag.BackEnd)}
+                    onMouseLeave={() => setHovered(undefined)}
+                  >
+                    {SkillTag.BackEnd}
+                  </SkillBadge>
+                  <SkillBadge
+                    theme={theme}
+                    button={true}
+                    active={selectedTag.includes(SkillTag.Hardware)}
+                    onClick={() => handleTageChange(SkillTag.Hardware)}
+                    isHovered={isHovered === SkillTag.Hardware}
+                    onMouseEnter={() => setHovered(SkillTag.Hardware)}
+                    onMouseLeave={() => setHovered(undefined)}
+                  >
+                    {SkillTag.Hardware}
+                  </SkillBadge>
+                </div>
               </div>
-              <div className="flex px-2 md:justify-center justify-start me-auto">
-                <SkillBadge
-                theme={theme}
-                  button={true}
-                  active={selectedTag.includes(SkillTag.All)}
-                  onClick={() => handleTageChange(SkillTag.All)}
-                  isHovered={isHovered === SkillTag.All}
-                  onMouseEnter={() => setHovered(SkillTag.All)}
-                  onMouseLeave={() => setHovered(undefined)}
-                >
-                  <span>{SkillTag.All}</span>
-                </SkillBadge>
-                <SkillBadge
-                  button={true}
-                  theme={theme}
-                  active={selectedTag.includes(SkillTag.FrontEnd)}
-                  onClick={() => handleTageChange(SkillTag.FrontEnd)}
-                  isHovered={isHovered === SkillTag.FrontEnd}
-                  onMouseEnter={() => setHovered(SkillTag.FrontEnd)}
-                  onMouseLeave={() => setHovered(undefined)}
-                >
-                  {SkillTag.FrontEnd}
-                </SkillBadge>
-                <SkillBadge
-                theme={theme}
-                  button={true}
-                  active={selectedTag.includes(SkillTag.BackEnd)}
-                  onClick={() => handleTageChange(SkillTag.BackEnd)}
-                  isHovered={isHovered === SkillTag.BackEnd}
-                  onMouseEnter={() => setHovered(SkillTag.BackEnd)}
-                  onMouseLeave={() => setHovered(undefined)}
-                >
-                  {SkillTag.BackEnd}
-                </SkillBadge>
-                <SkillBadge
-                theme={theme}
-                  button={true}
-                  active={selectedTag.includes(SkillTag.Hardware)}
-                  onClick={() => handleTageChange(SkillTag.Hardware)}
-                  isHovered={isHovered === SkillTag.Hardware}
-                  onMouseEnter={() => setHovered(SkillTag.Hardware)}
-                  onMouseLeave={() => setHovered(undefined)}
-                >
-                  {SkillTag.Hardware}
-                </SkillBadge>
-              </div>
-            </div>
-            {selectedView === "block" && (
+              {selectedView === "block" && (
+                <section className="flex justify-center pb-5 mt-10 flex-wrap">
+                  {allWorkData.map((item, index) => {
+                    return (
+                      <WorkCard
+                        key={index}
+                        name={item.name}
+                        date={item.date}
+                        des={item.description}
+                        thumbNailImg={item.thumbnailImg}
+                        siteLink={item.siteLink}
+                        githubLink={item.githubLink}
+                        skills={item.skills}
+                      />
+                    );
+                  })}
+                </section>
+              )}
+
+              {selectedView === "column" && (
+                <section className="flex justify-center pb-5 mt-10 flex-wrap">
+                  {allWorkData.map((item, index) => {
+                    return (
+                      <WorkCardColumn
+                        key={index}
+                        name={item.name}
+                        date={item.date}
+                        des={item.description}
+                        thumbNailImg={item.thumbnailImg}
+                        siteLink={item.siteLink}
+                        githubLink={item.githubLink}
+                        skills={item.skills}
+                      />
+                    );
+                  })}
+                </section>
+              )}
+
               <section className="flex justify-center pb-5 mt-10 flex-wrap">
-                {allWorkData.map((item, index) => {
+                <AllWorkBtn
+                  className="mb-5 pb-5 mt-5"
+                  onClick={() => {
+                    setShowAllWork(false);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  Back to Intro
+                </AllWorkBtn>
+              </section>
+            </>
+          ) : (
+            <>
+              <WelcomeContainer className="md:flex">
+                <div className="md:w-4/5">
+                  <small>Hello! {"I’m "}Yunze (Fred)!</small>
+                  <div style={{ fontSize: "32px" }}>
+                    A{" "}
+                    <small
+                      style={{
+                        fontSize: "32px",
+                        color: theme.themePurple,
+                        fontWeight: "500",
+                      }}
+                    >
+                      Software & Hardware Engineer
+                    </small>{" "}
+                    extraordinaire casting magic to solve problems.
+                  </div>
+                  <div>📍 Front-end Engineer @ OpenTug</div>
+                  <div>
+                    🎓 Masters Student @ NYU Tandon School of Engineering
+                  </div>
+                </div>
+              </WelcomeContainer>
+              <PurpleText
+                fontSize="32px"
+                style={{
+                  marginBottom: "40px",
+                  marginLeft: "60px",
+                }}
+              >
+                Featured Works
+              </PurpleText>
+
+              <section className="flex justify-center pb-5 mt-10 flex-wrap">
+                {workData.slice(0, 4).map((item, index) => {
                   return (
                     <WorkCard
                       key={index}
@@ -588,100 +684,90 @@ export default function Home() {
                     />
                   );
                 })}
+                <AllWorkBtn
+                  className="mb-5 pb-5 mt-5"
+                  onClick={() => {
+                    setShowAllWork(true);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  See All Work
+                </AllWorkBtn>
               </section>
-            )}
-
-            {selectedView === "column" && (
-              <section className="flex justify-center pb-5 mt-10 flex-wrap">
-                {allWorkData.map((item, index) => {
-                  return (
-                    <WorkCardColumn
-                      key={index}
-                      name={item.name}
-                      date={item.date}
-                      des={item.description}
-                      thumbNailImg={item.thumbnailImg}
-                      siteLink={item.siteLink}
-                      githubLink={item.githubLink}
-                      skills={item.skills}
-                    />
-                  );
-                })}
-              </section>
-            )}
-
-            <section className="flex justify-center pb-5 mt-10 flex-wrap">
-              <AllWorkBtn
-                className="mb-5 pb-5 mt-5"
-                onClick={() => {
-                  setShowAllWork(false);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                Back to Intro
-              </AllWorkBtn>
-            </section>
-          </>
-        ) : (
-          <>
-            <WelcomeContainer className="md:flex">
-              <div className="md:w-4/5">
-                <small>Hello! {"I’m "}Yunze (Fred)!</small>
-                <div style={{ fontSize: "32px" }}>
-                  A{" "}
-                  <small
-                    style={{
-                      fontSize: "32px",
-                      color: theme.themePurple,
-                      fontWeight: "500",
-                    }}
-                  >
-                    Software & Hardware Engineer
-                  </small>{" "}
-                  extraordinaire casting magic to solve problems.
-                </div>
-                <div>📍 Front-end Engineer @ OpenTug</div>
-                <div>🎓 Masters Student @ NYU Tandon School of Engineering</div>
-              </div>
-            </WelcomeContainer>
-            <PurpleText
-              fontSize="32px"
-              style={{
-                marginBottom: "40px",
-                marginLeft: "60px",
-              }}
-            >
-              Featured Works
-            </PurpleText>
-
-            <section className="flex justify-center pb-5 mt-10 flex-wrap">
-              {workData.slice(0, 4).map((item, index) => {
-                return (
-                  <WorkCard
-                    key={index}
-                    name={item.name}
-                    date={item.date}
-                    des={item.description}
-                    thumbNailImg={item.thumbnailImg}
-                    siteLink={item.siteLink}
-                    githubLink={item.githubLink}
-                    skills={item.skills}
-                  />
-                );
-              })}
-              <AllWorkBtn
-                className="mb-5 pb-5 mt-5"
-                onClick={() => {
-                  setShowAllWork(true);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                See All Work
-              </AllWorkBtn>
-            </section>
-          </>
-        )}
-      </AdjustedDivForFooter>
+            </>
+          )}
+        </AdjustedDivForFooter>
+      ) : (
+        <AdjustedDivForFooter>
+          <LoadingPage />
+        </AdjustedDivForFooter>
+      )}
     </main>
   );
 }
+
+const LoaderWrapper = styled.div<BasicComponentProps>`
+  border: 1px solid #000;
+  width: 40vw;
+  padding:3px;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 50px;
+  height: 22px;
+  border-radius: ${({ theme }) => theme.radiusXxs};
+  border: 2px solid  ${({ theme }) => theme.themeBlack};
+`;
+
+
+const Loader = styled.div<BasicComponentProps>`
+height: 100%;
+  border-radius: ${({ theme }) => theme.radiusXxs};
+  background: ${({ theme }) => theme.themePurple};
+`;
+
+
+const LoadingPage = () => {
+  const [progress, setProgress] = useState(0);
+  const { theme } = useContext(GlobalContext);
+  useEffect(() => {
+    // Update progress every 40ms
+    const interval = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        const newProgress = oldProgress + 1;
+        return newProgress;
+      });
+    }, 40); // 40ms * 100 steps = 4000ms = 4 seconds
+
+    return () => clearInterval(interval); // Clean up on unmount
+  }, []);
+
+  return (
+    <div style={{ height: "100vh" }}>
+      <div className="flex" style={{ marginTop: "20vh" }}>
+        <div>
+          <PurpleText
+            style={{ fontSize: "4vw", marginRight: "10vw", marginLeft: "10vw" }}
+          >
+            Fred Zhao
+          </PurpleText>
+        </div>
+        <div>
+          <PurpleText style={{ fontSize: "4vw" }}>{progress}%</PurpleText>
+        </div>
+      </div>
+
+      <LoaderWrapper
+        theme={theme}
+      >
+        <Loader
+        theme={theme}
+          style={{width: `${progress}%` }}
+        ></Loader>
+      </LoaderWrapper>
+    </div>
+  );
+};

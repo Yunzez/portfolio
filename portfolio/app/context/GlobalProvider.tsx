@@ -16,7 +16,7 @@ interface GlobalContextProps {
   setColor: (color: string) => void;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  initialRender: boolean;
+  loaded: boolean;
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   theme: any;
@@ -27,7 +27,7 @@ export const GlobalContext = createContext<GlobalContextProps>({
   setColor: () => {},
   isOpen: false,
   setIsOpen: () => {},
-  initialRender: true,
+  loaded: true,
   darkMode: false,
   setDarkMode: () => {},
   theme: lightTheme,
@@ -41,10 +41,11 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   children,
 }) => {
   const [color, setColor] = useState("red");
-  const [initialRender, setInitialRender] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [theme, setTheme] = useState(lightTheme);
   // const theme = getTheme(darkMode)
+
   useEffect(() => {
     setTheme(darkMode ? darkTheme : lightTheme);
     console.log("run");
@@ -57,8 +58,12 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
     document.documentElement.setAttribute("data-theme", "light");
     const metaTag = document.querySelector('meta[name="color-scheme"]');
     console.log(metaTag)
-    // After the initial render, set the initialRender flag to false
-    setInitialRender(false);
+
+    const timer = setTimeout(() => {
+      setLoaded(true); // set intialRender to false a
+    }, 4500);
+
+    return () => clearTimeout(timer); // Cleanup the timer
   }, []);
 
   const [isOpen, setIsOpen]: [boolean, Dispatch<SetStateAction<boolean>>] =
@@ -70,7 +75,7 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
         setColor,
         isOpen,
         setIsOpen,
-        initialRender,
+        loaded,
         darkMode,
         setDarkMode,
         theme,
