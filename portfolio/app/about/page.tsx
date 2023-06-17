@@ -7,7 +7,7 @@ import { GlobalContext } from "../context/GlobalProvider";
 
 
 const AboutPage: React.FC = () => {
-  const { isOpen, setIsOpen, initialRender, theme } = useContext(GlobalContext);
+  const { isOpen, setIsOpen, loaded, theme } = useContext(GlobalContext);
   const AboutWrapper = styled.div`
   padding: 35px;
 `;

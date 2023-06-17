@@ -267,14 +267,14 @@ const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
   display: inline-block;
   transition: transform 0.3s ease-in-out;
   ${({ isOpen, initialRender }) =>
-    !initialRender &&
+    initialRender &&
     isOpen &&
     css`
       animation: ${scaleAnimationOpen} 1s forwards;
     `}
 
   ${({ isOpen, initialRender }) =>
-    !initialRender &&
+    initialRender &&
     !isOpen &&
     css`
       animation: ${scaleAnimationClose} 1s forwards;
