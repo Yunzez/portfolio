@@ -89,7 +89,7 @@ const SideThemeBtnWrapper = styled.div<BasicComponentProps>`
   margin-right: 1vw;
   transition: background-color 0.3s ease-in-out;
   background-color: ${(props) => props.theme.themeBlack};
-  `;
+`;
 
 const ThemeBtn = styled.button<{ darkmode: boolean }>`
   flex-grow: 1;
@@ -332,160 +332,164 @@ const Navbar = () => {
     : navBtnRefs[currTab];
   return (
     <>
-      <NavContainer theme={theme}>
-        <section
-          className="flex justify-between flex-1 relative"
-          style={{ height: "100%" }}
-        >
-          <div className="flex items-center ms-5">
-            <Logo src="/asset/logo.svg" alt="Logo" />
-            <PurpleText
-              fontWeight={500}
-              fontSize="20px"
-              className="md:block hidden"
-            >
-              Fred Zhao
-            </PurpleText>
-          </div>
-          <div className="hidden md:flex">
-            <NavBtn
-              theme={theme}
-              name="Work"
-              ref={navBtnRefs.Work}
-              currTab={currTab}
-              onMouseEnter={() => setHoveredItem("Work")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => {
-                setCurrTab("Work");
-                router.push("/");
-              }}
-            >
-              Work
-            </NavBtn>
-            <NavBtn
-              theme={theme}
-              name="About"
-              ref={navBtnRefs.About}
-              currTab={currTab}
-              onMouseEnter={() => setHoveredItem("About")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => {
-                setCurrTab("About");
-                router.push("/about");
-              }}
-            >
-              About
-            </NavBtn>
-            <NavBtn
-              theme={theme}
-              name="Resume"
-              ref={navBtnRefs.Resume}
-              currTab={currTab}
-              onMouseEnter={() => setHoveredItem("Resume")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onClick={() => {
-                setCurrTab("Resume");
-                router.push("/resume");
-              }}
-            >
-              Resume
-            </NavBtn>
-            <ThemeBtnWrapper className="flex p-2">
-              <ThemeBtn
+      {loaded ? (
+        <NavContainer theme={theme}>
+          <section
+            className="flex justify-between flex-1 relative"
+            style={{ height: "100%" }}
+          >
+            <div className="flex items-center ms-5">
+              <Logo src="/asset/logo.svg" alt="Logo" />
+              <PurpleText
+                fontWeight={500}
+                fontSize="20px"
+                className="md:block hidden"
+              >
+                Fred Zhao
+              </PurpleText>
+            </div>
+            <div className="hidden md:flex">
+              <NavBtn
+                theme={theme}
+                name="Work"
+                ref={navBtnRefs.Work}
+                currTab={currTab}
+                onMouseEnter={() => setHoveredItem("Work")}
+                onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-                darkmode={!darkMode}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  marginRight: "5px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  setCurrTab("Work");
+                  router.push("/");
                 }}
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
-                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
-                    stroke={darkMode ? theme.themePurple : theme.themeWhite}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </ThemeBtn>
-              <ThemeBtn
+                Work
+              </NavBtn>
+              <NavBtn
+                theme={theme}
+                name="About"
+                ref={navBtnRefs.About}
+                currTab={currTab}
+                onMouseEnter={() => setHoveredItem("About")}
+                onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-                darkmode={darkMode}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  setCurrTab("About");
+                  router.push("/about");
                 }}
               >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                About
+              </NavBtn>
+              <NavBtn
+                theme={theme}
+                name="Resume"
+                ref={navBtnRefs.Resume}
+                currTab={currTab}
+                onMouseEnter={() => setHoveredItem("Resume")}
+                onMouseLeave={() => setHoveredItem(null)}
+                onClick={() => {
+                  setCurrTab("Resume");
+                  router.push("/resume");
+                }}
+              >
+                Resume
+              </NavBtn>
+              <ThemeBtnWrapper className="flex p-2">
+                <ThemeBtn
+                  onClick={() => {
+                    setDarkMode(!darkMode);
+                  }}
+                  darkmode={!darkMode}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    marginRight: "5px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  <path
-                    d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
-                    stroke={darkMode ? theme.themeBlack : theme.themePurple}
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </ThemeBtn>
-            </ThemeBtnWrapper>
-          </div>
-          {!isMobile && selectedItemRef.current && (
-            <Dot
-              theme={theme}
-              style={{
-                left: selectedItemRef.current.offsetLeft,
-                width: selectedItemRef.current.offsetWidth,
-                top: "68px",
-              }}
-            />
-          )}
-        </section>
-        <MenuButton isOpen={isOpen} initialRender={loaded}>
-          {isOpen ? (
-            <NavImg
-              src="navbar/menu-open.svg"
-              className="md:hidden"
-              onClick={handleOpenNav}
-            />
-          ) : (
-            <NavImg
-              src="navbar/menu-close.svg"
-              className="md:hidden"
-              onClick={handleOpenNav}
-            />
-          )}
-        </MenuButton>
-      </NavContainer>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5Z"
+                      stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M19.14 19.14L19.01 19.01M19.01 4.99L19.14 4.86L19.01 4.99ZM4.86 19.14L4.99 19.01L4.86 19.14ZM12 2.08V2V2.08ZM12 22V21.92V22ZM2.08 12H2H2.08ZM22 12H21.92H22ZM4.99 4.99L4.86 4.86L4.99 4.99Z"
+                      stroke={darkMode ? theme.themePurple : theme.themeWhite}
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </ThemeBtn>
+                <ThemeBtn
+                  onClick={() => {
+                    setDarkMode(!darkMode);
+                  }}
+                  darkmode={darkMode}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.03009 12.42C2.39009 17.57 6.76009 21.76 11.9901 21.99C15.6801 22.15 18.9801 20.43 20.9601 17.72C21.7801 16.61 21.3401 15.87 19.9701 16.12C19.3001 16.24 18.6101 16.29 17.8901 16.26C13.0001 16.06 9.00009 11.97 8.98009 7.13999C8.97009 5.83999 9.24009 4.60999 9.73009 3.48999C10.2701 2.24999 9.62009 1.65999 8.37009 2.18999C4.41009 3.85999 1.70009 7.84999 2.03009 12.42Z"
+                      stroke={darkMode ? theme.themeBlack : theme.themePurple}
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </ThemeBtn>
+              </ThemeBtnWrapper>
+            </div>
+            {!isMobile && selectedItemRef.current && (
+              <Dot
+                theme={theme}
+                style={{
+                  left: selectedItemRef.current.offsetLeft,
+                  width: selectedItemRef.current.offsetWidth,
+                  top: "68px",
+                }}
+              />
+            )}
+          </section>
+          <MenuButton isOpen={isOpen} initialRender={loaded}>
+            {isOpen ? (
+              <NavImg
+                src="navbar/menu-open.svg"
+                className="md:hidden"
+                onClick={handleOpenNav}
+              />
+            ) : (
+              <NavImg
+                src="navbar/menu-close.svg"
+                className="md:hidden"
+                onClick={handleOpenNav}
+              />
+            )}
+          </MenuButton>
+        </NavContainer>
+      ) : (
+          <LoadingPage />
+      )}
 
       <SideNav
         theme={theme}
@@ -676,6 +680,60 @@ const Navbar = () => {
         </div>
       </SideNav>
     </>
+  );
+};
+
+const LoaderWrapper = styled.div<BasicComponentProps>`
+border: 2px solid ${({ theme }) => theme.themeBlack};
+  margin-top: 2vh;
+  margin-left: 2%;
+  margin-right: 1%;
+  border-bottom-left-radius: ${({ theme }) => theme.radiusXs};
+  border-top-left-radius: ${({ theme }) => theme.radiusXs};
+  border-top-right-radius: ${({ theme }) => theme.radiusXs};
+  position: fixed;
+  color: ${({ theme }) => theme.themeBlack};
+  background-color: ${({ theme }) => theme.themeWhite};
+  z-index: 9999;
+  width: 97%;
+  padding: 10px;
+  height: 80px;
+  left: 0px;
+  top: 0px;
+`;
+
+const Loader = styled.div<BasicComponentProps>`
+  height: 100%;
+  width: 100%;
+  border-radius: ${({ theme }) => theme.radiusXxs};
+  background: ${({ theme }) => theme.themePurple};
+`;
+
+const LoadingPage = () => {
+  const [progress, setProgress] = useState(0);
+  const { theme } = useContext(GlobalContext);
+  useEffect(() => {
+    // Update progress every 40ms
+    const interval = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        const newProgress = oldProgress + 1;
+        return newProgress;
+      });
+    }, 40); // 40ms * 100 steps = 4000ms = 4 seconds
+
+    return () => clearInterval(interval); // Clean up on unmount
+  }, []);
+
+  return (
+    <div>
+      <LoaderWrapper theme={theme}>
+        <Loader theme={theme} style={{ width: `${progress}%` }}></Loader>
+      </LoaderWrapper>
+    </div>
   );
 };
 

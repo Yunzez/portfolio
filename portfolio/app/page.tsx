@@ -746,7 +746,7 @@ const LoadingPage = () => {
   }, []);
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "60vh" }}>
       <div className="flex" style={{ marginTop: "20vh" }}>
         <div>
           <PurpleText

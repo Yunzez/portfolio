@@ -42,9 +42,12 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
 }) => {
   const [color, setColor] = useState("red");
   const [loaded, setLoaded] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  
   const [theme, setTheme] = useState(lightTheme);
   // const theme = getTheme(darkMode)
+  const storedDarkModePreference = sessionStorage.getItem('darkMode');
+  const prefersDarkMode = storedDarkModePreference ? JSON.parse(storedDarkModePreference) : false;
+  const [darkMode, setDarkMode] = useState(prefersDarkMode);
 
   useEffect(() => {
     setTheme(darkMode ? darkTheme : lightTheme);
@@ -54,11 +57,16 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
       metaTag.setAttribute("content", darkMode ? "dark" : "light");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    // Whenever darkMode changes, update it in session storage
+    sessionStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "light");
     const metaTag = document.querySelector('meta[name="color-scheme"]');
     console.log(metaTag)
-
     const timer = setTimeout(() => {
       setLoaded(true); // set intialRender to false a
     }, 4500);
