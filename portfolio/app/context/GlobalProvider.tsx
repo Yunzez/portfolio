@@ -47,7 +47,7 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   
   const [theme, setTheme] = useState(lightTheme);
   // const theme = getTheme(darkMode)
-  const storedDarkModePreference = sessionStorage.getItem('darkMode');
+  const storedDarkModePreference = typeof window !== 'undefined' ? sessionStorage.getItem('darkMode') : null;
   const prefersDarkMode = storedDarkModePreference ? JSON.parse(storedDarkModePreference) : false;
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
 
