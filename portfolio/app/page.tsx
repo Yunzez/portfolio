@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { SkillTag } from "./utils";
 import { AdjustedDivForFooter } from "./theme/themedComponents";
 import { GlobalContext } from "./context/GlobalProvider";
-import { ResumeBtn } from "./resume/page";
+import { ResumeBtn } from "./theme/themedComponents";
 import { useTransition } from "react";
 type WorkCardProps = {
   name: string;
