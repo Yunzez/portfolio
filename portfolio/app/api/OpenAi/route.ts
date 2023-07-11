@@ -31,10 +31,10 @@ export async function POST(Request: Request) {
         const data = await response.json()
         return new Response( data , {
             status: 200,
-          })
-      } catch (error) {
+          }) 
+      } catch (error:any) {
         console.log('error occur')
-        return new Response( error.message , {
+        return new Response( error?.message , {
             status: 500,
           });
       }
