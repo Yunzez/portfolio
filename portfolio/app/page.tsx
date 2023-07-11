@@ -10,6 +10,8 @@ import { useContext, useEffect, useState } from "react";
 import { SkillTag } from "./utils";
 import { AdjustedDivForFooter } from "./theme/themedComponents";
 import { GlobalContext } from "./context/GlobalProvider";
+import { ResumeBtn } from "./resume/page";
+import { useTransition } from "react";
 type WorkCardProps = {
   name: string;
   date: string;
@@ -494,6 +496,7 @@ export default function Home() {
   const [allWorkData, setAllWorkData] = useState(workData);
   const [isHovered, setHovered] = useState<SkillTag | undefined>(SkillTag.All);
   const [selectedView, setSelectedView] = useState("block");
+
   useEffect(() => {
     console.log("tage changed");
     const newData = workData;
@@ -659,6 +662,19 @@ export default function Home() {
                   </div>
                 </div>
               </WelcomeContainer>
+              <div style={{ maxWidth: "500px" }} className="mt-20">
+                <ResumeBtn
+                  onClick={() => {
+                    console.log("open chatgpt");
+                    fetch('api/OpenAi').then((data) => {console.log(data)})
+                  }}
+                >
+                  <span className="button_lg">
+                    <span className="button_sl"></span>
+                    <span className="button_text"> Ask ChatGPT about me! (coming soon)</span>
+                  </span>
+                </ResumeBtn>
+              </div>
               <PurpleText
                 fontSize="32px"
                 style={{
@@ -709,22 +725,20 @@ export default function Home() {
 const LoaderWrapper = styled.div<BasicComponentProps>`
   border: 1px solid #000;
   width: 40vw;
-  padding:3px;
+  padding: 3px;
   margin-left: 10vw;
   margin-right: 10vw;
   margin-top: 50px;
   height: 22px;
   border-radius: ${({ theme }) => theme.radiusXxs};
-  border: 2px solid  ${({ theme }) => theme.themeBlack};
+  border: 2px solid ${({ theme }) => theme.themeBlack};
 `;
 
-
 const Loader = styled.div<BasicComponentProps>`
-height: 100%;
+  height: 100%;
   border-radius: ${({ theme }) => theme.radiusXxs};
   background: ${({ theme }) => theme.themePurple};
 `;
-
 
 const LoadingPage = () => {
   const [progress, setProgress] = useState(0);
@@ -746,7 +760,7 @@ const LoadingPage = () => {
   }, []);
 
   return (
-    <div style={{ height: "60vh" }}>
+    <div style={{ height: "vh" }}>
       <div className="flex" style={{ marginTop: "20vh" }}>
         <div>
           <PurpleText
@@ -760,13 +774,8 @@ const LoadingPage = () => {
         </div>
       </div>
 
-      <LoaderWrapper
-        theme={theme}
-      >
-        <Loader
-        theme={theme}
-          style={{width: `${progress}%` }}
-        ></Loader>
+      <LoaderWrapper theme={theme}>
+        <Loader theme={theme} style={{ width: `${progress}%` }}></Loader>
       </LoaderWrapper>
     </div>
   );

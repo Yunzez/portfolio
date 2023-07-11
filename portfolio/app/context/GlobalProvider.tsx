@@ -10,7 +10,8 @@ import React, {
   useEffect,
 } from "react";
 import { theme as lightTheme, darkTheme } from "../theme/theme";
-
+import { Configuration, OpenAIApi } from "openai";
+require('dotenv').config()
 interface GlobalContextProps {
   color: string;
   setColor: (color: string) => void;
@@ -40,6 +41,7 @@ interface GlobalContextProviderProps {
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   children,
 }) => {
+  
   const [color, setColor] = useState("red");
   const [loaded, setLoaded] = useState(false);
   
@@ -86,7 +88,7 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
         loaded,
         darkMode,
         setDarkMode,
-        theme,
+        theme
       }}
     >
       {children}
