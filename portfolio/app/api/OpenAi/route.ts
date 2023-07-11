@@ -3,7 +3,7 @@ const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config();
 
 import { NextApiRequest, NextApiResponse } from 'next'
-export async function POST(Request: NextApiRequest) {
+export async function POST(Request: Request) {
     // const configuration = new Configuration({
     //     apiKey: process.env.OPENAI_API_KEY,
     //   });
