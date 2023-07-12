@@ -666,7 +666,10 @@ export default function Home() {
                 <ResumeBtn
                   onClick={() => {
                     console.log("open chatgpt");
-                    fetch('api/OpenAi').then((data) => {console.log(data)})
+                    fetch('api/OpenAiModelList').then((data) => {console.log(data)})
+                    fetch('api/OpenAi', {
+                      method: 'POST',
+                    }).then((data) => {console.log(data)})
                   }}
                 >
                   <span className="button_lg">
