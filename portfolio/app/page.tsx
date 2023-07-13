@@ -5,13 +5,19 @@ import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
 import styled, { css, keyframes } from "styled-components";
 import { theme } from "./theme/theme";
-import { BasicComponentProps, data as workData } from "./utils";
+import {
+  BasicComponentProps,
+  communicateWithChatGPT,
+  data as workData,
+} from "./utils";
+
 import { useContext, useEffect, useState } from "react";
 import { SkillTag } from "./utils";
 import { AdjustedDivForFooter } from "./theme/themedComponents";
 import { GlobalContext } from "./context/GlobalProvider";
 import { ResumeBtn } from "./theme/themedComponents";
 import { useTransition } from "react";
+import ModalComponent from "./component/ChatGPTModal";
 type WorkCardProps = {
   name: string;
   date: string;
@@ -496,7 +502,8 @@ export default function Home() {
   const [allWorkData, setAllWorkData] = useState(workData);
   const [isHovered, setHovered] = useState<SkillTag | undefined>(SkillTag.All);
   const [selectedView, setSelectedView] = useState("block");
-
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  
   useEffect(() => {
     console.log("tage changed");
     const newData = workData;
@@ -665,19 +672,31 @@ export default function Home() {
               <div style={{ maxWidth: "500px" }} className="mt-20">
                 <ResumeBtn
                   onClick={() => {
-                    console.log("open chatgpt");
-                    fetch('api/OpenAiModelList').then((data) => {console.log(data)})
-                    fetch('api/OpenAi', {
-                      method: 'POST',
-                    }).then((data) => {console.log(data)})
+                    console.log("chat");
+                    setIsChatModalOpen(true);
+                    const respond =
+                      communicateWithChatGPT("hello, how are you");
+                    console.log(respond);
                   }}
                 >
                   <span className="button_lg">
                     <span className="button_sl"></span>
-                    <span className="button_text"> Ask ChatGPT about me! (coming soon)</span>
+                    <span className="button_text">
+                      {" "}
+                      Ask ChatGPT about me! (coming soon)
+                    </span>
                   </span>
                 </ResumeBtn>
               </div>
+              <ModalComponent
+                isOpen={isChatModalOpen}
+                onRequestClose={() => {
+                  setIsChatModalOpen(false);
+                }}
+              >
+                <h2>Hello, how are you?</h2>
+                <p>This is the modal content.</p>
+              </ModalComponent>
               <PurpleText
                 fontSize="32px"
                 style={{

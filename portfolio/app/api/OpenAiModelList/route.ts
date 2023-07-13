@@ -3,13 +3,13 @@ const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config();
 
 import { NextApiRequest, NextApiResponse } from 'next'
-export async function POST(Request: Request) {
+import { NextResponse } from 'next/server';
+export async function GET(Request: Request) {
 
       const apiKey = process.env.OPENAI_API_KEY
       const url = 'https://api.openai.com/v1/models'
+      console.log(apiKey)
     
-    
-      try {
         console.log('try to post')
         const response = await fetch(url, {
           headers: {
@@ -17,17 +17,28 @@ export async function POST(Request: Request) {
             Authorization: `Bearer ${apiKey}`,
           }
         })
+
+        // if(response.ok) {
+        //   const data = await response.json()
+        //   console.log('fetched data')
+         
+        //   return new NextResponse( data , {
+        //       status: 200,
+        //     }) 
+        // }else {
+        //   const data = await response.json()
+        //   return new NextResponse( data , {
+        //     status: 500,
+        //   })  
+        // }
+
         const data = await response.json()
-        console.log('fetched data')
-        return new Response( data , {
-            status: 200,
-          }) 
-      } catch (error:any) {
-        console.log('error occur', error)
-        return new Response( error?.message , {
-            status: 500,
-          });
-      }
+          console.log('fetched data')
+         
+          return NextResponse.json( data , {
+              status: 200,
+            }) 
+        
   }
 
 
