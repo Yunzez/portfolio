@@ -2,9 +2,8 @@
 const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config();
 
-import { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server';
-export async function GET(Request: Request) {
+import { NextRequest, NextResponse } from 'next/server';
+export async function GET(Request: NextRequest) {
 
       const apiKey = process.env.OPENAI_API_KEY
       const url = 'https://api.openai.com/v1/models'
