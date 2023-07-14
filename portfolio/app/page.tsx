@@ -592,7 +592,12 @@ export default function Home() {
                     const gptResponse = respond.choices[0].message;
 
                     addMessage(gptResponse);
-                    questionInputRef.current.value = '';
+                    if(questionInputRef.current) {
+                      questionInputRef.current.value = '';
+                    } else {
+                      throw new Error('error occured, cannot get text ref')
+                    }
+                   
                   }}
                 >
                   Submit
