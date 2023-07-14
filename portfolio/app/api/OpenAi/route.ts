@@ -1,13 +1,10 @@
 
 const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config();
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import fetch from 'node-fetch';
-/**
- * 
- */
-import { NextApiRequest, NextApiResponse } from 'next'
-export async function POST(Request: NextApiRequest) {
+
+export async function POST(Request: NextRequest) {
 
     const apiKey = process.env.OPENAI_API_KEY
     const url = 'https://api.openai.com/v1/chat/completions'
