@@ -2,19 +2,7 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useTransition, animated } from "@react-spring/web";
 import { GlobalContext } from "../context/GlobalProvider";
-
-const Backdrop = styled(animated.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-`;
+import { useChatGPT } from "../context/ChatGPTContext";
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,6 +17,18 @@ const ModalComponent: React.FC<ModalProps> = ({
 }) => {
   const { theme } = useContext(GlobalContext);
 
+  const Backdrop = styled(animated.div)`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  `;
   const ModalBox = styled(animated.div)`
     background-color: ${theme.themeWhite};
     border: 2px solid ${theme.themePurple};
@@ -36,6 +36,7 @@ const ModalComponent: React.FC<ModalProps> = ({
     padding: 2rem;
     min-width: 80vw;
     min-height: 50vh;
+    overflow-y: scroll;
   `;
 
   const CloseButton = styled.button`

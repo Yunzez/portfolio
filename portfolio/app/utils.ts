@@ -1,4 +1,14 @@
+import { Message } from "./context/ChatGPTContext";
 import { Theme } from "./theme/theme";
+require("dotenv").config();
+let apiKey = ''
+
+const getOpenAIKey = async () => {
+  const res = await fetch('api/getOpenAiApiKey');
+  const data = await res.json();
+  const apiKey = data.key;
+  return apiKey;
+}
 
 export enum SkillTag {
   All = "All",
@@ -60,9 +70,10 @@ export const data = [
     tag: [SkillTag.Hardware],
   },
 ];
-export const getChatGPTModelList = () => {
+
+export const getChatGPTModelList = async () => {
+  await getOpenAIKey()
   const url = "https://api.openai.com/v1/models";
-  const apiKey = "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";
   console.log("try to post");
   fetch(url, {
     headers: {
@@ -80,24 +91,21 @@ export const getChatGPTModelList = () => {
     });
 };
 
-export const communicateWithChatGPT = (message: string) => {
+export const communicateWithChatGPT = async (message: Message[], init?: boolean) => {
   console.log("open chatgpt");
-
-  const apiKey = "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";
+  const apiKey = await getOpenAIKey()
+  console.log(apiKey)
   console.log("try to post");
-
+  if(apiKey === '') {
+    throw new Error('no api key provided')
+  }
   const url = "https://api.openai.com/v1/chat/completions";
   const body = JSON.stringify({
     model: "gpt-3.5-turbo",
-    messages: [
-      {
-        content: "this is a test from postman, can you say hi to me ?",
-        role: "user",
-      },
-    ],
+    messages: message 
   });
 
-  fetch(url, {
+  return fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -108,7 +116,7 @@ export const communicateWithChatGPT = (message: string) => {
     .then((res) => res.json()) // change is here
     .then((data) => {
       console.log("data", data);
-      return data;
+      return data
     })
     .catch((error) => {
       console.error("Error:", error);

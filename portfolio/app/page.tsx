@@ -5,19 +5,21 @@ import Link from "next/link";
 import { PurpleText, OutlinedText } from "./theme/themedComponents";
 import styled, { css, keyframes } from "styled-components";
 import { theme } from "./theme/theme";
+import { DisplayOptionIcon, SkillBadge } from "./sharedComponents";
 import {
   BasicComponentProps,
   communicateWithChatGPT,
   data as workData,
 } from "./utils";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SkillTag } from "./utils";
 import { AdjustedDivForFooter } from "./theme/themedComponents";
 import { GlobalContext } from "./context/GlobalProvider";
 import { ResumeBtn } from "./theme/themedComponents";
 import { useTransition } from "react";
 import ModalComponent from "./component/ChatGPTModal";
+import { Message, useChatGPT } from "./context/ChatGPTContext";
 type WorkCardProps = {
   name: string;
   date: string;
@@ -53,138 +55,6 @@ const WorkCardWrapper = styled.div`
   @media (max-width: 568px) {
     width: 350px;
     height: 630px;
-  }
-`;
-
-interface SkillBadgeProps extends BasicComponentProps {
-  active: boolean;
-  button: boolean;
-  isHovered?: boolean;
-}
-
-interface SkillBadgeBtnProps {
-  active: boolean;
-}
-
-const borderDisappear = keyframes`
-  from, 50% {
-    border: 1px solid ${theme.themeBlack};
-  }
-  to {
-    border: 0;
-  }
-`;
-
-const borderRadiusChange = keyframes`
-  from, 50% {
-    border-radius: ${theme.radiusXxs};
-  }
-  to {
-    border-radius: 0;
-  }
-`;
-
-const borderBottomAppear = keyframes`
-  from, 50% {
-    border-bottom: 0;
-  }
-  to {
-    border-bottom: 2px solid ${theme.themePurple};
-  }
-`;
-
-// And the reverse animations for the unhover state
-
-const borderBottomDisappear = keyframes`
-  from, 50% {
-    border-bottom: 2px solid ${theme.themePurple};
-  }
-  to {
-    border-bottom: 0;
-  }
-`;
-
-const borderRadiusReset = keyframes`
-  from, 50% {
-    border-radius: 0;
-  }
-  to {
-    border-radius: ${theme.radiusXxs};
-  }
-`;
-
-const borderAppear = keyframes`
-  from, 50% {
-    border: 0;
-  }
-  to {
-    border: 2px solid ${theme.themePurple};
-  }
-`;
-
-const SkillBadge = styled.div<SkillBadgeProps>`
-  border: 2px solid
-    ${(props) =>
-      props.active ? props.theme.themePurple : props.theme.themeBlack};
-  color: ${(props) =>
-    props.active ? props.theme.themePurple : props.theme.themeBlack};
-  margin: 0.5em;
-  padding: 0.4em;
-  padding-left: 0.7em;
-  padding-right: 0.7em;
-  border-radius: ${(props) => props.theme.radiusXxs};
-  font-size: 16px;
-  align-self: flex-start;
-  cursor: ${(props) => (props.button ? "pointer" : "default")};
-  transform: scale(1);
-  ${(props) =>
-    props.button &&
-    css`
-      &:hover {
-        animation: ${css`
-            ${borderDisappear} 0.15s ease-in-out forwards`}, ${css`
-            ${borderRadiusChange} 0.15s ease-in-out 0.15s forwards`}, ${css`
-            ${borderBottomAppear} 0.15s ease-in-out 0.3s forwards`};
-        animation-fill-mode: forwards;
-        transform: scale(1.05);
-        transition: transform 0.3s ease-in-out;
-      }
-      ${props.isHovered &&
-      css`
-        animation: ${css`
-            ${borderBottomDisappear} 0.15s ease-in-out forwards`}, ${css`
-            ${borderRadiusReset} 0.15s ease-in-out 0.15s forwards`}, ${css`
-            ${borderAppear} 0.15s ease-in-out 0.3s forwards`};
-        animation-fill-mode: forwards;
-        transform: scale(1);
-        transition: transform 0.3s ease-in-out;
-      `}
-    `}
-
-  @media (max-width: 768px) {
-    padding: 0.3em;
-    margin: 0.2em;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
-    font-size: 12px;
-  }
-`;
-
-const WorkCardThumb = styled.img<{ background: string }>`
-  width: 100%;
-  height: 500px;
-  border: 2px solid ${theme.themeBlack};
-  border-radius: ${theme.radiusXs};
-  background-color: ${({ background }) => background || ""};
-
-  @media (max-width: 768px) {
-    width: 500px;
-    height: 380px;
-  }
-
-  @media (max-width: 568px) {
-    width: 350px;
-    height: 280px;
   }
 `;
 
@@ -259,23 +129,23 @@ const linkSvg = (
     <path
       d="M42.5801 35.7167L68.9011 9.39569"
       stroke="#4A00F2"
-      stroke-width="5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M71.4699 22.2339V6.82654H56.0625"
       stroke="#4A00F2"
-      stroke-width="5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M36.1565 6.82654H29.7367C13.6873 6.82654 7.26758 13.2463 7.26758 29.2957V48.5549C7.26758 64.6043 13.6873 71.0241 29.7367 71.0241H48.996C65.0454 71.0241 71.4651 64.6043 71.4651 48.5549V42.1352"
       stroke="#4A00F2"
-      stroke-width="5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -287,6 +157,24 @@ const openInNewTab = (url: string) => {
 
 function WorkCard(props: WorkCardProps) {
   const { theme } = useContext(GlobalContext);
+
+  const WorkCardThumb = styled.img<{ background: string }>`
+    width: 100%;
+    height: 500px;
+    border: 2px solid ${theme.themeBlack};
+    border-radius: ${theme.radiusXs};
+    background-color: ${({ background }) => background || ""};
+
+    @media (max-width: 768px) {
+      width: 500px;
+      height: 380px;
+    }
+
+    @media (max-width: 568px) {
+      width: 350px;
+      height: 280px;
+    }
+  `;
   return (
     <WorkCardWrapper>
       <WorkCardThumb background="#EEF5FF" src={props.thumbNailImg} />
@@ -436,66 +324,20 @@ function WorkCardColumn(props: WorkCardProps) {
     </WorkCardColWrapper>
   );
 }
-const WelcomeContainer = styled.div`
-  height: calc(60vh - 80px);
-  margin-left: 70px;
-  margin-top: 30vh;
-
-  @media (max-width: 768px) {
-    height: calc(80vh - 80px);
-    margin-top: 15vh;
-    margin-left: 20px;
-  }
-`;
-const ArrowDown = styled.img`
-  width: 40px;
-  height: 40px;
-  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-    hue-rotate(263deg) brightness(84%) contrast(130%);
-`;
-
-const WorkHeaderImg = styled.img<{
-  height: string;
-  width: string;
-  rotate?: string;
-  top?: string;
-}>`
-  width: ${({ width }) => width || "140px"};
-  height: ${({ height }) => height || "140px"};
-  transform: ${({ rotate }) => rotate && `rotate(${rotate})`};
-  position: ${({ top }) => top && "relative"};
-  top: ${({ top }) => top || "0"};
-
-  @media (max-width: 768px) {
-    height: 150px;
-  }
-`;
-
-interface displayOptionsProps {
-  active: boolean;
-}
-const DisplayOptionIcon = styled.img<displayOptionsProps>`
-  width: 50px;
-  height: 50px;
-  border: 1px solid
-    ${(props) => (props.active ? theme.themePurple : theme.themeBlack)};
-  color: ${(props) => (props.active ? theme.themePurple : "black")};
-  margin: 0.5em;
-  padding: 6px;
-  border-radius: ${theme.radiusSm};
-  font-size: 16px;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out,
-    color 0.3s ease-in-out;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    width: 30px;
-    height: 30px;
-    padding: 5px;
-  }
-`;
 
 export default function Home() {
+  const WelcomeContainer = styled.div`
+    height: calc(60vh - 80px);
+    margin-left: 70px;
+    margin-top: 30vh;
+
+    @media (max-width: 768px) {
+      height: calc(80vh - 80px);
+      margin-top: 15vh;
+      margin-left: 20px;
+    }
+  `;
+
   const { theme, loaded } = useContext(GlobalContext);
   const [showAllWork, setShowAllWork] = useState(false);
   const [selectedTag, setSelectedTag] = useState<SkillTag[]>([SkillTag.All]);
@@ -503,7 +345,11 @@ export default function Home() {
   const [isHovered, setHovered] = useState<SkillTag | undefined>(SkillTag.All);
   const [selectedView, setSelectedView] = useState("block");
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
-  
+  const questionInputRef = useRef<HTMLInputElement>(null);
+  const [questionInput, setQuestionInput] = useState("");
+
+  const { messages, addMessage, questionNumber, setQuestionNumber } =
+    useChatGPT();
   useEffect(() => {
     console.log("tage changed");
     const newData = workData;
@@ -520,6 +366,30 @@ export default function Home() {
   const handleTageChange = (tag: SkillTag) => {
     setSelectedTag([tag]);
   };
+  const QuestionInput = styled.input`
+    display: block;
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    border: 2px solid ${theme.themePurple};
+    border-radius: 0.5em;
+  `;
+
+  const SubmitButton = styled.button`
+    background-color: ${theme.themePurple};
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    border-radius: ${theme.sma}
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: ${theme.themeBlack};
+
+    }
+  `;
+
   return (
     <main style={{ direction: "ltr" }}>
       {loaded ? (
@@ -671,11 +541,15 @@ export default function Home() {
               </WelcomeContainer>
               <div style={{ maxWidth: "500px" }} className="mt-20">
                 <ResumeBtn
-                  onClick={() => {
+                  onClick={async () => {
                     console.log("chat");
                     setIsChatModalOpen(true);
-                    const respond =
-                      communicateWithChatGPT("hello, how are you");
+                    const respond = await communicateWithChatGPT(
+                      messages,
+                      true
+                    );
+                    const newRespond = respond.choices[0].message;
+                    addMessage(newRespond);
                     console.log(respond);
                   }}
                 >
@@ -694,8 +568,35 @@ export default function Home() {
                   setIsChatModalOpen(false);
                 }}
               >
-                <h2>Hello, how are you?</h2>
-                <p>This is the modal content.</p>
+                <h2>Ask any question about me!</h2>
+                {messages.map((value, index) => {
+                  console.log(value);
+                  return (
+                    <div key={index}>{index > 0 ? value.content : ""}</div>
+                  );
+                })}
+                <QuestionInput
+                ref={questionInputRef}
+                  type="text"
+                  placeholder="Enter your question here"
+
+                />
+                <SubmitButton
+                  onClick={async () => {
+                    addMessage({
+                      content: questionInputRef.current?.value ?? "",
+                      role: "user",
+                    });
+
+                    const respond = await communicateWithChatGPT([...messages]);
+                    const gptResponse = respond.choices[0].message;
+
+                    addMessage(gptResponse);
+                    questionInputRef.current.value = '';
+                  }}
+                >
+                  Submit
+                </SubmitButton>
               </ModalComponent>
               <PurpleText
                 fontSize="32px"
