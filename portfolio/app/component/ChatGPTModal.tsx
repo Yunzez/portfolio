@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useTransition, animated } from "@react-spring/web";
 import { GlobalContext } from "../context/GlobalProvider";
@@ -16,7 +16,8 @@ const ModalComponent: React.FC<ModalProps> = ({
   children,
 }) => {
   const { theme } = useContext(GlobalContext);
-
+  const {messages} = useChatGPT()
+  const containerRef = useRef<HTMLDivElement>(null);
   const Backdrop = styled(animated.div)`
     position: fixed;
     top: 0;
@@ -30,13 +31,16 @@ const ModalComponent: React.FC<ModalProps> = ({
     z-index: 9999;
   `;
   const ModalBox = styled(animated.div)`
+
+    position:relative;
     scroll-behavior: smooth;
     background-color: ${theme.themeWhite};
     border: 2px solid ${theme.themePurple};
-    border-radius: 0.5rem;
-    padding: 2rem;
+    border-radius: ${theme.radiusXs};
+    padding-left: 2rem;
+    padding-right: 2rem;
     width: 70vw;
-    height: 70vh;
+    height: 85vh;
     overflow-y: scroll;
     overflow-x: hidden;
   `;
@@ -55,7 +59,8 @@ const ModalComponent: React.FC<ModalProps> = ({
     border: 3px solid ${theme.themePurple};
     padding: ${theme.gapMd};
     border-radius: ${theme.radiusLg};
-    transition: transform 0.2s ease-in-out, border-radius 0.4s  ease-in-out, padding 0.2s  ease-in-out;
+    transition: transform 0.2s ease-in-out, border-radius 0.4s ease-in-out,
+      padding 0.2s ease-in-out;
 
     &:hover {
       border-radius: ${theme.radiusXs};
@@ -64,6 +69,25 @@ const ModalComponent: React.FC<ModalProps> = ({
       box-shadow: 1px;
     }
   `;
+
+  const ModalHeader = styled.div`
+  z-index: 999;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: ${theme.themeWhite};
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 80px;
+    border-bottom: 2px solid ${theme.themePurple};
+  `;
+
+  const ChildDiv = styled.div`
+  position: relative;
+  margin-top: 10px;
+  height: calc(90% - 1.5rem);
+  `
 
   const transitions = useTransition(isOpen, {
     from: { opacity: 0, transform: "translateY(-200px)" },
@@ -87,25 +111,39 @@ const ModalComponent: React.FC<ModalProps> = ({
       window.removeEventListener("keydown", handleEsc);
     };
   }, [onRequestClose]);
+  useEffect(() => {
+    const scrollTimeout = setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight + 10;
+      }
+    }, 300);
 
+    return () => {
+      clearTimeout(scrollTimeout);
+    };
+  }, [messages]);
   return transitions(
     (styles, item) =>
       item && (
         <Backdrop style={styles} onClick={onRequestClose}>
-          <ModalBox onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={onRequestClose}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill={theme.themePurple}
-                viewBox="0 0 16 16"
-                strokeWidth="10px"
-              >
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </CloseButton>
-            <div className="mt-3">{children}</div>
+          <ModalBox onClick={(e) => e.stopPropagation()} ref={containerRef}>
+            <ModalHeader>
+            {/* <h2 className="text-2xl">Ask any question about me!</h2> */}
+              <CloseButton onClick={onRequestClose}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill={theme.themePurple}
+                  viewBox="0 0 16 16"
+                  strokeWidth="10px"
+                >
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </CloseButton>
+            </ModalHeader>
+
+            <ChildDiv >{children}</ChildDiv>
           </ModalBox>
         </Backdrop>
       )

@@ -346,7 +346,8 @@ export default function Home() {
   const [selectedView, setSelectedView] = useState("block");
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const questionInputRef = useRef<HTMLInputElement>(null);
-const [isChatGPTLoading, setIsChatGPTLoading] = useState(false)
+  const [isChatGPTLoading, setIsChatGPTLoading] = useState(false);
+  const [needScroll, setNeedScroll] = useState(false);
   const { messages, addMessage, questionNumber, setQuestionNumber } =
     useChatGPT();
   useEffect(() => {
@@ -495,7 +496,6 @@ const [isChatGPTLoading, setIsChatGPTLoading] = useState(false)
 
     &:hover {
       background-color: ${theme.themeBlack};
-
     }
   `;
 
@@ -678,7 +678,6 @@ const [isChatGPTLoading, setIsChatGPTLoading] = useState(false)
                   setIsChatModalOpen(false);
                 }}
               >
-                <h2>Ask any question about me!</h2>
                 <div className="mt-5">
                   {messages.length === 1 && (
                     <LoadingPlaceholder>Loading ChatGPT...</LoadingPlaceholder>
@@ -715,41 +714,44 @@ const [isChatGPTLoading, setIsChatGPTLoading] = useState(false)
                       </div>
                     </div>
                   ))}
-                  { isChatGPTLoading && <LoadingPlaceholder>Loading Answer...</LoadingPlaceholder>}
+                  {isChatGPTLoading && (
+                    <LoadingPlaceholder>Loading Answer...</LoadingPlaceholder>
+                  )}
                 </div>
-                <QuestionInput
-                  ref={questionInputRef}
-                  type="text"
-                  placeholder="Enter your question here"
-                />
-                <div className="w-100">
-                <SubmitButton
-                  onClick={async () => {
-                    setIsChatGPTLoading(true)
-                    if (!questionInputRef.current) {
-                      throw new Error("error occured, cannot get text ref");
-                    }
-                    const newMessage: Message = {
-                      role: "user",
-                      content: questionInputRef.current?.value ?? "",
-                    };
-                    questionInputRef.current.value = "";
-                    addMessage(newMessage);
-                    const respond = await communicateWithChatGPT([
-                      ...messages,
-                      newMessage,
-                    ]);
-                    const gptResponse = respond.choices[0].message;
 
-                    addMessage(gptResponse);
-                    setIsChatGPTLoading(false)
-                  }}
-                >
-                  Ask ChatGPT
-                </SubmitButton>
+                  <QuestionInput
+                    ref={questionInputRef}
+                    type="text"
+                    placeholder="Enter your question here"
+                  />
+                  <div className="w-100">
+                    <SubmitButton
+                     className="mb-5"
+                      onClick={async () => {
+                        setIsChatGPTLoading(true);
+                        if (!questionInputRef.current) {
+                          throw new Error("error occured, cannot get text ref");
+                        }
+                        const newMessage: Message = {
+                          role: "user",
+                          content: questionInputRef.current?.value ?? "",
+                        };
+                        questionInputRef.current.value = "";
+                        addMessage(newMessage);
+                        const respond = await communicateWithChatGPT([
+                          ...messages,
+                          newMessage,
+                        ]);
+                        const gptResponse = respond.choices[0].message;
 
-                </div>
-                
+                        addMessage(gptResponse);
+                        setIsChatGPTLoading(false);
+
+                      }}
+                    >
+                      Ask ChatGPT
+                    </SubmitButton>
+                  </div>
               </ModalComponent>
               <PurpleText
                 fontSize="32px"
