@@ -94,8 +94,6 @@ export const getChatGPTModelList = async () => {
 export const communicateWithChatGPT = async (message: Message[], init?: boolean) => {
   console.log("open chatgpt");
   const apiKey = await getOpenAIKey()
-  console.log(apiKey)
-  console.log("try to post");
   if(apiKey === '') {
     throw new Error('no api key provided')
   }

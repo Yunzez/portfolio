@@ -30,24 +30,41 @@ const ModalComponent: React.FC<ModalProps> = ({
     z-index: 9999;
   `;
   const ModalBox = styled(animated.div)`
+    scroll-behavior: smooth;
     background-color: ${theme.themeWhite};
     border: 2px solid ${theme.themePurple};
     border-radius: 0.5rem;
     padding: 2rem;
-    min-width: 80vw;
-    min-height: 50vh;
+    width: 70vw;
+    height: 70vh;
     overflow-y: scroll;
+    overflow-x: hidden;
   `;
 
   const CloseButton = styled.button`
+    width: 45px;
+    height: 45px;
     float: right;
     background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     cursor: pointer;
-    border: 2px solid ${theme.themePurple};
-    padding: ${theme.gapSm};
-    border-radius: ${theme.radiusSm};
+    color: ${theme.themePurple};
+    border: 3px solid ${theme.themePurple};
+    padding: ${theme.gapMd};
+    border-radius: ${theme.radiusLg};
+    transition: transform 0.2s ease-in-out, border-radius 0.4s  ease-in-out, padding 0.2s  ease-in-out;
+
+    &:hover {
+      border-radius: ${theme.radiusXs};
+      transform: rotate(-85deg);
+      padding: 1px;
+      box-shadow: 1px;
+    }
   `;
+
   const transitions = useTransition(isOpen, {
     from: { opacity: 0, transform: "translateY(-200px)" },
     enter: { opacity: 1, transform: "translateY(0)" },
@@ -76,8 +93,19 @@ const ModalComponent: React.FC<ModalProps> = ({
       item && (
         <Backdrop style={styles} onClick={onRequestClose}>
           <ModalBox onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={onRequestClose}>&times;</CloseButton>
-            {children}
+            <CloseButton onClick={onRequestClose}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill={theme.themePurple}
+                viewBox="0 0 16 16"
+                strokeWidth="10px"
+              >
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </CloseButton>
+            <div className="mt-3">{children}</div>
           </ModalBox>
         </Backdrop>
       )
