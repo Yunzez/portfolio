@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import styled, {css, keyframes} from "styled-components";
 import { useTransition, animated } from "@react-spring/web";
 import { GlobalContext } from "../context/GlobalProvider";
-import { useChatGPT } from "../context/ChatGPTContext";
-
+import { Message, useChatGPT } from "../context/ChatGPTContext";
+import {
+    communicateWithChatGPT,
+  } from "../utils";
 interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -15,9 +17,143 @@ const ModalComponent: React.FC<ModalProps> = ({
   onRequestClose,
   children,
 }) => {
-  const { theme } = useContext(GlobalContext);
-  const {messages} = useChatGPT()
+  const { theme, dev } = useContext(GlobalContext);
   const containerRef = useRef<HTMLDivElement>(null);
+  const questionInputRef = useRef<HTMLInputElement>(null);
+  const [isChatGPTLoading, setIsChatGPTLoading] = useState(false);
+  const [needScroll, setNeedScroll] = useState(false);
+  const { messages, addMessage, questionNumber, setQuestionNumber } =
+    useChatGPT();
+  const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+  const pushQuestion = keyframes`
+  0% {
+    transform: translateY(30vw);
+    opacity: 0
+  }
+  60%{
+    opacity: 0
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+`;
+  const Question = styled.div<{ loading?: boolean }>`
+    margin-bottom: 10px;
+    overflow: hidden;
+    border: 2px solid ${theme.themePurple};
+    padding: 10px;
+    border-radius: ${theme.radiusXs};
+    max-width: 90%;
+    ${({ loading }) =>
+      loading &&
+      css`
+        height: 50px;
+        animation: ${pushQuestion} 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+          ${resetTextOverflow} 0.5s ease-in 0.8s forwards;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      `};
+  `;
+
+  const Answer = styled.div<{ loading: boolean }>`
+    margin-bottom: 10px;
+    overflow: hidden;
+    border: 2px solid ${theme.themeBlack};
+    padding: 10px;
+    border-radius: ${theme.radiusXs};
+    max-width: 90%;
+    ${({ loading }) =>
+      loading &&
+      css`
+        height: 50px;
+        animation: ${pushQuestion} 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+          ${resetTextOverflow} 0.5s ease-in 0.8s forwards;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      `};
+  `;
+
+  const LoadingPlaceholder = styled.div`
+    background-color: ${theme.themeWhite};
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: ${theme.radiusXs};
+    border: 2px solid ${theme.themePurple};
+    color: ${theme.themePurple};
+
+    &::after {
+      content: "";
+      display: inline-block;
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid ${theme.themePurple};
+      border-color: ${theme.themePurple} transparent ${theme.themePurple}
+        transparent;
+      animation: ${spinAnimation} 0.8s linear infinite;
+    }
+  `;
+
+  const resetTextOverflow = keyframes`
+  0% {
+    opacity: 0.7;
+    max-height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+        text-overflow: ellipsis;
+  }
+  50% {
+    opacity: 0.85;
+    max-height: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  100% {opacity: 1;
+    white-space: initial;
+    height: auto;
+    text-overflow: initial;
+    max-height: none;
+    overflow: visible;
+  }
+`;
+
+  const QuestionInput = styled.input`
+    display: block;
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    border: 2px solid ${theme.themePurple};
+    border-radius: 0.5em;
+  `;
+
+  const SubmitButton = styled.button`
+    background-color: ${theme.themePurple};
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    border-radius: ${theme.radiusXs};
+    float: end;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: ${theme.themeBlack};
+    }
+  `;
   const Backdrop = styled(animated.div)`
     position: fixed;
     top: 0;
@@ -143,7 +279,108 @@ const ModalComponent: React.FC<ModalProps> = ({
               </CloseButton>
             </ModalHeader>
 
-            <ChildDiv >{children}</ChildDiv>
+            <ChildDiv >
+            <div className="mt-5">
+                  {messages.length === 1 && (
+                    <LoadingPlaceholder>Loading ChatGPT...</LoadingPlaceholder>
+                  )}
+                  {messages.map((value, index) => (
+                    <div key={index}>
+                      <div
+                        style={
+                          value.role === "user"
+                            ? {
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }
+                            : {
+                                display: "flex",
+                                justifyContent: "flex-start",
+                              }
+                        }
+                      >
+                        {value.role === "user" && (
+                          <>
+                            <Question loading={index === messages.length - 1}>
+                              {value.content}
+                            </Question>
+                          </>
+                        )}
+                        {value.role === "assistant" && (
+                          <>
+                            <Answer loading={index === messages.length - 1}>
+                              {value.content}
+                            </Answer>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  {isChatGPTLoading && (
+                    <LoadingPlaceholder>Loading Answer...</LoadingPlaceholder>
+                  )}
+                </div>
+
+                  <QuestionInput
+                    ref={questionInputRef}
+                    type="text"
+                    placeholder="Enter your question here"
+                  />
+                  <div className="w-100">
+                    <SubmitButton
+                     className="mb-5"
+                      onClick={async () => {
+                        setIsChatGPTLoading(true);
+                        if (!questionInputRef.current) {
+                          throw new Error("error occured, cannot get text ref");
+                        }
+
+                        // ! get enw val
+                        const newMessage: Message = {
+                          role: "user",
+                          content: questionInputRef.current?.value ?? "",
+                        };
+                        questionInputRef.current.value = "";
+
+                        // ! if we are in dev
+                        if(dev) {
+                          addMessage(newMessage);
+                          const respond = await communicateWithChatGPT([
+                            ...messages,
+                            newMessage,
+                          ]);
+                          const gptResponse = respond.choices[0].message;
+  
+                          addMessage(gptResponse);
+                        } else {
+                          addMessage(newMessage);
+                          const newMessages = [
+                            ...messages,
+                            newMessage,
+                          ]
+                          const response = await fetch(
+                            'https://www.yunzezhao.com/api/OpenAi',
+                            { 
+                              method: "POST",
+                              body: JSON.stringify({
+                                messages: newMessages 
+                              })
+                            }
+                          );
+                          
+                          const data = await response.json();
+                          const GPTResponse = data.data
+                          let respondText = GPTResponse.choices[0].message;
+                          addMessage(respondText);
+                        }
+                       
+                        setIsChatGPTLoading(false);
+                      }}
+                    >
+                      Ask ChatGPT
+                    </SubmitButton>
+                  </div>
+            </ChildDiv>
           </ModalBox>
         </Backdrop>
       )
