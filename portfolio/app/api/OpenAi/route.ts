@@ -9,17 +9,18 @@ export interface Message {
  
 export async function POST(request: Request) {
   const apiKey = process.env.OPENAI_API_KEY;
-  const messages = await request.json() 
+  const data = await request.json() 
 
-console.log(messages)
+console.log(data.messages)
+const messages = data.messages
   console.log(apiKey)
   const url = "https://api.openai.com/v1/chat/completions";
   const body = JSON.stringify({
     "model": "gpt-3.5-turbo",
-     messages
+    messages
   });
 
-//   console.log(body)
+  console.log(body)
   console.log('try post')
   try {
     const openaiRes = await fetch(url, {
