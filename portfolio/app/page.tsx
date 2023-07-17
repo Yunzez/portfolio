@@ -365,9 +365,6 @@ export default function Home() {
     setSelectedTag([tag]);
   };
 
- 
-
-
   return (
     <main style={{ direction: "ltr" }}>
       {loaded ? (

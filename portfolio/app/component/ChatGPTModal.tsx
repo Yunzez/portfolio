@@ -9,13 +9,11 @@ import {
 interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  children: React.ReactNode;
 }
 
-const ModalComponent: React.FC<ModalProps> = ({
+const ChatModalComponent: React.FC<ModalProps> = ({
   isOpen,
   onRequestClose,
-  children,
 }) => {
   const { theme, dev } = useContext(GlobalContext);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -387,4 +385,4 @@ const ModalComponent: React.FC<ModalProps> = ({
   );
 };
 
-export default ModalComponent;
+export default ChatModalComponent;
