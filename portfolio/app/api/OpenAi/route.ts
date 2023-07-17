@@ -5,12 +5,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import fetch from 'node-fetch';
 
 // backend api route
+const { Configuration, OpenAIApi } = require("openai");
+require("dotenv").config();
+import { NextRequest, NextResponse } from 'next/server'
+import fetch from 'node-fetch';
 
-export default async function handler(req, res) {
+export default async function POST(request:  NextRequest) {
 
   const apiKey = process.env.OPENAI_API_KEY;
 
-  const { model, messages } = req.body;
+  const { model, messages } = request.body;
 
   const url = "https://api.openai.com/v1/chat/completions";
 
@@ -28,14 +32,13 @@ export default async function handler(req, res) {
       },
       body,
     });
-
     const data = await openaiRes.json();
 
-    res.status(200).json(data);
+    return NextResponse.json({data}, {status: 200})
 
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send(error.message);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 
 }
