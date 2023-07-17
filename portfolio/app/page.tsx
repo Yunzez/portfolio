@@ -678,8 +678,9 @@ export default function Home() {
                             })
                           }
                         );
-                        
+                        console.log('response', response)
                         const data = await response.json();
+                        console.log('jsoned data', data)
                         let respondText = data.choices[0].message;
                         addMessage(respondText);
                       }
