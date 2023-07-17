@@ -1,22 +1,25 @@
 require("dotenv").config();
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export interface Message {
+    role: "system" | "user" | "assistant";
+    content: string;
+  }
+
+ 
+export async function POST(request: Request) {
   const apiKey = process.env.OPENAI_API_KEY;
+  const messages = await request.json() 
+
+console.log(messages)
   console.log(apiKey)
   const url = "https://api.openai.com/v1/chat/completions";
   const body = JSON.stringify({
     "model": "gpt-3.5-turbo",
-    "messages": [
-      {
-        "content":
-          "when you are ready, respond by saying ChatGPT is ready, please feel free to ask any question about Yunze",
-        "role": "system"
-      }
-    ]
+     messages
   });
 
-  console.log(body)
+//   console.log(body)
   console.log('try post')
   try {
     const openaiRes = await fetch(url, {

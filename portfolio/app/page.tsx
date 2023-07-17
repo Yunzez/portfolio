@@ -338,7 +338,7 @@ export default function Home() {
     }
   `;
 
-  const { theme, loaded } = useContext(GlobalContext);
+  const { theme, loaded, dev } = useContext(GlobalContext);
   const [showAllWork, setShowAllWork] = useState(false);
   const [selectedTag, setSelectedTag] = useState<SkillTag[]>([SkillTag.All]);
   const [allWorkData, setAllWorkData] = useState(workData);
@@ -654,12 +654,36 @@ export default function Home() {
                     console.log("chat");
                     setIsChatModalOpen(true);
                     if (messages.length < 2) {
-                      const respond = await communicateWithChatGPT(
-                        messages,
-                        true
-                      );
-                      const newRespond = respond.choices[0].message;
-                      addMessage(newRespond);
+                      let respondText : any
+                      if(dev) {
+                        const respond = await communicateWithChatGPT(
+                          messages,
+                          true
+                        );
+                        if(respond.choices[0]) {
+                          let respondText = respond.choices[0].message;
+                          addMessage(respondText);
+                        }
+                        
+                      } else {
+                        const response = await fetch(
+                          'https://www.yunzezhao.com/api/OpenAi',
+                          { 
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",  // Make sure to set the header
+                            },
+                            body: JSON.stringify({
+                              messages: messages 
+                            })
+                          }
+                        );
+                        
+                        const data = await response.json();
+                        let respondText = data.choices[0].message;
+                        addMessage(respondText);
+                      }
+                      
                     }
                   }}
                 >
@@ -732,21 +756,45 @@ export default function Home() {
                         if (!questionInputRef.current) {
                           throw new Error("error occured, cannot get text ref");
                         }
+
+                        // ! get enw val
                         const newMessage: Message = {
                           role: "user",
                           content: questionInputRef.current?.value ?? "",
                         };
                         questionInputRef.current.value = "";
-                        addMessage(newMessage);
-                        const respond = await communicateWithChatGPT([
-                          ...messages,
-                          newMessage,
-                        ]);
-                        const gptResponse = respond.choices[0].message;
 
-                        addMessage(gptResponse);
+                        // ! if we are in dev
+                        if(dev) {
+                          addMessage(newMessage);
+                          const respond = await communicateWithChatGPT([
+                            ...messages,
+                            newMessage,
+                          ]);
+                          const gptResponse = respond.choices[0].message;
+  
+                          addMessage(gptResponse);
+                        } else {
+                          const newMessages = [
+                            ...messages,
+                            newMessage,
+                          ]
+                          const response = await fetch(
+                            'https://www.yunzezhao.com/api/OpenAi',
+                            { 
+                              method: "POST",
+                              body: JSON.stringify({
+                                messages: newMessages 
+                              })
+                            }
+                          );
+                          
+                          const data = await response.json();
+                          let respondText = data.choices[0].message;
+                          addMessage(respondText);
+                        }
+                       
                         setIsChatGPTLoading(false);
-
                       }}
                     >
                       Ask ChatGPT

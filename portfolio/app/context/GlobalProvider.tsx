@@ -21,6 +21,7 @@ interface GlobalContextProps {
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   theme: any;
+  dev: boolean
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
@@ -32,6 +33,7 @@ export const GlobalContext = createContext<GlobalContextProps>({
   darkMode: false,
   setDarkMode: () => {},
   theme: lightTheme,
+  dev: false
 });
 
 interface GlobalContextProviderProps {
@@ -41,7 +43,7 @@ interface GlobalContextProviderProps {
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   children,
 }) => {
-  
+  const dev = false;
   const [color, setColor] = useState("red");
   const [loaded, setLoaded] = useState(false);
   
@@ -88,7 +90,8 @@ export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
         loaded,
         darkMode,
         setDarkMode,
-        theme
+        theme,
+        dev
       }}
     >
       {children}
