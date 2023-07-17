@@ -678,10 +678,10 @@ export default function Home() {
                             })
                           }
                         );
-                        console.log('response', response)
                         const data = await response.json();
+                        const GPTResponse = data.data
                         console.log('jsoned data', data)
-                        let respondText = data.choices[0].message;
+                        let respondText = GPTResponse.choices[0].message;
                         addMessage(respondText);
                       }
                       
@@ -791,7 +791,8 @@ export default function Home() {
                           );
                           
                           const data = await response.json();
-                          let respondText = data.choices[0].message;
+                          const GPTResponse = data.data
+                          let respondText = GPTResponse.choices[0].message;
                           addMessage(respondText);
                         }
                        
