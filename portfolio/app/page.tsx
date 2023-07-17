@@ -517,7 +517,6 @@ export default function Home() {
               <div style={{ maxWidth: "500px" }} className="mt-20">
                 <ResumeBtn
                   onClick={async () => {
-                    console.log("chat");
                     setIsChatModalOpen(true);
                     if (messages.length < 2) {
                       let respondText : any
