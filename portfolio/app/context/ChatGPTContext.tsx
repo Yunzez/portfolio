@@ -81,7 +81,7 @@ export const ChatGPTProvider: React.FC<ProviderProps> = ({ children }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       content:
-        // intialPrompt +
+        intialPrompt +
         "when you are ready, respond by saying ChatGPT is ready, please feel free to ask any question about Yunze",
       role: "system",
     },
