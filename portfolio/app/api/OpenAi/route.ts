@@ -1,28 +1,23 @@
-
-const { Configuration, OpenAIApi } = require("openai");
 require("dotenv").config();
-import { NextRequest, NextResponse } from 'next/server'
-import fetch from 'node-fetch';
+import { NextRequest, NextResponse } from "next/server";
 
-// backend api route
-const { Configuration, OpenAIApi } = require("openai");
-require("dotenv").config();
-import { NextRequest, NextResponse } from 'next/server'
-import fetch from 'node-fetch';
-
-export default async function POST(request:  NextRequest) {
-
+export async function POST(request: NextRequest) {
   const apiKey = process.env.OPENAI_API_KEY;
-
-  const { model, messages } = request.body;
-
+  console.log(apiKey)
   const url = "https://api.openai.com/v1/chat/completions";
-
   const body = JSON.stringify({
-    model,
-    messages  
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "content":
+          "when you are ready, respond by saying ChatGPT is ready, please feel free to ask any question about Yunze",
+        "role": "system"
+      }
+    ]
   });
 
+  console.log(body)
+  console.log('try post')
   try {
     const openaiRes = await fetch(url, {
       method: "POST",
@@ -33,12 +28,12 @@ export default async function POST(request:  NextRequest) {
       body,
     });
     const data = await openaiRes.json();
-
-    return NextResponse.json({data}, {status: 200})
-
-  } catch (error) {
+    return NextResponse.json({ data }, { status: 200 });
+  } catch (error: any) {
     console.error("Error:", error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json(
+      { error: error.message || "Internal Server Error" },
+      { status: 500 }
+    );
   }
-
 }
