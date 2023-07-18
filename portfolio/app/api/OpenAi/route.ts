@@ -17,7 +17,7 @@ const messages = data.messages
   const url = "https://api.openai.com/v1/chat/completions";
   const body = JSON.stringify({
     "model": "gpt-3.5-turbo",
-    'max_tokens': 220,
+    'max_tokens': 800,
     messages
   });
 
