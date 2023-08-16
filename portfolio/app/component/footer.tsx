@@ -9,20 +9,16 @@ import {
 } from "../theme/themedComponents";
 import { BasicComponentProps, openInNewTab } from "../utils";
 import { GlobalContext } from "../context/GlobalProvider";
+import LinkedIn from "@/public/asset/LinkedIn";
+import Github from "@/public/asset/Github";
+import Mail from "@/public/asset/Mail";
 
-const SocialIcon = styled.img`
+const SocialIcon = styled.svg`
   margin: 3px;
   width: 18px;
   height: 18px;
   cursor: pointer;
   transition: 0.3s all ease-in;
-
-  filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(7402%)
-    hue-rotate(263deg) brightness(84%) contrast(130%);
-  @media (max-width: 568px) {
-    width: 25px;
-    height: 25px;
-  }
 `;
 
 export const SocialIconWrapper = styled.div`
@@ -77,31 +73,31 @@ const Footer = () => {
         </VerticalText>
         <SocialIconDiv className="  md:block grow-1">
           <SocialIconWrapper className="flex w-100 cursor-pointer py-3">
-            <SocialIcon
-              src="/asset/Github.png"
-              alt="Logo"
+            <div
               onClick={() => openInNewTab("https://github.com/Yunzez")}
-            />
+            >
+              <Github/>
+              </div>
           </SocialIconWrapper>
 
           <SocialIconWrapper className="flex w-100 cursor-pointer py-3">
-            <SocialIcon
-              src="/asset/Linkedin.png"
-              alt="Logo"
+            <div
               onClick={() =>
                 openInNewTab(
                   "https://www.linkedin.com/in/yunze-zhao-351687224/"
                 )
               }
-            />
+            >
+              <LinkedIn />
+            </div>
           </SocialIconWrapper>
 
           <SocialIconWrapper className="flex w-100 cursor-pointer py-3">
-            <SocialIcon
-              src="/asset/mail.png"
-              alt="Logo"
+            <div
               onClick={() => openInNewTab("mailto:zhao.yunzeabh@gmail.com")}
-            />
+            >
+              <Mail/>
+            </div>
           </SocialIconWrapper>
         </SocialIconDiv>
       </div>

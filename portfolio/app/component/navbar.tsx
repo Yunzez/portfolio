@@ -91,17 +91,6 @@ const SideThemeBtnWrapper = styled.div<BasicComponentProps>`
   background-color: ${(props) => props.theme.themeBlack};
 `;
 
-const ThemeBtn = styled.button<{ darkmode: boolean }>`
-  flex-grow: 1;
-  border: 1px solid ${theme.themeBlack};
-  border-radius: ${theme.radiusXxs};
-  transition: background-color 0.3s ease-in-out;
-  background-color: ${(props) =>
-    props.darkmode ? theme.themePurple : theme.themeWhite};
-  color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
-  animation: ${fadeInOut} 0.3s ease-in-out;
-  pointer: cursor;
-`;
 
 const SideThemeBtn = styled.button<{ darkmode: boolean }>`
   flex-grow: 1;
@@ -284,7 +273,18 @@ const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
 const Navbar = () => {
   const { isOpen, setIsOpen, loaded, darkMode, setDarkMode, theme } =
     useContext(GlobalContext);
-
+    const ThemeBtn = styled.button<{ darkmode: boolean }>`
+    flex-grow: 1;
+    border: 1px solid ${theme.themeBlack};
+    border-radius: ${theme.radiusXxs};
+    transition: background-color 0.3s ease-in-out;
+    background-color: ${(props) =>
+      props.darkmode ? theme.themePurple : theme.themeWhite};
+    color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
+    animation: ${fadeInOut} 0.3s ease-in-out;
+    pointer: cursor;
+  `;
+  
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
@@ -339,11 +339,12 @@ const Navbar = () => {
             style={{ height: "100%" }}
           >
             <div className="flex items-center ms-5">
-              <Logo src="/asset/logo.svg" alt="Logo" />
+              <Logo src="/asset/logo.svg" alt="Logo" style={{color: theme.themePurple}}/>
               <PurpleText
                 fontWeight={500}
                 fontSize="20px"
                 className="md:block hidden"
+                style={ {color: theme.themePurple}}
               >
                 Fred Zhao
               </PurpleText>

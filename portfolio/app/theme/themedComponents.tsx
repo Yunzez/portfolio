@@ -170,7 +170,7 @@ interface PurpleTextProps {
 }
 
 export const PurpleText = styled.small<PurpleTextProps>`
-  color: ${theme.themePurple};
+  color:${theme.themePurple};
   font-style: ${({ fontStyle }) => fontStyle || "normal"};
   font-weight: ${({ fontWeight }) => fontWeight || 500};
   font-size: ${({ fontSize }) => fontSize || "16px"};

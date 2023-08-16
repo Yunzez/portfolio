@@ -27,6 +27,14 @@
         "skills": ["React.js", "AWS", "Google app script"]
     }, 
     {
+        "name": "StoraLink",
+        "date":"May 2023 - Present",
+        "description" : "An app developed using React Native/Spring Boot/Mongo DB, focusing on storing links and sharing links. (So we don't have links that are being sent randomly in the DM of each app)",
+        "thumbnailImg": "work/seal.png",
+        "siteLink": "https://www.storalink.com/",
+        "skills": ["React Native", "MongoDB", "Spring Boot"]
+    }, 
+    {
         "name": "RV321 Processor",
         "date":"Oct - Dec 2022 (3 mos)",
         "description" : "Developed a fully functional CPU using using verilog and C, Assembly, it can run ASSEMBLY code and C code. It performs a subset of risc-v instructions.",

@@ -1,14 +1,14 @@
 import { Message } from "./context/ChatGPTContext";
 import { Theme } from "./theme/theme";
 require("dotenv").config();
-let apiKey = ''
+let apiKey = "";
 
 const getOpenAIKey = async () => {
-  const res = await fetch('api/getOpenAiApiKey');
+  const res = await fetch("api/getOpenAiApiKey");
   const data = await res.json();
   const apiKey = data.key;
   return apiKey;
-}
+};
 
 export enum SkillTag {
   All = "All",
@@ -26,6 +26,15 @@ export const openInNewTab = (url: string) => {
 };
 
 export const data = [
+  {
+    name: "StoraLink",
+    date: "May 2023 - Present",
+    description:
+      "An app developed using React Native/Spring Boot/Mongo DB, focusing on storing links and sharing links. (So we don't have links that are being sent randomly in the DM of each app)",
+    thumbnailImg: "work/storalink.png",
+    siteLink: "https://www.storalink.com/",
+    skills: ["React Native", "MongoDB", "Spring Boot"],
+  },
   {
     name: "OpenTug",
     date: "Jun 2022 - Present",
@@ -72,7 +81,7 @@ export const data = [
 ];
 
 export const getChatGPTModelList = async () => {
-  await getOpenAIKey()
+  await getOpenAIKey();
   const url = "https://api.openai.com/v1/models";
   console.log("try to post");
   fetch(url, {
@@ -91,16 +100,19 @@ export const getChatGPTModelList = async () => {
     });
 };
 
-export const communicateWithChatGPT = async (message: Message[], init?: boolean) => {
+export const communicateWithChatGPT = async (
+  message: Message[],
+  init?: boolean
+) => {
   console.log("open chatgpt");
-  const apiKey = await getOpenAIKey()
-  if(apiKey === '') {
-    throw new Error('no api key provided')
+  const apiKey = await getOpenAIKey();
+  if (apiKey === "") {
+    throw new Error("no api key provided");
   }
   const url = "https://api.openai.com/v1/chat/completions";
   const body = JSON.stringify({
     model: "gpt-3.5-turbo",
-    messages: message 
+    messages: message,
   });
 
   return fetch(url, {
@@ -114,7 +126,7 @@ export const communicateWithChatGPT = async (message: Message[], init?: boolean)
     .then((res) => res.json()) // change is here
     .then((data) => {
       console.log("data", data);
-      return data
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);

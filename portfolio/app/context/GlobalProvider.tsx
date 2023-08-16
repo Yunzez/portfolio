@@ -43,7 +43,7 @@ interface GlobalContextProviderProps {
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({
   children,
 }) => {
-  const dev = false;
+  const dev = true;
   const [color, setColor] = useState("red");
   const [loaded, setLoaded] = useState(false);
   

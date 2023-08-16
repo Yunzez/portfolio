@@ -355,7 +355,7 @@ export default function Home() {
       setAllWorkData(newData);
     } else {
       const filtered = newData.filter((work) =>
-        work.tag.includes(selectedTag[0])
+        work.tag?.includes(selectedTag[0])
       );
       setAllWorkData(filtered);
     }
@@ -525,6 +525,7 @@ export default function Home() {
                           messages,
                           true
                         );
+                        console.log(respond)
                         if(respond.choices[0]) {
                           let respondText = respond.choices[0].message;
                           addMessage(respondText);
@@ -557,7 +558,7 @@ export default function Home() {
                     <span className="button_sl"></span>
                     <span className="button_text">
                       {" "}
-                      Ask ChatGPT about me! (coming soon)
+                      Ask ChatGPT about me! 
                     </span>
                   </span>
                 </ResumeBtn>
@@ -658,13 +659,13 @@ const LoadingPage = () => {
       <div className="flex" style={{ marginTop: "20vh" }}>
         <div>
           <PurpleText
-            style={{ fontSize: "4vw", marginRight: "10vw", marginLeft: "10vw" }}
+            style={{ fontSize: "4vw", marginRight: "10vw", marginLeft: "10vw", color: theme.themePurple }}
           >
             Fred Zhao
           </PurpleText>
         </div>
         <div>
-          <PurpleText style={{ fontSize: "4vw" }}>{progress}%</PurpleText>
+          <PurpleText style={{ fontSize: "4vw",  color: theme.themePurple }}>{progress}%</PurpleText>
         </div>
       </div>
 
