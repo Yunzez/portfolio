@@ -204,13 +204,13 @@ function WorkCard(props: WorkCardProps) {
       </WorkCardText>
       <WorkCardButtons>
         {props.siteLink && (
-          <WorkCardBtn onClick={() => openInNewTab(props.siteLink as string)}>
+          <WorkCardBtn style={{color: theme.themePurple}} onClick={() => openInNewTab(props.siteLink as string)}>
             Live Site
             {<div className="ms-2">{linkSvg}</div>}
           </WorkCardBtn>
         )}
         {props.githubLink && (
-          <WorkCardBtn onClick={() => openInNewTab(props.githubLink as string)}>
+          <WorkCardBtn style={{color: theme.themePurple}}  onClick={() => openInNewTab(props.githubLink as string)}>
             Github
             {<div className="ms-2">{linkSvg}</div>}
           </WorkCardBtn>
@@ -310,13 +310,14 @@ function WorkCardColumn(props: WorkCardProps) {
       <WorkCardColButtons>
         {props.siteLink && (
           <WorkCardColBtn
+            style={{color: theme.themePurple}}
             onClick={() => openInNewTab(props.siteLink as string)}
           >
             Live Site
           </WorkCardColBtn>
         )}
         {props.githubLink && (
-          <WorkCardBtn onClick={() => openInNewTab(props.githubLink as string)}>
+          <WorkCardBtn style={{color: theme.themePurple}} onClick={() => openInNewTab(props.githubLink as string)}>
             Github
           </WorkCardBtn>
         )}
@@ -373,9 +374,11 @@ export default function Home() {
             <>
               <PurpleText
                 fontSize="32px"
+
                 style={{
                   marginBottom: "40px",
                   marginLeft: "60px",
+                  color: theme.themePurple
                 }}
               >
                 All Works
@@ -485,6 +488,7 @@ export default function Home() {
                     setShowAllWork(false);
                     window.scrollTo(0, 0);
                   }}
+                  style={{color: theme.themePurple}}
                 >
                   Back to Intro
                 </AllWorkBtn>
@@ -575,7 +579,9 @@ export default function Home() {
                 style={{
                   marginBottom: "40px",
                   marginLeft: "60px",
+                  color: theme.themePurple
                 }}
+                
               >
                 Featured Works
               </PurpleText>
@@ -597,6 +603,7 @@ export default function Home() {
                 })}
                 <AllWorkBtn
                   className="mb-5 pb-5 mt-5"
+                  style={{color: theme.themePurple}}
                   onClick={() => {
                     setShowAllWork(true);
                     window.scrollTo(0, 0);
