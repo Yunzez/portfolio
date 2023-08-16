@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useRouter } from "next/navigation";
-import theme from "../theme/theme";
+import theme, { Theme } from "../theme/theme";
 import Image from "next/image";
 import { PurpleText, VerticalText } from "../theme/themedComponents";
 import { GlobalContext } from "../context/GlobalProvider";
@@ -90,7 +90,6 @@ const SideThemeBtnWrapper = styled.div<BasicComponentProps>`
   transition: background-color 0.3s ease-in-out;
   background-color: ${(props) => props.theme.themeBlack};
 `;
-
 
 const SideThemeBtn = styled.button<{ darkmode: boolean }>`
   flex-grow: 1;
@@ -270,21 +269,24 @@ const MenuButton = styled.div<{ isOpen: boolean; initialRender: boolean }>`
     `}
 `;
 
+const ThemeBtn = styled.button<{ darkmode: boolean, theme: Theme }>`
+  flex-grow: 1;
+  border: 1px solid ${({theme}) => theme.themeBlack};
+  border-radius: ${theme.radiusXxs};
+  transition: background-color 0.3s ease-in-out;
+  background-color: ${({darkmode, theme}) =>
+    darkmode ? theme.themePurple : theme.themeWhite};
+  color: ${({darkmode, theme}) =>
+    darkmode ? theme.themeWhite : theme.themeBlack};
+  animation: ${fadeInOut} 0.3s ease-in-out;
+  cursor: pointer;  // Corrected from "pointer: cursor;"
+`;
+
+
 const Navbar = () => {
   const { isOpen, setIsOpen, loaded, darkMode, setDarkMode, theme } =
     useContext(GlobalContext);
-    const ThemeBtn = styled.button<{ darkmode: boolean }>`
-    flex-grow: 1;
-    border: 1px solid ${theme.themeBlack};
-    border-radius: ${theme.radiusXxs};
-    transition: background-color 0.3s ease-in-out;
-    background-color: ${(props) =>
-      props.darkmode ? theme.themePurple : theme.themeWhite};
-    color: ${(props) => (props.darkmode ? theme.themeWhite : theme.themeBlack)};
-    animation: ${fadeInOut} 0.3s ease-in-out;
-    pointer: cursor;
-  `;
-  
+
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
@@ -339,12 +341,16 @@ const Navbar = () => {
             style={{ height: "100%" }}
           >
             <div className="flex items-center ms-5">
-              <Logo src="/asset/logo.svg" alt="Logo" style={{color: theme.themePurple}}/>
+              <Logo
+                src="/asset/logo.svg"
+                alt="Logo"
+                style={{ color: theme.themePurple }}
+              />
               <PurpleText
                 fontWeight={500}
                 fontSize="20px"
                 className="md:block hidden"
-                style={ {color: theme.themePurple}}
+                style={{ color: theme.themePurple }}
               >
                 Fred Zhao
               </PurpleText>
@@ -398,6 +404,7 @@ const Navbar = () => {
                     setDarkMode(!darkMode);
                   }}
                   darkmode={!darkMode}
+                  theme={theme}
                   style={{
                     height: "100%",
                     width: "100%",
@@ -434,6 +441,7 @@ const Navbar = () => {
                   onClick={() => {
                     setDarkMode(!darkMode);
                   }}
+                  theme={theme}
                   darkmode={darkMode}
                   style={{
                     height: "100%",
@@ -489,7 +497,7 @@ const Navbar = () => {
           </MenuButton>
         </NavContainer>
       ) : (
-          <LoadingPage />
+        <LoadingPage />
       )}
 
       <SideNav
@@ -685,7 +693,7 @@ const Navbar = () => {
 };
 
 const LoaderWrapper = styled.div<BasicComponentProps>`
-border: 2px solid ${({ theme }) => theme.themeBlack};
+  border: 2px solid ${({ theme }) => theme.themeBlack};
   margin-top: 2vh;
   margin-left: 2%;
   margin-right: 1%;
