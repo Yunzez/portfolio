@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 const localTheme = {
@@ -14,11 +14,11 @@ const localTheme = {
 };
 
 const sections = [
-  { id: "about", name: "about" },
-  { id: "education", name: "education" },
-  { id: "publications", name: "publications" },
-  { id: "experience", name: "experience" },
-  { id: "projects", name: "projects" },
+  { id: "about", name: "About me" },
+  { id: "education", name: "Education" },
+  { id: "publications", name: "Publications" },
+  { id: "experience", name: "Experience" },
+  { id: "projects", name: "Projects" },
 ];
 const Home = () => {
   const [activeSection, setActiveSection] = useState("");
@@ -56,39 +56,52 @@ const Home = () => {
   return (
     <div className="flex p-5 w-100 h-100">
       <section className="w-1/5 p-5">
-        <div
-          style={{
-            fontWeight: localTheme.boldWeight,
-            fontSize: localTheme.smallTitleFontSize,
-            lineHeight: "27.6px",
-          }}
-        >
-          Yunze
-        </div>
-        <div
-          style={{
-            fontWeight: localTheme.boldWeight,
-            fontSize: localTheme.smallTitleFontSize,
-            lineHeight: "27.6px",
-          }}
-        >
-          Zhao
-        </div>
-        <div className="flex-col flex mt-5 gap-3">
-          {sections.map((section) => (
-            <li key={section.id}>
-              <a
-                href={`#${section.id}`}
-                className={activeSection === section.id ? 'active' : ''}
-              >
-                {section.name}
-              </a>
-            </li>
-          ))}
+        <div className="sticky top-10">
+          <div
+            style={{
+              fontWeight: localTheme.boldWeight,
+              fontSize: localTheme.smallTitleFontSize,
+              lineHeight: "27.6px",
+            }}
+          >
+            Yunze
+          </div>
+          <div
+            style={{
+              fontWeight: localTheme.boldWeight,
+              fontSize: localTheme.smallTitleFontSize,
+              lineHeight: "27.6px",
+            }}
+          >
+            Zhao
+          </div>
+          <div className="flex-col flex mt-5 gap-3">
+            {sections.map((section) => (
+              <>
+                <div className=" flex transition-all">
+                  <div className={activeSection === section.id ? "transition-all flex items-center justify-center" : "hidden"}>
+
+                      <div
+                        className="w-2 h-2 me-2 items-center"
+                        style={{ borderRadius: "100%", backgroundColor: localTheme.purple }}
+                      />
+                  </div>
+
+                  <a
+                    href={`#${section.id}`}
+                    className={activeSection === section.id ? "active" : ""}
+                  >
+                    {section.name}
+                  </a>
+                </div>
+              </>
+            ))}
+          </div>
         </div>
       </section>
       <section className="w-4/5 flex-col justify-start w-full p-5">
         <div
+        id="about"
           style={{
             fontWeight: localTheme.boldWeight,
             fontSize: localTheme.largeFontSize,
@@ -160,7 +173,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="max-w-screen-sm mt-10" id="about">
+        <div className="max-w-screen-sm mt-10 " id="education" >
           Lorem ipsum dolor sit amet consectetur. Justo ornare iaculis felis
           nunc nunc. Vitae lectus ipsum at egestas. Maecenas donec eget massa
           feugiat urna. Senectus varius suscipit diam cursus velit imperdiet
@@ -173,7 +186,7 @@ const Home = () => {
           et a dolor pulvinar.
         </div>
 
-        <div className="mt-10" id="education" style={{ maxWidth: "650px" }}>
+        <div className="mt-10" style={{ maxWidth: "650px" }}>
           <div
             style={{
               fontWeight: localTheme.boldWeight,
@@ -205,7 +218,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="mt-4" id="publications" style={{ maxWidth: "650px" }}>
+        <div className="mt-20" id="publications" style={{ maxWidth: "650px", marginTop: "250px" }}>
           <div
             className="mt-20"
             style={{
@@ -222,7 +235,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="mt-4" id="experience" style={{ maxWidth: "650px" }}>
+        <div className="mt-4" id="experience" style={{ maxWidth: "650px",  marginTop: "550px"}}>
           <div
             className="mt-20"
             style={{
