@@ -11,7 +11,7 @@ export const metadata = {
   title: "Yunze Zhao",
   description: "Yunze Zhao's portfolio",
 };
-
+import Sublayout from "./sublayout";
 export default function RootLayout({
   children,
 }: {
@@ -27,11 +27,11 @@ export default function RootLayout({
             style={{ margin: "0 !important" }}
           >
             <StyledComponentsRegistry>
-              <>
-                <Navbar />
-                <div className="childrenWrapper">{children}</div>
-                <Footer />
-              </>
+              <Sublayout>
+                <>
+                  <div>{children}</div>
+                </>
+              </Sublayout>
             </StyledComponentsRegistry>
           </body>
         </ChatGPTProvider>
