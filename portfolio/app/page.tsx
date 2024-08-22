@@ -25,10 +25,10 @@ const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full relative md:hidden sticky top-0 left-0 h-20 z-50">
+    <div className="w-full relative md:hidden sticky top-0 left-0 h-auto md:h-20 z-50">
       {/* Top Bar with Menu Icon */}
       <div
-        className="flex justify-end p-5 bg-white"
+        className="w-full flex justify-end p-3 md:p-5 bg-white"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="cursor-pointer transition-transform">
@@ -130,8 +130,8 @@ const Home = () => {
     <>
       <NavMenu />
 
-      <div className="flex p-5 w-100 h-100">
-        <section className="hidden md:block w-1/5 p-5">
+      <div className="flex  w-100 h-100">
+        <section className="hidden md:block w-1/5 px-1 md:px-5">
           <div className="sticky top-10">
             <div
               style={{
@@ -216,7 +216,7 @@ const Home = () => {
             Full-Stack Engineer & Security Researcher
           </div>
           <div
-            className="flex gap-5 mt-4"
+            className="flex gap-5 mt-4 flex-wrap"
             style={{
               color: localTheme.purple,
               fontWeight: localTheme.boldWeight,
@@ -249,7 +249,7 @@ const Home = () => {
           </div>
 
           <div className="flex justify-start mt-4 z-1">
-            <div className="relative  h-[420px] w-full max-w-[1200px] ">
+            <div className="relative h-[280px] md:h-[420px] w-full max-w-[1200px] ">
               <Image
                 src="/asset/banner.jpg"
                 fill
@@ -260,19 +260,46 @@ const Home = () => {
           </div>
 
           <div className="max-w-screen-sm mt-10 " id="education">
-            Lorem ipsum dolor sit amet consectetur. Justo ornare iaculis felis
-            nunc nunc. Vitae lectus ipsum at egestas. Maecenas donec eget massa
-            feugiat urna. Senectus varius suscipit diam cursus velit imperdiet
-            ultrices arcu. Ultrices nibh ullamcorper eu ornare vel faucibus.
-            Purus bibendum ante fermentum et a dolor pulvinar. Lorem ipsum dolor
-            sit amet consectetur. Justo ornare iaculis felis nunc nunc. Vitae
-            lectus ipsum at egestas. Maecenas donec eget massa feugiat urna.
-            Senectus varius suscipit diam cursus velit imperdiet ultrices arcu.
-            Ultrices nibh ullamcorper eu ornare vel faucibus. Purus bibendum
-            ante fermentum et a dolor pulvinar.
+            Hi,  {"I'm"}  Yunze Zhao, a PhD student in Computer Science at the
+            University of Maryland, adivsed by{" "}
+            <a
+              style={{ color: localTheme.purple }}
+              href="https://users.umiacs.umd.edu/~mmazurek/"
+            >
+              Michelle Mazurek
+            </a>
+            . I am a full-stack engineer and security researcher. I am
+            passionate about building user focused secure and reliable software
+            systems. My work in the past involves enhancing Software Bill of
+            Materials with integrated code coverage analysis. In my free time, I
+            like to build some projects/websites. Some of my recent projects:
+            <li className="mt-3">
+              <a
+                style={{ color: localTheme.purple }}
+                href="https://www.storalink.com/"
+              >
+                Storalink
+              </a>
+            </li>
+            <li>
+              <a
+                style={{ color: localTheme.purple }}
+                href="https://www.numaira.org/"
+              >
+                Numaira.ai
+              </a>
+            </li>
+            <li>
+              <a
+                style={{ color: localTheme.purple }}
+                href="https://www.tunnelvzn.org/"
+              >
+                Tunnel_vzn
+              </a>
+            </li>
           </div>
 
-          <div className="mt-10" style={{ maxWidth: "650px" }}>
+          <div className="mt-40 " style={{ maxWidth: "650px" }}>
             <div
               style={{
                 fontWeight: localTheme.boldWeight,
