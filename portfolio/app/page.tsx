@@ -375,12 +375,12 @@ const Home = () => {
                 location={"College Park, Maryland, United States"}
               />
 
-              <ExperienceDiv
+              {/* <ExperienceDiv
                 title={"Research Assistant"}
                 place={"NYU Tandon School of Engineering"}
                 date={"Sep 2023 – Aug 2024"}
                 location={"New York, New York, United States"}
-              />
+              /> */}
 
               <ExperienceDiv
                 title={"IT Software Engineering Intern"}
