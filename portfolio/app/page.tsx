@@ -316,12 +316,12 @@ const Home = () => {
               location="College Park, MD"
             />
 
-            <EducationDiv
+            {/* <EducationDiv
               title="Master of Science (MS) - Computer Engineering"
               school="NYU Tandon School of Engineering"
               date="Sep 2022 – Jun 2024"
               location="Brooklyn, New York, United States"
-            />
+            /> */}
 
             <EducationDiv
               title="Bachelor of Arts (BA) - Geography: Data Science"
