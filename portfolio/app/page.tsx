@@ -313,15 +313,15 @@ const Home = () => {
               title="PhD in Computer Science"
               school="University of Maryland"
               date="Aug 2024 – Present"
-              location="College Park, MD"
+              location="College Park, MD, United States"
             />
 
-            {/* <EducationDiv
+            <EducationDiv
               title="Master of Science (MS) - Computer Engineering"
               school="NYU Tandon School of Engineering"
               date="Sep 2022 – Jun 2024"
               location="Brooklyn, New York, United States"
-            /> */}
+            />
 
             <EducationDiv
               title="Bachelor of Arts (BA) - Geography: Data Science"
@@ -349,6 +349,13 @@ const Home = () => {
               title="CovSBOM: Enhancing Software Bill of Materials with Integrated Code Coverage Analysis."
               authors="Yunze Zhao, Yuchen Zhang, Dan Chacko, Justin Cappos."
               conference="the 35th IEEE International Symposium on Software Reliability Engineering (ISSRE 2024)."
+              link="https://ssl.engineering.nyu.edu/papers/covsbom_issre_2024.pdf"
+            />
+             <PubDiv
+              title="A Qualitative Analysis of Fuzzing Tool Usability and Challenges"
+              authors="Yunze Zhao, Wentao Guo, Harrison Goldstein, Daniel Votipka, Kelsey Fulton, Michelle Mazurek."
+              conference="The ACM Conference on Computer and Communications Security (CCS 2025, accepted)."
+              link=""
             />
           </div>
 
@@ -505,11 +512,14 @@ const PubDiv = ({
   title,
   authors,
   conference,
+  link
 }: {
   title: string;
   authors: string;
   conference: string;
+  link: string;
 }) => {
+
   return (
     <div className="mt-5" style={{ maxWidth: "700px" }}>
       <div
@@ -530,6 +540,18 @@ const PubDiv = ({
         {authors}
       </div>
       <div style={{ fontSize: localTheme.smallFontSize }}>{conference}</div>
+      {link.length != 0 && (
+        <div className="mt-2">
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-purple-600 underline hover:text-purple-800 transition-colors"
+          >
+            Read more
+          </a>
+        </div>
+      )}
     </div>
   );
 };
