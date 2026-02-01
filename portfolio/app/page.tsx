@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import TiltedCard from "./component/tiltedCard";
+import { theme as appTheme } from "./theme/theme";
 const localTheme = {
   boldWeight: 700,
   lightWeight: 400,
@@ -10,7 +12,7 @@ const localTheme = {
   mediumFontSize: "20px",
   smallFontSize: "16px",
   gray: "#767676",
-  purple: "#4A00F2",
+  purple: appTheme.themePurple,
 };
 
 const sections = [
@@ -191,7 +193,7 @@ const Home = () => {
               fontSize: localTheme.largeFontSize,
             }}
           >
-            Yunze (Fred) Zhao
+            Yunze Zhao
           </div>
           <div
             className="mt-4"
@@ -213,7 +215,7 @@ const Home = () => {
               lineHeight: "23px",
             }}
           >
-            Full-Stack Engineer & Security Researcher
+            Security & Privacy Researcher
           </div>
           <div
             className="flex gap-5 mt-4 flex-wrap"
@@ -246,10 +248,19 @@ const Home = () => {
                 LinkedIn
               </a>
             </div>
+            <div>
+              <a
+                href="https://scholar.google.com/citations?user=-14O6jYAAAAJ&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Google Scholar
+              </a>
+            </div>
           </div>
 
           <div className="flex justify-start mt-4 z-1">
-            <div className="relative h-[280px] md:h-[420px] w-full max-w-[1200px] ">
+            <div className="relative h-[280px] md:h-[420px] w-full max-w-[1100px] ">
               <Image
                 src="/asset/banner.jpg"
                 fill
@@ -260,7 +271,7 @@ const Home = () => {
           </div>
 
           <div className="max-w-screen-sm mt-10 " id="education">
-            Hi,  {"I'm"}  Yunze Zhao, a PhD student in Computer Science at the
+            Hi, {"I'm"} Yunze Zhao, a PhD student in Computer Science at the
             University of Maryland, adivsed by{" "}
             <a
               style={{ color: localTheme.purple }}
@@ -345,17 +356,18 @@ const Home = () => {
             >
               PUBLICATIONS
             </div>
+
             <PubDiv
               title="CovSBOM: Enhancing Software Bill of Materials with Integrated Code Coverage Analysis."
               authors="Yunze Zhao, Yuchen Zhang, Dan Chacko, Justin Cappos."
               conference="the 35th IEEE International Symposium on Software Reliability Engineering (ISSRE 2024)."
               link="https://ssl.engineering.nyu.edu/papers/covsbom_issre_2024.pdf"
             />
-             <PubDiv
+            <PubDiv
               title="A Qualitative Analysis of Fuzzing Tool Usability and Challenges"
               authors="Yunze Zhao, Wentao Guo, Harrison Goldstein, Daniel Votipka, Kelsey Fulton, Michelle Mazurek."
-              conference="The ACM Conference on Computer and Communications Security (CCS 2025, accepted)."
-              link=""
+              conference="The ACM Conference on Computer and Communications Security (CCS 2025)."
+              link="https://dl.acm.org/doi/10.1145/3719027.3765055"
             />
           </div>
 
@@ -382,12 +394,12 @@ const Home = () => {
                 location={"College Park, Maryland, United States"}
               />
 
-              {/* <ExperienceDiv
+              <ExperienceDiv
                 title={"Research Assistant"}
                 place={"NYU Tandon School of Engineering"}
                 date={"Sep 2023 – Aug 2024"}
                 location={"New York, New York, United States"}
-              /> */}
+              />
 
               <ExperienceDiv
                 title={"IT Software Engineering Intern"}
@@ -512,46 +524,129 @@ const PubDiv = ({
   title,
   authors,
   conference,
-  link
+  link,
 }: {
   title: string;
   authors: string;
   conference: string;
   link: string;
 }) => {
+  const highlightedAuthors = authors.split(/(Yunze Zhao)/g).map(
+    (part, idx) =>
+      part === "Yunze Zhao" ? (
+        <span
+          key={`author-${idx}`}
+          style={{
+            color: appTheme.themeLightPurple,
+            textDecoration: "underline",
+            fontWeight: localTheme.boldWeight,
+          }}
+        >
+          {part}
+        </span>
+      ) : (
+        <span key={`author-${idx}`}>{part}</span>
+      ),
+  );
 
-  return (
-    <div className="mt-5" style={{ maxWidth: "700px" }}>
-      <div
-        className="my-2"
-        style={{
-          fontWeight: localTheme.boldWeight,
-          fontSize: localTheme.smallTitleFontSize,
-          lineHeight: "27.6px",
-        }}
-      >
-        {title}
+  const overlayContent = (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "22px",
+        boxSizing: "border-box",
+        borderRadius: appTheme.radiusSm,
+        overflow: "hidden",
+        color: appTheme.themeWhite,
+      }}
+    >
+      <div>
+        <p
+          style={{
+            fontSize: "12px",
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            color: "rgba(255,255,255,0.65)",
+            marginBottom: "10px",
+          }}
+        >
+          {conference}
+        </p>
+        <h3
+          style={{
+            fontSize: "22px",
+            lineHeight: "32px",
+            fontWeight: 600,
+            marginBottom: "12px",
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            fontSize: "15px",
+            color: "rgba(255,255,255,0.92)",
+            lineHeight: "24px",
+          }}
+        >
+          {highlightedAuthors}
+        </p>
       </div>
-      <div
-        style={{
-          fontSize: localTheme.smallFontSize,
-        }}
-      >
-        {authors}
-      </div>
-      <div style={{ fontSize: localTheme.smallFontSize }}>{conference}</div>
-      {link.length != 0 && (
-        <div className="mt-2">
+      {link.length !== 0 && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <a
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-purple-600 underline hover:text-purple-800 transition-colors"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "10px 20px",
+              borderRadius: "999px",
+              fontSize: "14px",
+              fontWeight: 600,
+              background: `${appTheme.themePurple}`,
+              color: appTheme.themeWhite,
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              textDecoration: "none",
+              transition: "transform 0.2s ease, box-shadow 0.2s ease",
+            }}
           >
-            Read more
+            View paper
+            <span aria-hidden="true" style={{ fontSize: "16px" }}>
+              ↗
+            </span>
           </a>
         </div>
       )}
+    </div>
+  );
+
+  return (
+    <div
+      style={{ width: "100%", maxWidth: "890px", margin: "0 auto" }}
+    >
+      <TiltedCard 
+        imageSrc="/publication-card-bg.svg"
+        altText={title}
+        captionText={title}
+        containerHeight="250px"
+        containerWidth="100%"
+        imageHeight="250px"
+        imageWidth="100%"
+        showMobileWarning={false}
+        showTooltip={false}
+        displayOverlayContent
+        overlayContent={overlayContent}
+        rotateAmplitude={3}
+        scaleOnHover={1.03}
+        frameBorderRadius={appTheme.radiusSm}
+      />
     </div>
   );
 };
