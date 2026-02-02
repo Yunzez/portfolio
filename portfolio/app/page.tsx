@@ -281,10 +281,8 @@ const Home = () => {
             </a>
             . I am a full-stack engineer and security researcher. I am
             passionate about building user focused secure and reliable software
-            systems. My work in the past involves enhancing Software Bill of
-            Materials with integrated code coverage analysis. In my free time, I
-            like to build some projects/websites. Some of my recent projects:
-            <li className="mt-3">
+            systems. 
+            {/* <li className="mt-3">
               <a
                 style={{ color: localTheme.purple }}
                 href="https://www.storalink.com/"
@@ -299,15 +297,7 @@ const Home = () => {
               >
                 Numaira.ai
               </a>
-            </li>
-            <li>
-              <a
-                style={{ color: localTheme.purple }}
-                href="https://www.tunnelvzn.org/"
-              >
-                Tunnel_vzn
-              </a>
-            </li>
+            </li> */}
           </div>
 
           <div className="mt-40 " style={{ maxWidth: "650px" }}>
@@ -646,6 +636,7 @@ const PubDiv = ({
         rotateAmplitude={3}
         scaleOnHover={1.03}
         frameBorderRadius={appTheme.radiusSm}
+        matchOverlayHeight
       />
     </div>
   );

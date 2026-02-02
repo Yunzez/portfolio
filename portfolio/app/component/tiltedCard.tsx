@@ -1,9 +1,9 @@
 import type { SpringOptions } from 'motion/react';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
 
 interface TiltedCardProps {
-  imageSrc: React.ComponentProps<'img'>['src'];
+  imageSrc?: React.ComponentProps<'img'>['src'];
   altText?: string;
   captionText?: string;
   containerHeight?: React.CSSProperties['height'];
@@ -17,6 +17,7 @@ interface TiltedCardProps {
   overlayContent?: React.ReactNode;
   displayOverlayContent?: boolean;
   frameBorderRadius?: React.CSSProperties['borderRadius'];
+  matchOverlayHeight?: boolean;
 }
 
 const springValues: SpringOptions = {
@@ -31,7 +32,7 @@ export default function TiltedCard({
   captionText = '',
   containerHeight = '300px',
   containerWidth = '100%',
-  imageHeight = '250px',
+  imageHeight = '300px',
   imageWidth = '300px',
   scaleOnHover = 1.1,
   rotateAmplitude = 14,
@@ -39,8 +40,10 @@ export default function TiltedCard({
   showTooltip = true,
   overlayContent = null,
   displayOverlayContent = false,
-  frameBorderRadius = '15px'
+  frameBorderRadius = '15px',
+  matchOverlayHeight = false
 }: TiltedCardProps) {
+  const overlayRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -55,6 +58,31 @@ export default function TiltedCard({
   });
 
   const [lastY, setLastY] = useState(0);
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (!matchOverlayHeight) return;
+
+    const updateHeight = () => {
+      if (overlayRef.current) {
+        const rect = overlayRef.current.getBoundingClientRect();
+        setMeasuredHeight(rect.height);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [matchOverlayHeight, overlayContent]);
+
+  const resolvedHeight =
+    matchOverlayHeight && measuredHeight
+      ? `${measuredHeight}px`
+      : imageHeight || containerHeight;
+  const resolvedWidth = imageWidth || containerWidth;
 
   function handleMouse(e: React.MouseEvent<HTMLElement>) {
     if (!ref.current) return;
@@ -95,8 +123,8 @@ export default function TiltedCard({
       ref={ref}
       className="relative w-full h-full [perspective:800px] flex flex-col items-center justify-center mt-4 mb-4"
       style={{
-        height: imageHeight,
-        width: imageWidth
+        height: resolvedHeight,
+        width: resolvedWidth
       }}
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
@@ -111,8 +139,8 @@ export default function TiltedCard({
       <motion.div
         className="relative [transform-style:preserve-3d]"
         style={{
-          width: imageWidth,
-          height: imageHeight,
+          width: resolvedWidth,
+          height: resolvedHeight,
           rotateX,
           rotateY,
           scale,
@@ -120,19 +148,24 @@ export default function TiltedCard({
           overflow: 'hidden'
         }}
       >
-        <motion.img
-          src={imageSrc}
-          alt={altText}
-          className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
-          style={{
-            width: imageWidth,
-            height: imageHeight,
-            borderRadius: frameBorderRadius
-          }}
-        />
+        {imageSrc && (
+          <motion.img
+            src={imageSrc}
+            alt={altText}
+            className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]"
+            style={{
+              width: resolvedWidth,
+              height: resolvedHeight,
+              borderRadius: frameBorderRadius
+            }}
+          />
+        )}
 
         {displayOverlayContent && overlayContent && (
-          <motion.div className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)]">
+          <motion.div
+            ref={matchOverlayHeight ? overlayRef : undefined}
+            className="absolute top-0 left-0 z-[2] will-change-transform [transform:translateZ(30px)] w-full"
+          >
             {overlayContent}
           </motion.div>
         )}
